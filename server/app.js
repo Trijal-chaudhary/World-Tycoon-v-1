@@ -1,8 +1,9 @@
 const express = require('express');
 const cors = require('cors');
+const createdGames = require('./models/gameCreation')
 const http = require('http');
 const { Server } = require('socket.io');
-const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, createGameRouter, joinGameRouter } = require('./router/clientRouter');
+const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, createGameRouter, joinGameRouter, yourDetailRouter } = require('./router/clientRouter');
 const { default: mongoose } = require('mongoose');
 
 
@@ -26,6 +27,16 @@ const io = new Server(server, {
 
 io.on('connection', (socket) => {
   console.log("socket:", socket.id)
+  socket.on("SOMEONE_JOINS", (data) => {
+    console.log(data)
+    socket.join(data.code);
+    createdGames.findOne({ code: data.code }).then((lobby => {
+      io.to(data.code).emit("NEW_PLAYER_JOINED", { lobbyDetail: lobby });
+    }))
+  })
+  socket.on("MY_DETAILS", (data) => {
+    socket.emit("YOUR_DETAILS", { yourDetails: data.you })
+  })
 })
 
 const store = new MongoDBStore({
@@ -60,6 +71,7 @@ app.use('/api/isLogged', isUserLoggedIn)
 app.use('/api/logout', logOutUsserRouter)
 app.use('/api/createGame', createGameRouter)
 app.use('/api/joinGame', joinGameRouter)
+app.use('/api/yourDetail', yourDetailRouter)
 
 const PORT = 3000;
 mongoose.connect(DB_URL)

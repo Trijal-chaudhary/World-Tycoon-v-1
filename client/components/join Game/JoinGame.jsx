@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import "./JoinGame.css";
 import { joinInGame } from "../../src/services/SignUp";
 import { useNavigate } from "react-router-dom";
+import socket from "../../src/services/socket";
 const JoinGame = () => {
   const navigate = useNavigate();
   const codeRef = useRef();
@@ -13,6 +14,7 @@ const JoinGame = () => {
     if (!exist.added) {
       alert("Invalid Game Code");
     } else {
+      // socket.emit("SOMEONE_JOINS", { code: codeRef.current.value });
       navigate("/lobby");
     }
   };

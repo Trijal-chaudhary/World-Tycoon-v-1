@@ -16,7 +16,7 @@ const createdGames = require('../models/gameCreation')
 
 
 exports.postUserDetails = async (req, res, next) => {
-  console.log(req.body)
+  // console.log(req.body)
 
   const { name, userName, password } = req.body;
   const userDetails = new PlayerDetails({ name, userName, password })
@@ -25,7 +25,7 @@ exports.postUserDetails = async (req, res, next) => {
   res.status(201).json("lallantap")
 }
 exports.postLogIn = async (req, res, next) => {
-  console.log(req.body)
+  // console.log(req.body)
   const { userName, password } = req.body
   const userDetail = await PlayerDetails.findOne({ userName, password })
   if (userDetail) {
@@ -59,14 +59,14 @@ exports.postCreateGame = async (req, res, next) => {
   const gameCreated = new createdGames({ code, host: req.session.userDetail, players: [] })
   await gameCreated.save()
   req.session.code = code;
-  console.log(gameCreated)
+  // console.log(gameCreated)
   res.status(201).json(gameCreated)
 }
 
 exports.getLobby = async (req, res, next) => {
   // console.log(req.session)
   const lobbyDetails = await createdGames.findOne({ code: req.session.code });
-  console.log(lobbyDetails)
+  // console.log(lobbyDetails)
   res.status(201).json(lobbyDetails)
 
 }
@@ -83,8 +83,12 @@ exports.postEnterLobby = async (req, res, next) => {
     }
     req.session.code = req.body.code;
 
-    console.log(game)
+    // console.log(game)
     return res.status(201).json({ added: true })
   }
   res.status(201).json({ added: false })
+}
+
+exports.getYourDetails = (req, res, next) => {
+  res.json(req.session.userDetail);
 }

@@ -68,3 +68,10 @@ export const joinInGame = async (code) => {
   })
   return response.json()
 }
+export const YourDetail = async () => {
+  const response = await fetch('http://localhost:3000/api/yourDetail', {
+    method: 'GET',
+    credentials: 'include'
+  })
+  return response.json()
+}
