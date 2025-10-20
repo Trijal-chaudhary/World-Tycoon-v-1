@@ -70,3 +70,21 @@ exports.getLobby = async (req, res, next) => {
   res.status(201).json(lobbyDetails)
 
 }
+
+exports.postEnterLobby = async (req, res, next) => {
+  // console.log(req.body.code);
+  const game = await createdGames.findOne({ code: req.body.code })
+
+
+  if (game) {
+    if (!game.players.some(player => player._id.toString() === req.session.userDetail._id.toString()) && game.host._id.toString() !== req.session.userDetail._id.toString()) {
+      game.players.push(req.session.userDetail)
+      await game.save()
+    }
+    req.session.code = req.body.code;
+
+    console.log(game)
+    return res.status(201).json({ added: true })
+  }
+  res.status(201).json({ added: false })
+}

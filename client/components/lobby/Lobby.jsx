@@ -3,9 +3,13 @@ import "./Lobby.css";
 import { lobbyDetails } from "../../src/services/SignUp";
 const Lobby = () => {
   const [hostDetails, setHostDetails] = useState();
+  const [playerDetails, setPlayerDetails] = useState([]);
+  const [gameCode, setGameCode] = useState("");
   useEffect(() => {
-    lobbyDetails().then((hostDetail) => {
-      setHostDetails(hostDetail.host);
+    lobbyDetails().then((Detail) => {
+      setHostDetails(Detail.host);
+      setPlayerDetails(Detail.players);
+      setGameCode(Detail.code);
       // console.log(hostDetails);
     });
   }, []);
@@ -28,24 +32,15 @@ const Lobby = () => {
           </div>
 
           {/* Player 2 */}
-          <div>
-            <img src="/assets/default-avatar.png" alt="Avatar" />
-            <p>Waiting for Player...</p>
-          </div>
 
-          {/* Player 3 */}
-          <div>
-            <img src="/assets/default-avatar.png" alt="Avatar" />
-            <p>Waiting for Player...</p>
-          </div>
-
-          {/* Player 4 */}
-          <div>
-            <img src="/assets/default-avatar.png" alt="Avatar" />
-            <p>Waiting for Player...</p>
-          </div>
+          {playerDetails.map((player) => (
+            <div>
+              <img src="/assets/default-avatar.png" alt="Avatar" />
+              <p>{player.name}</p>
+            </div>
+          ))}
         </main>
-        <h2>Lobby Code: X2SD56</h2>
+        <h2>Game Code: {gameCode}</h2>
       </div>
     </div>
   );

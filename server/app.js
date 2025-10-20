@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
-const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, createGameRouter } = require('./router/clientRouter');
+const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, createGameRouter, joinGameRouter } = require('./router/clientRouter');
 const { default: mongoose } = require('mongoose');
 
 
@@ -59,6 +59,7 @@ app.use('/api/login', logInRouter)
 app.use('/api/isLogged', isUserLoggedIn)
 app.use('/api/logout', logOutUsserRouter)
 app.use('/api/createGame', createGameRouter)
+app.use('/api/joinGame', joinGameRouter)
 
 const PORT = 3000;
 mongoose.connect(DB_URL)

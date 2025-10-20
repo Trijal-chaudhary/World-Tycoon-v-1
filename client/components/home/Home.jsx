@@ -77,7 +77,12 @@ function Home() {
         <div className="action-buttons">
           {userCredentials.isLoggedIn ? (
             <>
-              <button className="cta-button">Join Game</button>
+              <button
+                className="cta-button"
+                onClick={() => navigate("/joinGame")}
+              >
+                Join Game
+              </button>
               <button className="cta-button" onClick={createTheGame}>
                 Create Game
               </button>

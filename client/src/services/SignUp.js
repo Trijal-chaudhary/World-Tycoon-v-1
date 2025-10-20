@@ -56,3 +56,15 @@ export const lobbyDetails = async () => {
   })
   return response.json()
 }
+
+export const joinInGame = async (code) => {
+  const response = await fetch('http://localhost:3000/api/joinGame', {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: 'include',
+    body: JSON.stringify({ code })
+  })
+  return response.json()
+}

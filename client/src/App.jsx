@@ -3,6 +3,7 @@ import SignUp from "../components/SignUp/SignUp";
 import Home from "../components/home/Home";
 import LogIn from "../components/LogIn/LogIn";
 import Lobby from "../components/lobby/Lobby";
+import JoinGame from "../components/join Game/JoinGame";
 function App() {
   return (
     <>
@@ -12,6 +13,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/lobby" element={<Lobby />} />
+          <Route path="/joinGame" element={<JoinGame />} />
         </Routes>
       </BrowserRouter>
     </>
