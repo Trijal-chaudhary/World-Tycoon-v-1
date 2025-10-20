@@ -1,0 +1,72 @@
+/* This is the main container that will center the form on the page */
+.login-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #1d2939; /* Deep navy blue to match the lobby */
+  font-family: 'Garamond', 'Times New Roman', Times, serif; /* Elegant, classic font */
+}
+
+/* This is the white box containing the form */
+.logIn-container {
+  background-color: #f8f9fa; /* Clean, off-white background */
+  color: #1d2939;
+  padding: 2.5rem;
+  border: 1px solid #b38b4d; /* Muted gold/brass border */
+  border-radius: 4px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Style for the form element itself */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; /* 20px space between elements */
+}
+
+/* Style for the input fields */
+.login-form input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit;
+  background-color: #ffffff;
+  color: #1d2939;
+  box-sizing: border-box; 
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* Style for when an input field is focused (clicked on) */
+.login-form input:focus {
+  outline: none;
+  border-color: #b38b4d; /* Gold focus color */
+  box-shadow: 0 0 0 3px rgba(179, 139, 77, 0.25);
+}
+
+/* Style for the submit button */
+.login-form button {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background-color: #1d2939;
+  color: #d4af37;
+  border: 1px solid #d4af37;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Style for the button on hover */
+.login-form button:hover {
+  background-color: #334155;
+  color: #ffffff;
+  border-color: #ffffff;
+}

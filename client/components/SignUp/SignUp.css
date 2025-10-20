@@ -1,0 +1,73 @@
+/* Center the form on the page with a regal background */
+*{
+  margin: 0px;
+}
+/* Center the form with a sophisticated, corporate background */
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #1d2939; /* Deep navy blue / charcoal background */
+  font-family: 'Garamond', 'Times New Roman', Times, serif; /* Elegant, classic font */
+}
+
+/* Style for the form, resembling a premium document or invitation */
+.signup-form {
+  background-color: #f8f9fa; /* Clean, off-white background */
+  color: #1d2939; /* Dark navy text for high contrast */
+  padding: 2.5rem; /* 40px */
+  border: 1px solid #b38b4d; /* Muted gold/brass border */
+  border-radius: 4px; /* Sharper edges for a professional look */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; /* 20px space between elements */
+}
+
+/* Style for all the input fields */
+.signup-form input {
+  width: 100%;
+  padding: 0.75rem 1rem; /* 12px 16px */
+  border: 1px solid #ced4da; /* Standard light grey border */
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit; /* Use the form's font */
+  background-color: #ffffff; /* Clean white for inputs */
+  color: #1d2939;
+  box-sizing: border-box; 
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* Style for when an input field is focused (clicked on) */
+.signup-form input:focus {
+  outline: none;
+  border-color: #b38b4d; /* Gold focus color */
+  box-shadow: 0 0 0 3px rgba(179, 139, 77, 0.25);
+}
+
+/* Style for the submit button - the main call to action */
+.signup-form button {
+  width: 100%;
+  padding: 0.85rem 1rem; /* A slightly taller button */
+  background-color: #1d2939; /* Deep navy to match the background */
+  color: #d4af37; /* A brighter, more distinct gold for text */
+  border: 1px solid #d4af37; /* Matching gold border */
+  border-radius: 4px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Style for the button on hover */
+.signup-form button:hover {
+  background-color: #334155; /* A slightly lighter navy/charcoal */
+  color: #ffffff; /* White text on hover for a clean effect */
+  border-color: #ffffff;
+}
+

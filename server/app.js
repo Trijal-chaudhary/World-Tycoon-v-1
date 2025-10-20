@@ -1,0 +1,56 @@
+const express = require('express');
+const cors = require('cors');
+const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, createGameRouter } = require('./router/clientRouter');
+const { default: mongoose } = require('mongoose');
+
+
+const DB_URL = "mongodb+srv://root:root@harsh.tcproj.mongodb.net/World_Tycoon?retryWrites=true&w=majority&appName=harsh"
+
+const session = require('express-session');
+
+const MongoDBStore = require('connect-mongodb-session')(session);
+
+
+const app = express()
+
+const store = new MongoDBStore({
+  uri: DB_URL,
+  collection: 'session'
+})
+
+app.use(session({
+  secret: "HVC",
+  resave: false,
+  saveUninitialized: true,
+  store: store
+}))
+
+app.use((req, res, next) => {
+  console.log("cookie check middleware", req.get("Cookie"))
+  req.isLoggedIn = req.session.isLoggedIn
+  next()
+})
+
+
+app.use(cors({
+  origin: "http://localhost:5173", // 👈 your React frontend URL
+  credentials: true // 👈 allow sending cookies across origins
+}))
+app.use(express.json())
+
+app.use('/api/signup', userDetailsRouter)
+app.use('/api/login', logInRouter)
+
+app.use('/api/isLogged', isUserLoggedIn)
+app.use('/api/logout', logOutUsserRouter)
+app.use('/api/createGame', createGameRouter)
+
+const PORT = 3000;
+mongoose.connect(DB_URL)
+  .then(() => {
+    console.log('moongose Connected')
+    app.listen(PORT, () => {
+      console.log(`http://localhost:${PORT}`)
+    })
+  })
+
