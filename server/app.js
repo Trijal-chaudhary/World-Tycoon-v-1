@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const http = require('http');
+const { Server } = require('socket.io');
 const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, createGameRouter } = require('./router/clientRouter');
 const { default: mongoose } = require('mongoose');
 
@@ -12,6 +14,19 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 
 
 const app = express()
+
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+  }
+})
+
+io.on('connection', (socket) => {
+  console.log("socket:", socket.id)
+})
 
 const store = new MongoDBStore({
   uri: DB_URL,
@@ -49,7 +64,7 @@ const PORT = 3000;
 mongoose.connect(DB_URL)
   .then(() => {
     console.log('moongose Connected')
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log(`http://localhost:${PORT}`)
     })
   })

@@ -1,9 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Lobby.css";
 import { lobbyDetails } from "../../src/services/SignUp";
 const Lobby = () => {
+  const [hostDetails, setHostDetails] = useState();
   useEffect(() => {
-    lobbyDetails().then(() => {});
+    lobbyDetails().then((hostDetail) => {
+      setHostDetails(hostDetail.host);
+      // console.log(hostDetails);
+    });
   }, []);
   return (
     <div className="game-lobby-background">
@@ -20,7 +24,7 @@ const Lobby = () => {
           {/* Player 1 */}
           <div>
             <img src="/assets/default-avatar.png" alt="Avatar" />
-            <p>Harsh Vardhan Chaudhary</p>
+            <p>{hostDetails ? hostDetails.name : ""} (Host)</p>
           </div>
 
           {/* Player 2 */}

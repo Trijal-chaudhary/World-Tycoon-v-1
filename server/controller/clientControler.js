@@ -64,8 +64,9 @@ exports.postCreateGame = async (req, res, next) => {
 }
 
 exports.getLobby = async (req, res, next) => {
-  console.log(req.session)
-  // const lobbyDetails = await createdGames.findOne(code);
-  res.status(201)
+  // console.log(req.session)
+  const lobbyDetails = await createdGames.findOne({ code: req.session.code });
+  console.log(lobbyDetails)
+  res.status(201).json(lobbyDetails)
 
 }
