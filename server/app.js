@@ -3,7 +3,7 @@ const cors = require('cors');
 const createdGames = require('./models/gameCreation')
 const http = require('http');
 const { Server } = require('socket.io');
-const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, createGameRouter, joinGameRouter, yourDetailRouter } = require('./router/clientRouter');
+const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, createGameRouter, joinGameRouter, yourDetailRouter, leaveLobbyRouter } = require('./router/clientRouter');
 const { default: mongoose } = require('mongoose');
 
 
@@ -72,6 +72,7 @@ app.use('/api/logout', logOutUsserRouter)
 app.use('/api/createGame', createGameRouter)
 app.use('/api/joinGame', joinGameRouter)
 app.use('/api/yourDetail', yourDetailRouter)
+app.use('/api/leaveLobby', leaveLobbyRouter);
 
 const PORT = 3000;
 mongoose.connect(DB_URL)

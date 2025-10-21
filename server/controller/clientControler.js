@@ -92,3 +92,17 @@ exports.postEnterLobby = async (req, res, next) => {
 exports.getYourDetails = (req, res, next) => {
   res.json(req.session.userDetail);
 }
+
+exports.postLeaveLobby = async (req, res, next) => {
+  console.log(req.body)
+  const game = await createdGames.findOne({ code: req.session.code })
+  if (game.host._id.toString() === req.body.id) {
+    return res.status(201).json({ host: true });
+  } else {
+    game.players = game.players.filter(player => player._id.toString() !== req.body.id)
+    await game.save()
+    // console.log(game);
+  }
+  res.status(201).json({ host: false })
+
+}

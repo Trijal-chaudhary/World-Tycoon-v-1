@@ -1,12 +1,30 @@
 import React, { useEffect, useState } from "react";
 import "./Lobby.css";
-import { lobbyDetails, YourDetail } from "../../src/services/SignUp";
+import {
+  leaveLobby,
+  lobbyDetails,
+  YourDetail,
+} from "../../src/services/SignUp";
 import socket from "../../src/services/socket";
+import { useNavigate } from "react-router-dom";
 const Lobby = () => {
+  const navigate = useNavigate();
   const [hostDetails, setHostDetails] = useState({});
   const [playerDetails, setPlayerDetails] = useState([]);
   const [gameCode, setGameCode] = useState("");
   const [yourDetail, setYourDetail] = useState({});
+  //<--leving the lobby bye bye
+  const leavingLobby = async () => {
+    const areYouHost = await leaveLobby(yourDetail._id);
+    if (areYouHost.host) {
+      alert("You are the host how can you leave the middle of game");
+    } else {
+      socket.emit("SOMEONE_JOINS", { code: gameCode });
+      navigate("/");
+    }
+    console.log(areYouHost);
+  };
+  //-------------------------------------
   useEffect(() => {
     const handleLobbyUpdate = (data) => {
       const lobby = data.lobbyDetail;
@@ -75,7 +93,9 @@ const Lobby = () => {
           ))}
         </main>
         <h2>Game Code: {gameCode}</h2>
-        <button className="leave-lobby-button">Leave Lobby</button>
+        <button className="leave-lobby-button" onClick={leavingLobby}>
+          Leave Lobby
+        </button>
         {hostDetails._id !== yourDetail._id ? (
           ""
         ) : (
