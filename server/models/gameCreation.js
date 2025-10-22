@@ -16,6 +16,10 @@ const createdGamesSchema = new mongoose.Schema({
   positions: {
     type: Object
   },
+  current: {
+    type: Number,
+    default: 1
+  },
   theme: {
     type: Array,
     default: [{

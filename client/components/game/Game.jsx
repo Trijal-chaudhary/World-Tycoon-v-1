@@ -1,15 +1,20 @@
 import React, { use, useEffect, useState } from "react";
 import "./Game.css";
-import { lobbyDetails, YourDetail } from "../../src/services/SignUp";
+import { dieRolled, lobbyDetails, YourDetail } from "../../src/services/SignUp";
 import socket from "../../src/services/socket";
 const Game = () => {
   const [right, setRight] = useState([]);
   const [left, setLeft] = useState([]);
   const [top, setTop] = useState([]);
   const [bottom, setBottom] = useState([]);
-
+  const [random, setRandom] = useState();
+  const [gameData, setGameData] = useState();
+  const [currenPlayer, setCurrentPlayer] = useState();
+  const [yourData, setYourData] = useState();
+  // const [yourDetail, setYourDetail] = useState();
+  // const [player, setPlayer] = useState();
   //----------------------------------------------------------------
-  const [currentPositions, setCurrentPosition] = useState([]);
+  const [currentPositions, setCurrentPositions] = useState({});
   // setRight();
   const boardPositions = [
     { right: "2%", bottom: "14%" },
@@ -50,38 +55,81 @@ const Game = () => {
     { right: "22.5%", bottom: "14%" },
   ];
 
-  const movePlayer = (steps) => {
+  const movePlayer = (steps, player) => {
     const delay = 400;
     const boardSize = boardPositions.length;
 
+    //----Player 1-------------------
     for (let i = 1; i <= steps; i++) {
       setTimeout(() => {
-        setCurrentPosition((prevPosition) => {
-          return (prevPosition + 1) % boardSize;
+        setCurrentPositions((prevPositions) => {
+          if (!prevPositions[player]) return prevPositions; // safety check
+
+          return {
+            ...prevPositions,
+            [player]: {
+              ...prevPositions[player],
+              position: (prevPositions[player].position + 1) % boardSize,
+            },
+          };
         });
       }, i * delay);
     }
   };
   const playerStyle1 = {
-    bottom: boardPositions[currentPositions]?.bottom || "10%",
-    right: boardPositions[currentPositions]?.right || "3%",
+    bottom:
+      boardPositions[currentPositions?.player1?.position]?.bottom || "14%",
+    right: boardPositions[currentPositions?.player1?.position]?.right || "4%",
   };
   const playerStyle2 = {
-    bottom: "14%",
-    right: "4%",
+    bottom:
+      boardPositions[currentPositions?.player2?.position]?.bottom || "14%",
+    right: boardPositions[currentPositions?.player2?.position]?.right || "4%",
   };
   const playerStyle3 = {
-    bottom: "14%",
-    right: "6%",
+    bottom:
+      boardPositions[currentPositions?.player3?.position]?.bottom || "14%",
+    right: boardPositions[currentPositions?.player3?.position]?.right || "4%",
   };
   const playerStyle4 = {
-    bottom: "14%",
-    right: "8%",
+    bottom:
+      boardPositions[currentPositions?.player4?.position]?.bottom || "14%",
+    right: boardPositions[currentPositions?.player4?.position]?.right || "4%",
   };
   const roleTheDice = async () => {
     const yourDetail = await YourDetail();
     console.log(yourDetail);
-    movePlayer(10);
+    const randomNumber = Math.floor(Math.random() * 12) + 1;
+    let player = "";
+    if (yourDetail.userDetail._id === currentPositions.player1.id) {
+      // setPlayer('player1')
+      player = "player1";
+      // movePlayer(randomNumber, "player1");
+    } else if (yourDetail.userDetail._id === currentPositions.player2.id) {
+      // setPlayer('player2')
+      player = "player2";
+      // movePlayer(randomNumber, "player2");
+    } else if (yourDetail.userDetail._id === currentPositions.player3.id) {
+      // setPlayer('player3')
+      player = "player3";
+      // movePlayer(randomNumber, "player3");
+    } else if (yourDetail.userDetail._id === currentPositions.player4.id) {
+      // setPlayer('player4')
+      player = "player4";
+      // movePlayer(randomNumber, "player4");
+    } else {
+      alert("Who Are You");
+    }
+    await dieRolled(randomNumber);
+    setRandom(randomNumber);
+    // currentPositions[player].outCome = randomNumber;
+    console.log(currentPositions);
+    socket.emit("PLAYER_MOVED", {
+      outcome: randomNumber,
+      player: player,
+      code: yourDetail.code,
+    });
+    socket.emit("WHO_NEXT", { code: yourDetail.code });
   };
   //---------------------------------------------------------
   useEffect(() => {
@@ -90,9 +138,39 @@ const Game = () => {
       setLeft(data.theme.slice(19, 27));
       setTop(data.theme.slice(10, 18));
       setBottom(data.theme.slice(28, 36));
-      // console.log(data.theme.slice(1, 9));
-      // socket.emit("POSITIONS", { code: data.code });
+
+      //----Current Position-----
+      // console.log(data.positions);
+      setGameData(data);
+      setCurrentPositions(data.positions);
+      setCurrentPlayer(`player${data.current + 1}`);
     });
+  }, []);
+  useEffect(() => {
+    YourDetail().then((you) => {
+      setYourData(you);
+      if (you && you.userDetail) {
+        socket.emit("SOMEONE_JOINS", { code: you.code });
+      }
+    });
+    socket.on("NEXT_IS", (data) => {
+      setCurrentPlayer(`player${data.player + 1}`);
+      console.log(data.player + 1);
+    });
+    socket.on("I_MOVED", (data) => {
+      // console.log("I_MOVED received:", data);
+      movePlayer(data.outcome, data.player);
+      // setRandom(data.outcome);
+      // currentPositions[data.player].outCome = data.outcome;
+      setCurrentPositions((prev) => ({
+        ...prev,
+        [data.player]: {
+          ...prev[data.player],
+          outCome: data.outcome,
+        },
+      }));
+    });
+    return () => socket.off("I_MOVED");
   }, []);
   return (
     <div className="game-interface-container">
@@ -103,10 +181,38 @@ const Game = () => {
       />
 
       <div className="All-players-info">
-        <p>Player 1:</p>
-        <p>Player 2:</p>
-        <p>Player 3:</p>
-        <p>Player 4:</p>
+        <p
+          className={
+            yourData?.userDetail?._id === currentPositions?.player1?.id
+              ? "gold"
+              : ""
+          }
+          id={
+            currentPositions?.[currenPlayer]?.id === gameData?.host?._id
+              ? "curr"
+              : "comm"
+          }
+        >
+          {`${gameData?.host?.userName} ${currentPositions?.player1?.outCome} `}
+          :
+        </p>
+        {gameData?.players?.map((ele, idx) => (
+          <>
+            <p
+              className={yourData?.userDetail?._id === ele._id ? "gold" : ""}
+              id={
+                currentPositions?.[currenPlayer]?.id === ele?._id
+                  ? "curr"
+                  : "comm"
+              }
+            >
+              {`${ele?.userName} ${
+                currentPositions?.[`player${idx + 2}`]?.outCome ?? ""
+              }`}
+              :
+            </p>
+          </>
+        ))}
       </div>
 
       <div className="Bank-Info">
@@ -119,22 +225,49 @@ const Game = () => {
         <p>Harsh</p>
         <h2>$200,000</h2>
       </div>
-      <button className="die" onClick={roleTheDice}>
-        DICE
-      </button>
+      <div className="randomNumber">
+        <h2>{random ? random : ""}</h2>
+      </div>
+      {currentPositions?.[currenPlayer]?.id === yourData?.userDetail?._id ? (
+        <>
+          <button className="die" onClick={roleTheDice}>
+            DICE
+          </button>
+        </>
+      ) : (
+        ""
+      )}
+
       <div className="game-board">
         <div className="player1 p-red" id="player1" style={playerStyle1}></div>
-        <div
-          className="player1 p-green"
-          id="player2"
-          style={playerStyle2}
-        ></div>
-        <div className="player1 p-blue" id="player3" style={playerStyle3}></div>
-        <div
-          className="player1 p-yellow"
-          id="player4"
-          style={playerStyle4}
-        ></div>
+        {currentPositions.player2 ? (
+          <div
+            className="player1 p-green"
+            id="player2"
+            style={playerStyle2}
+          ></div>
+        ) : (
+          ""
+        )}
+        {currentPositions.player3 ? (
+          <div
+            className="player1 p-blue"
+            id="player3"
+            style={playerStyle3}
+          ></div>
+        ) : (
+          ""
+        )}
+        {currentPositions.player4 ? (
+          <div
+            className="player1 p-yellow"
+            id="player4"
+            style={playerStyle4}
+          ></div>
+        ) : (
+          ""
+        )}
+
         <div className="rightSide">
           <div className="startPoint">
             <span class="dollar-cutout">^</span>

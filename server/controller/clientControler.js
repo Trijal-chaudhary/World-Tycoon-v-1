@@ -107,6 +107,31 @@ exports.postLeaveLobby = async (req, res, next) => {
 
 }
 
-// exports.postGameStart = async (req,res,next){
-//   const
-// }
+exports.postGameStart = async (req, res, next) => {
+  const startedGame = await createdGames.findOne({ code: req.session.code })
+  const position = {};
+  position['player1'] = { id: startedGame.host._id, position: 0, outCome: 0 }
+  startedGame.players.forEach((play, idx) => {
+    position[`player${idx + 2}`] = { id: play._id, position: 0, outCome: 0 }
+  })
+  startedGame.positions = position;
+  await startedGame.save()
+  console.log(startedGame.positions)
+
+  res.status(201).message({ message: "game Started" });
+}
+exports.postDieRolled = async (req, res, next) => {
+  const lobby = await createdGames.findOne({ code: req.session.code })
+  for (key in lobby.positions) {
+    if (String(lobby.positions[key].id) === String(req.session.userDetail._id)) {
+      lobby.positions[key].position = (lobby.positions[key].position + req.body.outcome) % 36;
+      // 4. Tell Mongoose that the 'positions' object was modified
+      lobby.markModified('positions');
+    }
+  }
+  await lobby.save();
+  // console.log(lobby.positions)
+
+  // console.log(req.body);
+  res.status(201).json({ message: "updated" });
+}

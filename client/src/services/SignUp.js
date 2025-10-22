@@ -86,3 +86,26 @@ export const leaveLobby = async (id) => {
   })
   return response.json();
 }
+
+export const gameStarted = async () => {
+  const response = await fetch("http://localhost:3000/api/startGame", {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: 'include',
+    body: JSON.stringify({ message: "game started" })
+  })
+}
+
+export const dieRolled = async (outcome) => {
+  const response = await fetch("http://localhost:3000/api/dieRolled", {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: 'include',
+    body: JSON.stringify({ outcome: outcome })
+  })
+  return response.json();
+}

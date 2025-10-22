@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Lobby.css";
 import {
+  gameStarted,
   leaveLobby,
   lobbyDetails,
   YourDetail,
@@ -62,7 +63,8 @@ const Lobby = () => {
       socket.off("NEW_PLAYER_JOINED");
     };
   }, []);
-  const startTheGame = () => {
+  const startTheGame = async () => {
+    await gameStarted();
     navigate("/game");
   };
   return (

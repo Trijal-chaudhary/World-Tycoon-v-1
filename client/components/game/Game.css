@@ -16,7 +16,12 @@
   color: #ffffff;
 }
 
-
+.randomNumber{
+  position: absolute;
+  right: 5%;
+  bottom: 80px;
+  color: #fff3b0;
+}
 .game-logo {
   position: absolute;
   top: 0.5rem;
@@ -92,11 +97,21 @@
   /* box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); */
 }
 
-.All-players-info p {
+/* .All-players-info p {
   font-size: 1.2rem;
-  color: #ccc;
+  /* color: black; */
 
 
+ */
+#comm{
+  font-size: 1.2rem;
+
+}
+.gold{
+  color: gold;
+}
+#curr{
+  font-size: 1.5rem;
 }
 
 .Bank-Info p, .Players-Info p {

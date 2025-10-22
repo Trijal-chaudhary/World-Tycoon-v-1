@@ -3,7 +3,7 @@ const cors = require('cors');
 const createdGames = require('./models/gameCreation')
 const http = require('http');
 const { Server } = require('socket.io');
-const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, createGameRouter, joinGameRouter, yourDetailRouter, leaveLobbyRouter } = require('./router/clientRouter');
+const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, createGameRouter, joinGameRouter, yourDetailRouter, leaveLobbyRouter, startedGameRouter, dieRolledRouter } = require('./router/clientRouter');
 const { default: mongoose } = require('mongoose');
 
 
@@ -37,11 +37,20 @@ io.on('connection', (socket) => {
   socket.on("MY_DETAILS", (data) => {
     socket.emit("YOUR_DETAILS", { yourDetails: data.you })
   })
-  socket.on("POSITIONS", (data) => {
-    // console.log(data)
-    // createdGames.findOne({ code: data.code }).then((lobby => {
-    //   io.to(data.code).emit("HERE_ARE_POSITION", { lobbyDetail: lobby });
-    // }))
+  socket.on("PLAYER_MOVED", (data) => {
+    socket.join(data.code);
+    io.to(data.code).emit("I_MOVED", { outcome: data.outcome, player: data.player });
+  })
+  socket.on("WHO_NEXT", async (data) => {
+    socket.join(data.code);
+    const lobby = await createdGames.findOne({ code: data.code })
+    const length = Object.keys(lobby.positions).length;
+    const next = (lobby.current + 1) % length;
+    lobby.current = next;
+    await lobby.save();
+
+    io.to(data.code).emit("NEXT_IS", { player: next });
+
   })
 })
 
@@ -79,6 +88,8 @@ app.use('/api/createGame', createGameRouter)
 app.use('/api/joinGame', joinGameRouter)
 app.use('/api/yourDetail', yourDetailRouter)
 app.use('/api/leaveLobby', leaveLobbyRouter);
+app.use('/api/startGame', startedGameRouter)
+app.use('/api/dieRolled', dieRolledRouter)
 
 const PORT = 3000;
 mongoose.connect(DB_URL)
