@@ -90,7 +90,7 @@ exports.postEnterLobby = async (req, res, next) => {
 }
 
 exports.getYourDetails = (req, res, next) => {
-  res.json(req.session.userDetail);
+  res.json(req.session);
 }
 
 exports.postLeaveLobby = async (req, res, next) => {
@@ -106,3 +106,7 @@ exports.postLeaveLobby = async (req, res, next) => {
   res.status(201).json({ host: false })
 
 }
+
+// exports.postGameStart = async (req,res,next){
+//   const
+// }

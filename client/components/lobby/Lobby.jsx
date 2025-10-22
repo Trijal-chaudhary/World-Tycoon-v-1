@@ -49,11 +49,11 @@ const Lobby = () => {
           setHostDetails(Detail.host);
           setPlayerDetails(Detail.players || []);
           setGameCode(Detail.code);
-          setYourDetail(you);
+          setYourDetail(you.userDetail);
           socket.emit("SOMEONE_JOINS", { code: Detail.code });
         }
         if (you) {
-          socket.emit("MY_DETAILS", { you: you });
+          socket.emit("MY_DETAILS", { you: you.userDetail });
         }
       });
     });
@@ -62,6 +62,9 @@ const Lobby = () => {
       socket.off("NEW_PLAYER_JOINED");
     };
   }, []);
+  const startTheGame = () => {
+    navigate("/game");
+  };
   return (
     <div className="game-lobby-background">
       <div className="game-lobby-container">
@@ -70,7 +73,7 @@ const Lobby = () => {
           <img
             src="../../src/assets/logo.png"
             alt="World Tycoon Logo"
-            className="game-logo"
+            className="game-logo-lobby"
           />
         </header>
 
@@ -99,7 +102,9 @@ const Lobby = () => {
         {hostDetails._id !== yourDetail._id ? (
           ""
         ) : (
-          <button className="start-game-button">Start Game</button>
+          <button className="start-game-button" onClick={startTheGame}>
+            Start Game
+          </button>
         )}
       </div>
     </div>

@@ -28,7 +28,7 @@ const io = new Server(server, {
 io.on('connection', (socket) => {
   console.log("socket:", socket.id)
   socket.on("SOMEONE_JOINS", (data) => {
-    console.log(data)
+    // console.log(data)
     socket.join(data.code);
     createdGames.findOne({ code: data.code }).then((lobby => {
       io.to(data.code).emit("NEW_PLAYER_JOINED", { lobbyDetail: lobby });
@@ -36,6 +36,12 @@ io.on('connection', (socket) => {
   })
   socket.on("MY_DETAILS", (data) => {
     socket.emit("YOUR_DETAILS", { yourDetails: data.you })
+  })
+  socket.on("POSITIONS", (data) => {
+    // console.log(data)
+    // createdGames.findOne({ code: data.code }).then((lobby => {
+    //   io.to(data.code).emit("HERE_ARE_POSITION", { lobbyDetail: lobby });
+    // }))
   })
 })
 
