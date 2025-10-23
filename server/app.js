@@ -64,6 +64,12 @@ io.on('connection', (socket) => {
     // console.log(currPos)
     socket.emit("TICKET_INFO", { ticketInfo: ticketInfo })
   })
+  socket.on("MY_MONEY", async (data) => {
+    socket.join(data.code);
+    const lobby = await createdGames.findOne({ code: data.code })
+    const money = lobby.positions;
+    io.to(data.code).emit("YOUR_MONEY", { position: money, bankMoney: lobby.Bank })
+  })
 })
 
 const store = new MongoDBStore({

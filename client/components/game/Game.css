@@ -480,3 +480,11 @@
   justify-content: center;
   align-items: center;
 }
+
+.owned{
+  position: absolute;
+  width: 15%;
+  height: 20%;
+  border: 1px solid white;
+  z-index: 150;
+}

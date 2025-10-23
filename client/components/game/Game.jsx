@@ -9,6 +9,7 @@ import {
 } from "../../src/services/SignUp";
 import socket from "../../src/services/socket";
 import Bye from "./gameTicket/Bye";
+import Owned from "./ownedMessage/Owned";
 const Game = () => {
   // let owned = true;
   const [right, setRight] = useState([]);
@@ -21,6 +22,8 @@ const Game = () => {
   const [yourData, setYourData] = useState();
   const [ticketData, setTicketData] = useState();
   const [ticketOwned, setTicketOwned] = useState();
+  const [bankMoney, setBankMoney] = useState();
+  const [ownedData, setOwnedData] = useState(null);
   // const [yourDetail, setYourDetail] = useState();
   // const [player, setPlayer] = useState();
   //----------------------------------------------------------------
@@ -146,15 +149,19 @@ const Game = () => {
       player: player,
     });
     const isOwned = await ticketCheck({ player: player });
-    setTicketOwned(isOwned.message === "noOwner");
-    console.log(isOwned.message === "noOwner");
-    // if (isOwned.message === "noOwner") {
-    //   localStorage.setItem("ticket", JSON.stringify(true));
-    //   setTicketOwned(true);
-    // } else {
-    //   localStorage.setItem("ticket", JSON.stringify(false));
-    //   setTicketOwned(false);
-    // }
+    // setTicketOwned(isOwned.message === "noOwner");
+    // console.log(isOwned.message === "noOwner");
+    if (isOwned.message === "noOwner") {
+      localStorage.setItem("ticket", JSON.stringify(true));
+      setTicketOwned(true);
+    } else {
+      localStorage.setItem("ticket", JSON.stringify(false));
+      setTicketOwned(false);
+      // alert("owned");
+      setOwnedData(isOwned);
+      socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
+      socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
+    }
   };
   //---------------------------------------------------------
   useEffect(() => {
@@ -190,6 +197,10 @@ const Game = () => {
       // console.log(data.player + 1);
       setTicketOwned(false);
     });
+    socket.on("YOUR_MONEY", (data) => {
+      setCurrentPositions(data.position);
+      setBankMoney(data.bankMoney);
+    });
     socket.on("TICKET_INFO", (data) => {
       // console.log(data.ticketInfo);
       setTicketData(data.ticketInfo);
@@ -212,11 +223,22 @@ const Game = () => {
     return () => socket.off("I_MOVED");
   }, []);
   const Buy = async () => {
-    socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
-    await buyTicket({ player: currenPlayer });
-    localStorage.setItem("ticket", JSON.stringify(false));
-    setTicketOwned(false);
-    // console.log("BUY");
+    const lobby = await lobbyDetails();
+    if (
+      currentPositions[currenPlayer].position ===
+      lobby.positions[currenPlayer].position
+    ) {
+      socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
+      await buyTicket({ player: currenPlayer });
+      localStorage.setItem("ticket", JSON.stringify(false));
+      setTicketOwned(false);
+      socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
+    } else {
+      alert("Bhai Pehle Pahuch Toh Jane Do");
+    }
+  };
+  const OK = () => {
+    setOwnedData(null);
   };
   return (
     <div className="game-interface-container">
@@ -263,13 +285,18 @@ const Game = () => {
 
       <div className="Bank-Info">
         <p>BANK</p>
-        <h3>$500,000</h3>
+        <h3>${bankMoney ?? ""}</h3>
         <p>Tickets Left: 24</p>
       </div>
 
       <div className="Players-Info">
         <p>Harsh</p>
-        <h2>$200,000</h2>
+        {Object.keys(currentPositions).map((playerKey) => {
+          const player = currentPositions[playerKey];
+          return player.id === yourData?.userDetail?._id ? (
+            <h2 key={player.id}>${player.money}</h2>
+          ) : null;
+        })}
       </div>
       {ticketOwned &&
       currentPositions?.[currenPlayer]?.id === yourData?.userDetail?._id ? (
@@ -285,11 +312,21 @@ const Game = () => {
       <div className="randomNumber">
         <h2>{random ? random : ""}</h2>
       </div>
-      {currentPositions?.[currenPlayer]?.id === yourData?.userDetail?._id ? (
+      {!ticketOwned &&
+      currentPositions?.[currenPlayer]?.id === yourData?.userDetail?._id ? (
         <>
           <button className="die" onClick={roleTheDice}>
             DICE
           </button>
+        </>
+      ) : (
+        ""
+      )}
+      {ownedData ? (
+        <>
+          <div className="owned">
+            <Owned data={ownedData} OK={OK} />
+          </div>
         </>
       ) : (
         ""

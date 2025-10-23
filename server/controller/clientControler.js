@@ -138,7 +138,19 @@ exports.postDieRolled = async (req, res, next) => {
 
 exports.postBuy = async (req, res, next) => {
   console.log(req.body)
-  res.status(201);
+  const { player } = req.body;
+  const lobby = await createdGames.findOne({ code: req.session.code })
+  const position = lobby.positions[player].position + 1;
+  const ticket = lobby.theme.find(ele => ele.id === position)
+  ticket.owner = player;
+  // const price = ticket.price
+  lobby.positions[player].money = lobby.positions[player].money - ticket.price
+  lobby.Bank = lobby.Bank + ticket.price
+  lobby.markModified('positions');
+  lobby.markModified('theme')
+  await lobby.save()
+  console.log(ticket, lobby.positions[player])
+  res.status(201).json({ message: "BUYED" });
 }
 
 exports.postTicketCheck = async (req, res, next) => {
@@ -146,8 +158,20 @@ exports.postTicketCheck = async (req, res, next) => {
   const lobby = await createdGames.findOne({ code: req.session.code })
   const position = lobby.positions[player].position + 1;
   const ticket = lobby.theme.find(ele => ele.id === position)
+
   if (!ticket.owner) {
     return res.status(201).json({ message: "noOwner" })
+  } else {
+    lobby.positions[player].money -= ticket.rent;
+    lobby.positions[ticket.owner].money += ticket.rent;
+    lobby.markModified('positions');
+    await lobby.save();
+    // Emit to all players in the room
+    // io.to(req.session.code).emit("YOUR_MONEY", {
+    //   position: lobby.positions,
+    //   bankMoney: lobby.Bank,
+    // });
+    return res.status(201).json({ message: "yesOwner", owner: ticket.owner, rent: ticket.rent })
   }
   // console.log(position, ticket)
   res.status(201).json({ message: "owned" })
