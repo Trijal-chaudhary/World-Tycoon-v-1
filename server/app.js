@@ -52,6 +52,11 @@ io.on('connection', (socket) => {
     io.to(data.code).emit("NEXT_IS", { player: next });
 
   })
+  socket.on("NAVIGATE_GAME", (data) => {
+    socket.join(data.code);
+    io.to(data.code).emit("NAVIGATING", { message: "navigate" })
+  })
+
 })
 
 const store = new MongoDBStore({

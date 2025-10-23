@@ -43,7 +43,9 @@ const Lobby = () => {
     };
     socket.on("NEW_PLAYER_JOINED", handleLobbyUpdate);
     socket.on("YOUR_DETAILS", handelYourDetails);
-
+    socket.on("NAVIGATING", (data) => {
+      navigate("/game");
+    });
     lobbyDetails().then((Detail) => {
       YourDetail().then((you) => {
         if (Detail) {
@@ -65,7 +67,9 @@ const Lobby = () => {
   }, []);
   const startTheGame = async () => {
     await gameStarted();
-    navigate("/game");
+    socket.emit("NAVIGATE_GAME", { code: gameCode });
+    // console.log(gameCode);
+    // navigate("/game");
   };
   return (
     <div className="game-lobby-background">
