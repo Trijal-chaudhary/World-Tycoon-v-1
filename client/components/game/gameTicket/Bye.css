@@ -1,0 +1,112 @@
+.property-card {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Garamond', 'Times New Roman', serif;
+  /* width: 300px; */
+  max-width: 100%;
+  background-color: #f7f7f7;
+  border: 2px solid #2d6a4f;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  position: relative;
+  
+}
+
+.card-header {
+  background-color: #40916c;
+  color: #ffffff;
+  text-align: center;
+  border-bottom: 2px solid #2d6a4f;
+}
+
+.card-header h2 {
+  margin: 0;
+  line-height: 1.2;
+  font-weight:600;
+}
+
+.card-header h2:first-child {
+  font-size: 1.0rem;
+  text-transform: uppercase;
+
+}
+
+.card-header h2:last-child {
+  font-size: 1.2rem;
+  text-shadow: 1px 1px 3px #1b4332;
+}
+
+.card-body {
+  padding: 0.25rem;
+  color: #2a2a2a;
+}
+
+.card-body p {
+  font-size: 1.00rem;
+  margin: 0.75rem 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px dashed #a7c957;
+  line-height: 1.4;
+}
+
+.card-body p:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.card-body p span {
+  float: right;
+  font-weight: 700;
+  color: #1b4332;
+}
+
+.card-buttons {
+  display: flex;
+  justify-content: center;
+  padding: 0 1.5rem 1.5rem;
+}
+
+.btn {
+  font-family: 'Inter', sans-serif;
+  background-color: #0f4c5c;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+  background-color: #405d3f;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.btn-close {
+  position: absolute;
+  top: 10px;
+  right: 2px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.0rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.5rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease;
+}
+
+.btn-close:hover {
+  color: #d8f3dc;
+  transform: scale(1.1);
+}

@@ -110,9 +110,9 @@ exports.postLeaveLobby = async (req, res, next) => {
 exports.postGameStart = async (req, res, next) => {
   const startedGame = await createdGames.findOne({ code: req.session.code })
   const position = {};
-  position['player1'] = { id: startedGame.host._id, position: 0, outCome: 0 }
+  position['player1'] = { id: startedGame.host._id, position: 0, outCome: 0, money: 20000 }
   startedGame.players.forEach((play, idx) => {
-    position[`player${idx + 2}`] = { id: play._id, position: 0, outCome: 0 }
+    position[`player${idx + 2}`] = { id: play._id, position: 0, outCome: 0, money: 20000 }
   })
   startedGame.positions = position;
   await startedGame.save()
@@ -134,4 +134,21 @@ exports.postDieRolled = async (req, res, next) => {
 
   // console.log(req.body);
   res.status(201).json({ message: "updated" });
+}
+
+exports.postBuy = async (req, res, next) => {
+  console.log(req.body)
+  res.status(201);
+}
+
+exports.postTicketCheck = async (req, res, next) => {
+  const { player } = req.body;
+  const lobby = await createdGames.findOne({ code: req.session.code })
+  const position = lobby.positions[player].position + 1;
+  const ticket = lobby.theme.find(ele => ele.id === position)
+  if (!ticket.owner) {
+    return res.status(201).json({ message: "noOwner" })
+  }
+  // console.log(position, ticket)
+  res.status(201).json({ message: "owned" })
 }

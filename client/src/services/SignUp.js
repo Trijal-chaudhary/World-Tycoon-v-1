@@ -109,3 +109,28 @@ export const dieRolled = async (outcome) => {
   })
   return response.json();
 }
+
+export const buyTicket = async (data) => {
+  const response = await fetch("http://localhost:3000/api/buy", {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: 'include',
+    body: JSON.stringify({ player: data.player })
+  })
+  return response.json();
+
+}
+
+export const ticketCheck = async (data) => {
+  const response = await fetch("http://localhost:3000/api/ticketCheck", {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: 'include',
+    body: JSON.stringify({ player: data.player })
+  })
+  return response.json();
+}

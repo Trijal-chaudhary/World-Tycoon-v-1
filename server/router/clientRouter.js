@@ -1,5 +1,5 @@
 const express = require('express');
-const { postUserDetails, postLogIn, getIsUserLogged, getUserLogOut, postCreateGame, getLobby, postEnterLobby, getYourDetails, postLeaveLobby, postGameStart, postDieRolled } = require('../controller/clientControler');
+const { postUserDetails, postLogIn, getIsUserLogged, getUserLogOut, postCreateGame, getLobby, postEnterLobby, getYourDetails, postLeaveLobby, postGameStart, postDieRolled, postBuy, postTicketCheck } = require('../controller/clientControler');
 
 const userDetailsRouter = express.Router();
 const logInRouter = express.Router();
@@ -11,7 +11,8 @@ const yourDetailRouter = express.Router();
 const leaveLobbyRouter = express.Router();
 const startedGameRouter = express.Router();
 const dieRolledRouter = express.Router();
-
+const buyRouter = express.Router();
+const checkTicketRouter = express.Router();
 
 userDetailsRouter.post('/', postUserDetails);
 logInRouter.post('/', postLogIn)
@@ -24,6 +25,8 @@ yourDetailRouter.get('/', getYourDetails);
 leaveLobbyRouter.post('/', postLeaveLobby)
 startedGameRouter.post('/', postGameStart);
 dieRolledRouter.post('/', postDieRolled);
+buyRouter.post('/', postBuy)
+checkTicketRouter.post('/', postTicketCheck)
 
 exports.userDetailsRouter = userDetailsRouter;
 exports.logInRouter = logInRouter;
@@ -35,3 +38,5 @@ exports.yourDetailRouter = yourDetailRouter;
 exports.leaveLobbyRouter = leaveLobbyRouter;
 exports.startedGameRouter = startedGameRouter;
 exports.dieRolledRouter = dieRolledRouter
+exports.buyRouter = buyRouter;
+exports.checkTicketRouter = checkTicketRouter;

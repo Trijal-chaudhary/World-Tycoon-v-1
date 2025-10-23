@@ -1,8 +1,16 @@
 import React, { use, useEffect, useState } from "react";
 import "./Game.css";
-import { dieRolled, lobbyDetails, YourDetail } from "../../src/services/SignUp";
+import {
+  buyTicket,
+  dieRolled,
+  lobbyDetails,
+  ticketCheck,
+  YourDetail,
+} from "../../src/services/SignUp";
 import socket from "../../src/services/socket";
+import Bye from "./gameTicket/Bye";
 const Game = () => {
+  // let owned = true;
   const [right, setRight] = useState([]);
   const [left, setLeft] = useState([]);
   const [top, setTop] = useState([]);
@@ -11,6 +19,8 @@ const Game = () => {
   const [gameData, setGameData] = useState();
   const [currenPlayer, setCurrentPlayer] = useState();
   const [yourData, setYourData] = useState();
+  const [ticketData, setTicketData] = useState();
+  const [ticketOwned, setTicketOwned] = useState();
   // const [yourDetail, setYourDetail] = useState();
   // const [player, setPlayer] = useState();
   //----------------------------------------------------------------
@@ -98,7 +108,7 @@ const Game = () => {
   };
   const roleTheDice = async () => {
     const yourDetail = await YourDetail();
-    console.log(yourDetail);
+    // console.log(yourDetail);
     const randomNumber = Math.floor(Math.random() * 12) + 1;
     let player = "";
     if (yourDetail.userDetail._id === currentPositions.player1.id) {
@@ -123,16 +133,33 @@ const Game = () => {
     await dieRolled(randomNumber);
     setRandom(randomNumber);
     // currentPositions[player].outCome = randomNumber;
-    console.log(currentPositions);
+    // console.log(currentPositions[player].position);
     socket.emit("PLAYER_MOVED", {
       outcome: randomNumber,
       player: player,
       code: yourDetail.code,
     });
-    socket.emit("WHO_NEXT", { code: yourDetail.code });
+    // socket.emit("WHO_NEXT", { code: yourDetail.code, player: player });
+    socket.emit("POSITION_CHANGE", {
+      position: currentPositions[player].position,
+      code: yourDetail.code,
+      player: player,
+    });
+    const isOwned = await ticketCheck({ player: player });
+    setTicketOwned(isOwned.message === "noOwner");
+    console.log(isOwned.message === "noOwner");
+    // if (isOwned.message === "noOwner") {
+    //   localStorage.setItem("ticket", JSON.stringify(true));
+    //   setTicketOwned(true);
+    // } else {
+    //   localStorage.setItem("ticket", JSON.stringify(false));
+    //   setTicketOwned(false);
+    // }
   };
   //---------------------------------------------------------
   useEffect(() => {
+    setTicketData(JSON.parse(localStorage.getItem("ticketData")));
+    setTicketOwned(JSON.parse(localStorage.getItem("ticket")));
     lobbyDetails().then((data) => {
       setRight(data.theme.slice(1, 9));
       setLeft(data.theme.slice(19, 27));
@@ -144,6 +171,10 @@ const Game = () => {
       setGameData(data);
       setCurrentPositions(data.positions);
       setCurrentPlayer(`player${data.current + 1}`);
+      const currPos = data.positions[currenPlayer]?.position;
+      const tick = data.theme.find((item) => item.id === currPos + 1);
+      // setTicketData(tick);
+      // console.log(JSON.parse(localStorage.getItem("ticketData")));
     });
   }, []);
   useEffect(() => {
@@ -155,7 +186,14 @@ const Game = () => {
     });
     socket.on("NEXT_IS", (data) => {
       setCurrentPlayer(`player${data.player + 1}`);
-      console.log(data.player + 1);
+      // console.log(data.position);
+      // console.log(data.player + 1);
+      setTicketOwned(false);
+    });
+    socket.on("TICKET_INFO", (data) => {
+      // console.log(data.ticketInfo);
+      setTicketData(data.ticketInfo);
+      localStorage.setItem("ticketData", JSON.stringify(data.ticketInfo));
     });
     socket.on("I_MOVED", (data) => {
       // console.log("I_MOVED received:", data);
@@ -170,8 +208,16 @@ const Game = () => {
         },
       }));
     });
+
     return () => socket.off("I_MOVED");
   }, []);
+  const Buy = async () => {
+    socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
+    await buyTicket({ player: currenPlayer });
+    localStorage.setItem("ticket", JSON.stringify(false));
+    setTicketOwned(false);
+    // console.log("BUY");
+  };
   return (
     <div className="game-interface-container">
       <img
@@ -225,6 +271,17 @@ const Game = () => {
         <p>Harsh</p>
         <h2>$200,000</h2>
       </div>
+      {ticketOwned &&
+      currentPositions?.[currenPlayer]?.id === yourData?.userDetail?._id ? (
+        <>
+          <div className="gameTicket">
+            <Bye ticketInfo={ticketData} Buy={Buy} />
+          </div>
+        </>
+      ) : (
+        ""
+      )}
+
       <div className="randomNumber">
         <h2>{random ? random : ""}</h2>
       </div>

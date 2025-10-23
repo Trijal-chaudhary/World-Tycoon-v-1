@@ -20,6 +20,10 @@ const createdGamesSchema = new mongoose.Schema({
     type: Number,
     default: 1
   },
+  Bank: {
+    type: Number,
+    default: 100000
+  },
   theme: {
     type: Array,
     default: [{

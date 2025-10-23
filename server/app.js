@@ -3,7 +3,7 @@ const cors = require('cors');
 const createdGames = require('./models/gameCreation')
 const http = require('http');
 const { Server } = require('socket.io');
-const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, createGameRouter, joinGameRouter, yourDetailRouter, leaveLobbyRouter, startedGameRouter, dieRolledRouter } = require('./router/clientRouter');
+const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, createGameRouter, joinGameRouter, yourDetailRouter, leaveLobbyRouter, startedGameRouter, dieRolledRouter, buyRouter, checkTicketRouter } = require('./router/clientRouter');
 const { default: mongoose } = require('mongoose');
 
 
@@ -48,15 +48,22 @@ io.on('connection', (socket) => {
     const next = (lobby.current + 1) % length;
     lobby.current = next;
     await lobby.save();
-
-    io.to(data.code).emit("NEXT_IS", { player: next });
+    const position = lobby.positions[data.player].position
+    io.to(data.code).emit("NEXT_IS", { player: next, position: position });
 
   })
   socket.on("NAVIGATE_GAME", (data) => {
     socket.join(data.code);
     io.to(data.code).emit("NAVIGATING", { message: "navigate" })
   })
-
+  socket.on("POSITION_CHANGE", async (data) => {
+    const lobby = await createdGames.findOne({ code: data.code })
+    const currPos = lobby.positions[data.player].position;
+    const ticketInfo = lobby.theme.find(item => item.id === currPos + 1)
+    // console.log(ticketInfo);
+    // console.log(currPos)
+    socket.emit("TICKET_INFO", { ticketInfo: ticketInfo })
+  })
 })
 
 const store = new MongoDBStore({
@@ -95,6 +102,8 @@ app.use('/api/yourDetail', yourDetailRouter)
 app.use('/api/leaveLobby', leaveLobbyRouter);
 app.use('/api/startGame', startedGameRouter)
 app.use('/api/dieRolled', dieRolledRouter)
+app.use('/api/buy', buyRouter)
+app.use('/api/ticketCheck', checkTicketRouter);
 
 const PORT = 3000;
 mongoose.connect(DB_URL)
