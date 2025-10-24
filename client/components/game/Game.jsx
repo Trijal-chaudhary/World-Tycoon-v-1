@@ -198,7 +198,19 @@ const Game = () => {
       setTicketOwned(false);
     });
     socket.on("YOUR_MONEY", (data) => {
-      setCurrentPositions(data.position);
+      // setCurrentPositions(data.position);
+      setCurrentPositions((prev) => {
+        const newState = { ...prev }; // Copy the *current* state (mid-animation)
+
+        // Loop through the new data from the backend
+        for (const playerKey in data.position) {
+          if (newState[playerKey]) {
+            // ONLY update the money field, leave 'position' alone.
+            newState[playerKey].money = data.position[playerKey].money;
+          }
+        }
+        return newState; // Return the merged state
+      });
       setBankMoney(data.bankMoney);
     });
     socket.on("TICKET_INFO", (data) => {
@@ -211,13 +223,13 @@ const Game = () => {
       movePlayer(data.outcome, data.player);
       // setRandom(data.outcome);
       // currentPositions[data.player].outCome = data.outcome;
-      setCurrentPositions((prev) => ({
-        ...prev,
-        [data.player]: {
-          ...prev[data.player],
-          outCome: data.outcome,
-        },
-      }));
+      // setCurrentPositions((prev) => ({
+      //   ...prev,
+      //   [data.player]: {
+      //     ...prev[data.player],
+      //     outCome: data.outcome,
+      //   },
+      // }));
     });
 
     return () => socket.off("I_MOVED");
