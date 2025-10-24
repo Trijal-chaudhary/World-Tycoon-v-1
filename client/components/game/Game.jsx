@@ -11,6 +11,8 @@ import socket from "../../src/services/socket";
 import Bye from "./gameTicket/Bye";
 import Owned from "./ownedMessage/Owned";
 import TicketsOwned from "./ticketOwned/TicketsOwned";
+import TicketInfo from "./ticketInfo/TicketInfo";
+import ChanceAndUno from "./ChanceAndUno/ChanceAndUno";
 const Game = () => {
   // let owned = true;
   const [right, setRight] = useState([]);
@@ -26,6 +28,8 @@ const Game = () => {
   const [bankMoney, setBankMoney] = useState();
   const [ownedData, setOwnedData] = useState(null);
   const [yourTickets, setYourTickets] = useState();
+  const [clickTicket, setClickTicket] = useState(null);
+  const [chanceAndUno, setChanceAndUno] = useState(null);
   // const [yourDetail, setYourDetail] = useState();
   // const [player, setPlayer] = useState();
   //----------------------------------------------------------------
@@ -271,6 +275,25 @@ const Game = () => {
     }
   }, [yourData, gameData]);
 
+  const clickedOnTicket = async (pos) => {
+    if (pos === 30 || pos === 17 || pos === 5 || pos === 26) {
+      setChanceAndUno(true);
+    } else if (pos === 14 || pos === 22) {
+      return;
+    } else {
+      const lobby = await lobbyDetails();
+      const tic = lobby.theme.find((ele) => ele.id === pos);
+      setClickTicket(tic);
+    }
+
+    // console.log(tic);
+  };
+  const crossChance = () => {
+    setChanceAndUno(null);
+  };
+  const cross = () => {
+    setClickTicket(null);
+  };
   const Buy = async () => {
     const lobby = await lobbyDetails();
     if (
@@ -369,6 +392,15 @@ const Game = () => {
       ) : (
         ""
       )}
+      {clickTicket ? (
+        <>
+          <div className="gameTicket">
+            <TicketInfo ticketInfo={clickTicket} Cut={cross} />
+          </div>
+        </>
+      ) : (
+        ""
+      )}
 
       <div className="randomNumber">
         <h2>{random ? random : ""}</h2>
@@ -396,6 +428,7 @@ const Game = () => {
       <div className="game-board">
         <div className="ticketBox">
           <TicketsOwned tickets={yourTickets} />
+          {chanceAndUno ? <ChanceAndUno cut={crossChance} /> : ""}
         </div>
         <div className="player1 p-red" id="player1" style={playerStyle1}></div>
         {currentPositions.player2 ? (
@@ -435,7 +468,10 @@ const Game = () => {
           </div>
           {right.map((ele) => (
             <>
-              <div className={`leftCards ${ele.Color}`}>
+              <div
+                className={`leftCards ${ele.Color}`}
+                onClick={() => clickedOnTicket(ele.id)}
+              >
                 <h4 className="CountryName">{ele.Name}</h4>
 
                 <div className="flag-Container">
@@ -462,7 +498,10 @@ const Game = () => {
         <div className="topSide">
           {top.map((ele) => (
             <>
-              <div className={`topCards ${ele.Color}`}>
+              <div
+                className={`topCards ${ele.Color}`}
+                onClick={() => clickedOnTicket(ele.id)}
+              >
                 <h4 className="CountryName-top">{ele.Name}</h4>
                 <div className="themeImage-top">
                   <img
@@ -476,7 +515,7 @@ const Game = () => {
                     src={`../../src/assets/flags/${ele.flag}`}
                     alt="Flag of Australia"
                   />
-                  <h4>$3300</h4>
+                  <h4>${ele.price}</h4>
                 </div>
               </div>
             </>
@@ -489,7 +528,10 @@ const Game = () => {
           </div>
           {left.map((ele) => (
             <>
-              <div className={`leftCards ${ele.Color}`}>
+              <div
+                className={`leftCards ${ele.Color}`}
+                onClick={() => clickedOnTicket(ele.id)}
+              >
                 <h4 className="CountryName">{ele.Name}</h4>
 
                 <div className="flag-Container">
@@ -516,7 +558,10 @@ const Game = () => {
         <div className="bottomSide">
           {bottom.map((ele) => (
             <>
-              <div className={`topCards ${ele.Color}`}>
+              <div
+                className={`topCards ${ele.Color}`}
+                onClick={() => clickedOnTicket(ele.id)}
+              >
                 <div className="themeImage-top">
                   <img
                     src={`../../src/assets/landmark/${ele.landMark}`}

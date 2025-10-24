@@ -1,0 +1,116 @@
+.ChanceAndUNO {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  /* max-width: 1200px; */
+  width: 100%;
+  height: 100%;
+
+  position: absolute;
+  border: 3px solid #d4af37;
+  background-color: #f0e6d2;
+  border-radius: 12px;
+  padding: 0.5rem 0.75rem;
+}
+
+/* --- Styling for Both Cards --- */
+.UNO, .chance {
+  /* Using the parchment/cream color from the game */
+  /* background-color: #f0e6d2; */
+  /* Using the royal gold from the game */
+  /* border: 3px solid #d4af37;
+  border-radius: 12px;
+  padding: 0.5rem 0.75rem; */
+  width: 49%;
+ 
+
+
+  /* flex-basis: 50%; */
+  /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(0, 0, 0, 0.2); */
+  height: 100%;
+}
+
+/* --- Title Styling --- */
+.UNO h2, .chance h2 {
+  /* Gold color */
+  color: #b38b4d;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  /* Subtle shadow to lift the text */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+}
+
+/* --- Instruction Paragraph Styling --- */
+.instructions {
+  font-style: italic;
+  text-align: center;
+  font-size: 0.7rem;
+  color: #593c1f; /* A darker brown for contrast */
+  border-bottom: 1px solid #d4af37;
+  padding-bottom: 0.5rem;
+  /* margin-bottom: 1.5rem; */
+}
+
+/* --- List Styling --- */
+.rules-list {
+  list-style-type: none; /* Remove default numbers */
+  padding-left: 0;
+  margin: 0;
+  counter-reset: item; /* Create our own numbering */
+  border-right: 2px dotted #d4af37;
+  border-left: 2px dotted #d4af37;
+  padding-left: 1.2%;
+  padding-right: 1.2%;
+}
+.Cross{
+  top: 2%;
+  right: 2%;
+  position: absolute;
+  color: #b38b4d;
+  font-weight: 700;
+  font-size: 1.5rem;
+  font-family: Arial, Helvetica, sans-serif
+}
+.Cross:hover{
+  cursor: pointer;
+  font-size: 1.6rem;
+  color: #593c1f;
+}
+.rules-list li {
+  position: relative;
+  padding-left: 3rem; /* Make space for the royal number */
+  font-size: 0.875rem;
+  /* line-height: 0.5; */
+  margin-bottom: 0.75rem;
+  color: black;
+}
+
+/* --- The "Royal" Numbering --- */
+.rules-list li::before {
+  counter-increment: item; /* Add 1 to the counter */
+  content: counter(item) "."; /* Display the number with a dot */
+  
+  position: absolute;
+  left: 0;
+  top: 0;
+  
+  /* The Royal Style */
+  color: #d4af37; /* Gold */
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive design for smaller screens
+@media (max-width: 768px) {
+  .ChanceAndUNO {
+      flex-direction: column;
+  }
+  body {
+      padding: 1rem;
+  }
+} */
