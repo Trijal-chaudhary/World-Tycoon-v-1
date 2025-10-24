@@ -294,6 +294,11 @@ const Game = () => {
   const OK = () => {
     setOwnedData(null);
   };
+  const Cut = () => {
+    localStorage.setItem("ticket", JSON.stringify(false));
+    setTicketOwned(false);
+    socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
+  };
   return (
     <div className="game-interface-container">
       <img
@@ -358,7 +363,7 @@ const Game = () => {
       currentPositions?.[currenPlayer]?.id === yourData?.userDetail?._id ? (
         <>
           <div className="gameTicket">
-            <Bye ticketInfo={ticketData} Buy={Buy} />
+            <Bye ticketInfo={ticketData} Buy={Buy} Cut={Cut} />
           </div>
         </>
       ) : (

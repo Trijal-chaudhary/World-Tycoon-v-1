@@ -1,9 +1,11 @@
 import React from "react";
 import "./Bye.css";
-const Bye = ({ ticketInfo, Buy }) => {
+const Bye = ({ ticketInfo, Buy, Cut }) => {
   return (
     <div className="property-card">
-      <button className="btn-close">X</button>
+      <button className="btn-close" onClick={Cut}>
+        X
+      </button>
 
       <div className="card-header">
         <h2>{ticketInfo?.Name}</h2>
