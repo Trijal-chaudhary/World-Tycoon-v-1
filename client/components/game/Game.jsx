@@ -10,6 +10,7 @@ import {
 import socket from "../../src/services/socket";
 import Bye from "./gameTicket/Bye";
 import Owned from "./ownedMessage/Owned";
+import TicketsOwned from "./ticketOwned/TicketsOwned";
 const Game = () => {
   // let owned = true;
   const [right, setRight] = useState([]);
@@ -24,6 +25,7 @@ const Game = () => {
   const [ticketOwned, setTicketOwned] = useState();
   const [bankMoney, setBankMoney] = useState();
   const [ownedData, setOwnedData] = useState(null);
+  const [yourTickets, setYourTickets] = useState();
   // const [yourDetail, setYourDetail] = useState();
   // const [player, setPlayer] = useState();
   //----------------------------------------------------------------
@@ -154,13 +156,24 @@ const Game = () => {
     if (isOwned.message === "noOwner") {
       localStorage.setItem("ticket", JSON.stringify(true));
       setTicketOwned(true);
-    } else {
+    } else if (isOwned.message === "youOwner") {
+      socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
+      socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
+      // alert("You Are the owner");
+    } else if (isOwned.message === "yesOwner") {
       localStorage.setItem("ticket", JSON.stringify(false));
       setTicketOwned(false);
       // alert("owned");
-      setOwnedData(isOwned);
+      const data = `Ticket has been purchased by ${isOwned?.owner}. $${isOwned?.rent} has been
+          deducted from your money.`;
+      setOwnedData(data);
       socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
       socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
+    } else {
+      socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
+      socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
+      // alert(isOwned.message);
+      setOwnedData(isOwned.message);
     }
   };
   //---------------------------------------------------------
@@ -172,7 +185,8 @@ const Game = () => {
       setLeft(data.theme.slice(19, 27));
       setTop(data.theme.slice(10, 18));
       setBottom(data.theme.slice(28, 36));
-
+      // const youAre =
+      setBankMoney(data.Bank);
       //----Current Position-----
       // console.log(data.positions);
       setGameData(data);
@@ -182,6 +196,12 @@ const Game = () => {
       const tick = data.theme.find((item) => item.id === currPos + 1);
       // setTicketData(tick);
       // console.log(JSON.parse(localStorage.getItem("ticketData")));
+      // Object.keys(data.positions).forEach((playerKey) => {
+      //   if (data.positions[playerKey].id === yourData.userDetail._id) {
+      //     const red = data.theme.filter((ele) => ele.Color === "red");
+      //     console.log(red, playerKey);
+      //   }
+      // });
     });
   }, []);
   useEffect(() => {
@@ -231,9 +251,22 @@ const Game = () => {
       //   },
       // }));
     });
+    socket.on("YOUR_TICKETS", (data) => {
+      setYourTickets(data);
+      console.log(data);
+    });
 
     return () => socket.off("I_MOVED");
   }, []);
+  useEffect(() => {
+    if (yourData && gameData) {
+      socket.emit("FETCHING_YOUR_TICKETS", {
+        lobby: gameData,
+        you: yourData,
+      });
+    }
+  }, [yourData, gameData]);
+
   const Buy = async () => {
     const lobby = await lobbyDetails();
     if (
@@ -242,9 +275,14 @@ const Game = () => {
     ) {
       socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
       await buyTicket({ player: currenPlayer });
+      const updatedLobby = await lobbyDetails();
       localStorage.setItem("ticket", JSON.stringify(false));
       setTicketOwned(false);
       socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
+      socket.emit("FETCHING_YOUR_TICKETS", {
+        lobby: updatedLobby,
+        you: yourData,
+      });
     } else {
       alert("Bhai Pehle Pahuch Toh Jane Do");
     }
@@ -345,6 +383,9 @@ const Game = () => {
       )}
 
       <div className="game-board">
+        <div className="ticketBox">
+          <TicketsOwned tickets={yourTickets} />
+        </div>
         <div className="player1 p-red" id="player1" style={playerStyle1}></div>
         {currentPositions.player2 ? (
           <div

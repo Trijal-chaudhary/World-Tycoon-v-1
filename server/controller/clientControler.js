@@ -158,9 +158,50 @@ exports.postTicketCheck = async (req, res, next) => {
   const lobby = await createdGames.findOne({ code: req.session.code })
   const position = lobby.positions[player].position + 1;
   const ticket = lobby.theme.find(ele => ele.id === position)
-
-  if (!ticket.owner) {
+  if (ticket.Name === "Start") {
+    lobby.positions[player].money += 1500;
+    lobby.markModified('positions');
+    await lobby.save();
+    return res.status(201).json({ message: "You have hit START! $1500 just landed in your account!" })
+  } else if (ticket.Name === "Party House") {
+    lobby.positions[player].money += 200 * (lobby.positions.length - 1);
+    Object.keys(lobby.positions).forEach((playerKey) => {
+      if (playerKey !== player) {
+        lobby.positions[playerKey].money -= 200;
+      }
+    })
+    lobby.markModified('positions');
+    await lobby.save();
+    return res.status(201).json({ message: "Party time! $200 collected from each player and added to your stash!" })
+  } else if (ticket.Name === "Duty" || ticket.Name === "Coustom") {
+    lobby.positions[player].money -= 200;
+    lobby.Bank += 200;
+    lobby.markModified('positions');
+    lobby.markModified('Bank');
+    await lobby.save();
+    return res.status(201).json({ message: "Customs Duty! $200 deducted from your wallet and added to the Bank!" })
+  } else if (ticket.Name === "Resort") {
+    lobby.positions[player].money -= 50 * (lobby.positions.length - 1);
+    Object.keys(lobby.positions).forEach((playerKey) => {
+      if (playerKey !== player) {
+        lobby.positions[playerKey].money += 50;
+      }
+    })
+    lobby.markModified('positions');
+    await lobby.save();
+    return res.status(201).json({ message: "Resort Fee! $50 distributed to all players!" })
+  } else if (ticket.Name === "Jail") {
+    lobby.positions[player].money -= 500;
+    lobby.Bank += 500;
+    lobby.markModified('positions');
+    lobby.markModified('Bank');
+    await lobby.save();
+    return res.status(201).json({ message: "Jail Time! $500 deducted and added to the bank!" })
+  }
+  else if (!ticket.owner) {
     return res.status(201).json({ message: "noOwner" })
+  } else if (ticket.owner === player) {
+    return res.status(201).json({ message: "youOwner" })
   } else {
     lobby.positions[player].money -= ticket.rent;
     lobby.positions[ticket.owner].money += ticket.rent;

@@ -70,6 +70,22 @@ io.on('connection', (socket) => {
     const money = lobby.positions;
     io.to(data.code).emit("YOUR_MONEY", { position: money, bankMoney: lobby.Bank })
   })
+  socket.on("FETCHING_YOUR_TICKETS", (data) => {
+    // console.log(data.you);
+    let red = [], blue = [], yellow = [], green = [], gray = [];
+    Object.keys(data.lobby.positions).forEach((playerKey) => {
+      if (data.lobby.positions[playerKey].id === data.you.userDetail._id) {
+        red = data.lobby.theme.filter((ele) => ele.Color === "red" && ele.owner === playerKey);
+        blue = data.lobby.theme.filter((ele) => ele.Color === "blue" && ele.owner === playerKey);
+        yellow = data.lobby.theme.filter((ele) => ele.Color === "yellow" && ele.owner === playerKey);
+        green = data.lobby.theme.filter((ele) => ele.Color === "green" && ele.owner === playerKey);
+        gray = data.lobby.theme.filter((ele) => ele.Color === "gray" && ele.owner === playerKey);
+        console.log(red, playerKey);
+      }
+
+    });
+    socket.emit("YOUR_TICKETS", { red: red, blue: blue, yellow: yellow, green: green, gray: gray })
+  })
 })
 
 const store = new MongoDBStore({
