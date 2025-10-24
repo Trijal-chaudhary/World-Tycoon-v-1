@@ -130,7 +130,7 @@ export const ticketCheck = async (data) => {
       "Content-Type": "application/json",
     },
     credentials: 'include',
-    body: JSON.stringify({ player: data.player })
+    body: JSON.stringify({ player: data.player, outcome: data.outCome })
   })
   return response.json();
 }

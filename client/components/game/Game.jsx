@@ -135,6 +135,7 @@ const Game = () => {
     } else {
       alert("Who Are You");
     }
+
     await dieRolled(randomNumber);
     setRandom(randomNumber);
     // currentPositions[player].outCome = randomNumber;
@@ -150,7 +151,10 @@ const Game = () => {
       code: yourDetail.code,
       player: player,
     });
-    const isOwned = await ticketCheck({ player: player });
+    const isOwned = await ticketCheck({
+      player: player,
+      outCome: randomNumber,
+    });
     // setTicketOwned(isOwned.message === "noOwner");
     // console.log(isOwned.message === "noOwner");
     if (isOwned.message === "noOwner") {
@@ -340,11 +344,13 @@ const Game = () => {
       </div>
 
       <div className="Players-Info">
-        <p>Harsh</p>
         {Object.keys(currentPositions).map((playerKey) => {
           const player = currentPositions[playerKey];
           return player.id === yourData?.userDetail?._id ? (
-            <h2 key={player.id}>${player.money}</h2>
+            <>
+              <p>{yourData?.userDetail?.userName}</p>
+              <h2 key={player.id}>${player.money}</h2>
+            </>
           ) : null;
         })}
       </div>

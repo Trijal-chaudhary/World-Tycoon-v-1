@@ -154,11 +154,202 @@ exports.postBuy = async (req, res, next) => {
 }
 
 exports.postTicketCheck = async (req, res, next) => {
-  const { player } = req.body;
+  const { player, outcome } = req.body;
   const lobby = await createdGames.findOne({ code: req.session.code })
   const position = lobby.positions[player].position + 1;
   const ticket = lobby.theme.find(ele => ele.id === position)
-  if (ticket.Name === "Start") {
+  if (ticket.Name === "UNO") {
+    // const outCome = lobby.positions[player].outCome;
+    console.log(outcome)
+    switch (outcome) {
+      case 1:
+        lobby.positions[player].money -= 500;
+        lobby.Bank += 500;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: "Pay a $500 speeding ticket." })
+      case 2:
+        lobby.positions[player].money += 2000;
+        lobby.Bank -= 2000;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: "Bank error in your favor! Collect $2000." })
+      case 3:
+        lobby.positions[player].money -= 3000;
+        lobby.Bank += 3000;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: "You are caught in a tax audit. Pay the Bank $3000." })
+      case 4:
+        lobby.positions[player].money += 2500;
+        lobby.Bank -= 2500;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: "You are promoted! Collect a $2500 bonus from the Bank." })
+      case 5:
+        lobby.positions[player].money -= 1500;
+        lobby.Bank += 1500;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: "Pay school and medical fees of $1500." })
+      case 6:
+        lobby.positions[player].money += 1000;
+        lobby.Bank -= 1000;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: "You win a local lottery. Collect $1000." })
+      case 7:
+        lobby.positions[player].money += 4000;
+        lobby.Bank -= 4000;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: "From the sale of stocks, you get $4000." })
+      case 8:
+        lobby.positions[player].money -= 1000;
+        lobby.Bank += 1000;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: "Poor property maintenance! Pay $1000 to the Bank for immediate repairs." })
+      case 9:
+        lobby.positions[player].money -= 1500;
+        lobby.Bank += 1500;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: "Pay your insurance premium. Pay $1500." })
+      case 10:
+        lobby.positions[player].money += 500 * (lobby.positions.length - 1);
+        Object.keys(lobby.positions).forEach((playerKey) => {
+          if (playerKey !== player) {
+            lobby.positions[playerKey].money -= 500;
+          }
+        })
+        lobby.markModified('positions');
+        await lobby.save();
+        return res.status(201).json({ message: " You host a state dinner. Collect $500 from each player." })
+      case 11:
+        lobby.positions[player].money += 2000;
+        lobby.Bank -= 2000;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: " Holiday bonus! Collect $2000 from the Bank." })
+      case 12:
+        lobby.positions[player].money += 5000;
+        lobby.Bank -= 5000;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: " You've won the World Tycoon Grand Prize! Collect $5,000 from the Bank." })
+      default:
+        return res.status(201).json({ message: "Invalid Outcome" })
+    }
+  } else if (ticket.Name === "Chance") {
+    // const outCome = lobby.positions[player].outCome;
+    console.log(outcome)
+    switch (outcome) {
+      case 1:
+        lobby.positions[player].money -= 2000;
+        lobby.Bank += 2000;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: "Loss in the share market. Pay $2000 to the Bank." })
+      case 2:
+        lobby.positions[player].money += 1000;
+        lobby.Bank -= 1000;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: "You have won a crossword competition. Collect $1000 from the Bank." })
+      case 3:
+        lobby.positions[player].money -= 1500;
+        lobby.Bank += 1500;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: " Pay a $1500 fine for a traffic violation." })
+      case 4:
+        lobby.positions[player].money += 5000;
+        lobby.Bank -= 5000;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: " Your building loan is approved! Collect $5000 from the Bank." })
+      case 5:
+        lobby.positions[player].money += 3000;
+        lobby.Bank -= 3000;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: "Your businesses are booming! The Bank pays you a dividend of $3000." })
+      case 6:
+        lobby.positions[player].money -= 2500;
+        lobby.Bank += 2500;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: "Caught dumping industrial waste. Pay a $2500 environmental fine." })
+      case 7:
+        lobby.positions[player].money += 1000 * (lobby.positions.length - 1);
+        Object.keys(lobby.positions).forEach((playerKey) => {
+          if (playerKey !== player) {
+            lobby.positions[playerKey].money -= 1000;
+          }
+        })
+        lobby.markModified('positions');
+        await lobby.save();
+        return res.status(201).json({ message: "It's your birthday! Collect $1000 from each player." })
+      case 8:
+        lobby.positions[player].money -= 500 * (lobby.positions.length - 1);
+        Object.keys(lobby.positions).forEach((playerKey) => {
+          if (playerKey !== player) {
+            lobby.positions[playerKey].money += 500;
+          }
+        })
+        lobby.markModified('positions');
+        await lobby.save();
+        return res.status(201).json({ message: "You are elected Chairman of the Board. Pay each player $500." })
+      case 9:
+        lobby.positions[player].money -= 2500;
+        lobby.Bank += 2500;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: "Loss due to fire in your godown. Pay $2500." })
+      case 10:
+        lobby.positions[player].money -= 500;
+        lobby.Bank += 500;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: "Pay a $500 fine for a traffic violation." })
+      case 11:
+        lobby.positions[player].money += 1500;
+        lobby.Bank -= 1500;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: "Collect your $1500 salary." })
+      case 12:
+        lobby.positions[player].money -= 1000;
+        lobby.Bank += 1000;
+        lobby.markModified('positions');
+        lobby.markModified('Bank');
+        await lobby.save();
+        return res.status(201).json({ message: "Your car needs repairs. Pay $1000." })
+      default:
+        return res.status(201).json({ message: "Invalid outCome" })
+    }
+  } else if (ticket.Name === "Start") {
     lobby.positions[player].money += 1500;
     lobby.markModified('positions');
     await lobby.save();
