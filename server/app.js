@@ -20,7 +20,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "http://192.168.0.103:5173"],
     methods: ["GET", "POST"],
   }
 })
@@ -104,12 +104,22 @@ const store = new MongoDBStore({
   uri: DB_URL,
   collection: 'session'
 })
+app.use(cors({
+  origin: ["http://localhost:5173", "http://192.168.0.103:5173"], // 👈 your React frontend URL
+  credentials: true // 👈 allow sending cookies across origins
+}))
 
 app.use(session({
   secret: "HVC",
   resave: false,
   saveUninitialized: true,
-  store: store
+  store: store,
+  cookie: {
+    httpOnly: true,
+    secure: false,          // false because you're using http://
+    sameSite: "lax",        // ✅ works well on same-network, avoids "None" issue
+    maxAge: 1000 * 60 * 60
+  }
 }))
 
 app.use((req, res, next) => {
@@ -119,10 +129,7 @@ app.use((req, res, next) => {
 })
 
 
-app.use(cors({
-  origin: "http://localhost:5173", // 👈 your React frontend URL
-  credentials: true // 👈 allow sending cookies across origins
-}))
+
 app.use(express.json())
 
 app.use('/api/signup', userDetailsRouter)
@@ -143,8 +150,8 @@ const PORT = 3000;
 mongoose.connect(DB_URL)
   .then(() => {
     console.log('moongose Connected')
-    server.listen(PORT, () => {
-      console.log(`http://localhost:${PORT}`)
+    server.listen(PORT, "0.0.0.0", () => {
+      console.log(`http://192.168.0.103:${PORT}`)
     })
   })
 

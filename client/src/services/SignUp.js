@@ -1,5 +1,5 @@
 export const addUserDetail = async (name, userName, password) => {
-  const response = await fetch('http://localhost:3000/api/signup', {
+  const response = await fetch('http://192.168.0.103:3000/api/signup', {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -11,7 +11,7 @@ export const addUserDetail = async (name, userName, password) => {
 }
 
 export const checkTheUser = async (userName, password) => {
-  const response = await fetch('http://localhost:3000/api/login', {
+  const response = await fetch('http://192.168.0.103:3000/api/login', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -23,7 +23,7 @@ export const checkTheUser = async (userName, password) => {
 }
 
 export const isuserLogged = async () => {
-  const response = await fetch('http://localhost:3000/api/isLogged', {
+  const response = await fetch('http://192.168.0.103:3000/api/isLogged', {
     method: 'GET',
     credentials: "include"
   })
@@ -31,7 +31,7 @@ export const isuserLogged = async () => {
 }
 
 export const logOutUser = async () => {
-  const response = await fetch('http://localhost:3000/api/logout', {
+  const response = await fetch('http://192.168.0.103:3000/api/logout', {
     method: 'GET',
     credentials: "include"
   })
@@ -39,7 +39,7 @@ export const logOutUser = async () => {
 }
 
 export const createGame = async () => {
-  const response = await fetch('http://localhost:3000/api/createGame', {
+  const response = await fetch('http://192.168.0.103:3000/api/createGame', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export const createGame = async () => {
 }
 
 export const lobbyDetails = async () => {
-  const response = await fetch('http://localhost:3000/api/createGame', {
+  const response = await fetch('http://192.168.0.103:3000/api/createGame', {
     method: 'GET',
     credentials: 'include'
   })
@@ -58,7 +58,7 @@ export const lobbyDetails = async () => {
 }
 
 export const joinInGame = async (code) => {
-  const response = await fetch('http://localhost:3000/api/joinGame', {
+  const response = await fetch('http://192.168.0.103:3000/api/joinGame', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -69,14 +69,14 @@ export const joinInGame = async (code) => {
   return response.json()
 }
 export const YourDetail = async () => {
-  const response = await fetch('http://localhost:3000/api/yourDetail', {
+  const response = await fetch('http://192.168.0.103:3000/api/yourDetail', {
     method: 'GET',
     credentials: 'include'
   })
   return response.json()
 }
 export const leaveLobby = async (id) => {
-  const response = await fetch("http://localhost:3000/api/leaveLobby", {
+  const response = await fetch("http://192.168.0.103:3000/api/leaveLobby", {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -88,7 +88,7 @@ export const leaveLobby = async (id) => {
 }
 
 export const gameStarted = async () => {
-  const response = await fetch("http://localhost:3000/api/startGame", {
+  const response = await fetch("http://192.168.0.103:3000/api/startGame", {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -99,7 +99,7 @@ export const gameStarted = async () => {
 }
 
 export const dieRolled = async (outcome) => {
-  const response = await fetch("http://localhost:3000/api/dieRolled", {
+  const response = await fetch("http://192.168.0.103:3000/api/dieRolled", {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -111,7 +111,7 @@ export const dieRolled = async (outcome) => {
 }
 
 export const buyTicket = async (data) => {
-  const response = await fetch("http://localhost:3000/api/buy", {
+  const response = await fetch("http://192.168.0.103:3000/api/buy", {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -124,7 +124,7 @@ export const buyTicket = async (data) => {
 }
 
 export const ticketCheck = async (data) => {
-  const response = await fetch("http://localhost:3000/api/ticketCheck", {
+  const response = await fetch("http://192.168.0.103:3000/api/ticketCheck", {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -135,7 +135,7 @@ export const ticketCheck = async (data) => {
   return response.json();
 }
 export const result = async () => {
-  const response = await fetch('http://localhost:3000/api/results', {
+  const response = await fetch('http://192.168.0.103:3000/api/results', {
     method: 'GET',
     credentials: 'include'
   })
