@@ -77,9 +77,9 @@ const Game = () => {
     { right: "30%", bottom: "14%" },
     { right: "22.5%", bottom: "14%" },
   ];
+  const delay = 400;
 
   const movePlayer = (steps, player) => {
-    const delay = 400;
     const boardSize = boardPositions.length;
 
     //----Player 1-------------------
@@ -148,49 +148,57 @@ const Game = () => {
     setRandom(randomNumber);
     // currentPositions[player].outCome = randomNumber;
     // console.log(currentPositions[player].position);
+
     socket.emit("PLAYER_MOVED", {
       outcome: randomNumber,
       player: player,
       code: yourDetail.code,
     });
     // socket.emit("WHO_NEXT", { code: yourDetail.code, player: player });
-    socket.emit("POSITION_CHANGE", {
-      position: currentPositions[player].position,
-      code: yourDetail.code,
-      player: player,
-    });
-    const isOwned = await ticketCheck({
-      player: player,
-      outCome: randomNumber,
-    });
+    const afterDuration = randomNumber * delay;
+    setTimeout(async () => {
+      socket.emit("POSITION_CHANGE", {
+        position: currentPositions[player].position,
+        code: yourDetail.code,
+        player: player,
+      });
+      const isOwned = await ticketCheck({
+        player: player,
+        outCome: randomNumber,
+      });
 
-    // setTicketOwned(isOwned.message === "noOwner");
-    // console.log(isOwned.message === "noOwner");
-    if (isOwned.message === "noOwner") {
-      localStorage.setItem("ticket", JSON.stringify(true));
-      setTicketOwned(true);
-    } else if (isOwned.message === "youOwner") {
-      socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
-      socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
-      // alert("You Are the owner");
-    } else if (isOwned.message === "yesOwner") {
-      localStorage.setItem("ticket", JSON.stringify(false));
-      setTicketOwned(false);
-      // alert("owned");
-      const data = `Ticket has been purchased by ${isOwned?.owner}. $${isOwned?.rent} has been
-          deducted from your money.`;
-      setOwnedData(data);
-      socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
-      socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
-    } else {
-      socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
-      socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
-      // alert(isOwned.message);
-      setOwnedData(isOwned.message);
-    }
-    socket.emit("TRACK_MONEY", {
-      code: yourData.code,
-    });
+      // setTicketOwned(isOwned.message === "noOwner");
+      // console.log(isOwned.message === "noOwner");
+      if (isOwned.message === "noOwner") {
+        localStorage.setItem("ticket", JSON.stringify(true));
+        setTicketOwned(true);
+      } else if (isOwned.message === "youOwner") {
+        socket.emit("WHO_NEXT", {
+          code: yourData.code,
+          player: currenPlayer,
+          // position: currentPositions,
+        });
+        socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
+        // alert("You Are the owner");
+      } else if (isOwned.message === "yesOwner") {
+        localStorage.setItem("ticket", JSON.stringify(false));
+        setTicketOwned(false);
+        // alert("owned");
+        const data = `Ticket has been purchased by ${isOwned?.owner}. $${isOwned?.rent} has been
+            deducted from your money.`;
+        setOwnedData(data);
+        socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
+        socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
+      } else {
+        socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
+        socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
+        // alert(isOwned.message);
+        setOwnedData(isOwned.message);
+      }
+      socket.emit("TRACK_MONEY", {
+        code: yourData.code,
+      });
+    }, afterDuration);
   };
   //---------------------------------------------------------
   useEffect(() => {
