@@ -3,7 +3,7 @@ const cors = require('cors');
 const createdGames = require('./models/gameCreation')
 const http = require('http');
 const { Server } = require('socket.io');
-const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, createGameRouter, joinGameRouter, yourDetailRouter, leaveLobbyRouter, startedGameRouter, dieRolledRouter, buyRouter, checkTicketRouter } = require('./router/clientRouter');
+const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, createGameRouter, joinGameRouter, yourDetailRouter, leaveLobbyRouter, startedGameRouter, dieRolledRouter, buyRouter, checkTicketRouter, resultRouter } = require('./router/clientRouter');
 const { default: mongoose } = require('mongoose');
 
 
@@ -86,6 +86,18 @@ io.on('connection', (socket) => {
     });
     socket.emit("YOUR_TICKETS", { red: red, blue: blue, yellow: yellow, green: green, gray: gray })
   })
+  socket.on("TRACK_MONEY", async (data) => {
+    // socket.join(data.code);
+    const lobby = await createdGames.findOne({ code: data.code })
+    Object.keys(lobby.positions).forEach((player) => {
+      console.log(lobby.positions[player].money, player)
+      if (lobby.positions[player].money <= -5000) {
+        // console.log("BankCrupt")
+        io.to(data.code).emit("BANKRUPT", { player: player })
+      }
+    })
+    // console.log(data);
+  })
 })
 
 const store = new MongoDBStore({
@@ -126,7 +138,7 @@ app.use('/api/startGame', startedGameRouter)
 app.use('/api/dieRolled', dieRolledRouter)
 app.use('/api/buy', buyRouter)
 app.use('/api/ticketCheck', checkTicketRouter);
-
+app.use('/api/results', resultRouter)
 const PORT = 3000;
 mongoose.connect(DB_URL)
   .then(() => {

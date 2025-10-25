@@ -13,8 +13,11 @@ import Owned from "./ownedMessage/Owned";
 import TicketsOwned from "./ticketOwned/TicketsOwned";
 import TicketInfo from "./ticketInfo/TicketInfo";
 import ChanceAndUno from "./ChanceAndUno/ChanceAndUno";
+import Result from "./LobbyAfterGame/Result";
+import { useNavigate } from "react-router-dom";
 const Game = () => {
   // let owned = true;
+  const navigate = useNavigate();
   const [right, setRight] = useState([]);
   const [left, setLeft] = useState([]);
   const [top, setTop] = useState([]);
@@ -30,6 +33,7 @@ const Game = () => {
   const [yourTickets, setYourTickets] = useState();
   const [clickTicket, setClickTicket] = useState(null);
   const [chanceAndUno, setChanceAndUno] = useState(null);
+  const [sortedPosition, setsortedPosition] = useState(null);
   // const [yourDetail, setYourDetail] = useState();
   // const [player, setPlayer] = useState();
   //----------------------------------------------------------------
@@ -159,6 +163,7 @@ const Game = () => {
       player: player,
       outCome: randomNumber,
     });
+
     // setTicketOwned(isOwned.message === "noOwner");
     // console.log(isOwned.message === "noOwner");
     if (isOwned.message === "noOwner") {
@@ -183,6 +188,9 @@ const Game = () => {
       // alert(isOwned.message);
       setOwnedData(isOwned.message);
     }
+    socket.emit("TRACK_MONEY", {
+      code: yourData.code,
+    });
   };
   //---------------------------------------------------------
   useEffect(() => {
@@ -224,6 +232,11 @@ const Game = () => {
       // console.log(data.position);
       // console.log(data.player + 1);
       setTicketOwned(false);
+    });
+    socket.on("BANKRUPT", (data) => {
+      const alMess = `${data.player} has gone BANKRUPT!!`;
+      alert(alMess);
+      navigate("/result");
     });
     socket.on("YOUR_MONEY", (data) => {
       // setCurrentPositions(data.position);
@@ -324,6 +337,9 @@ const Game = () => {
   };
   return (
     <div className="game-interface-container">
+      {/* <div className="result">
+        <Result game={gameData} />
+      </div> */}
       <img
         src="../../src/assets/logo.png"
         alt="World Tycoon Logo"

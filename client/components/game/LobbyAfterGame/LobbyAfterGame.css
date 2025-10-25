@@ -1,0 +1,137 @@
+        /* Container for Ranks */
+        .mainco{
+            background-color: #0d1a2f; /* Dark slate blue from game theme */
+            font-family: 'Garamond', 'Times New Roman', Times, serif;
+            color: #f0e6d2; /* Light parchment for text */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            position: absolute;
+            z-index: 500;
+            height: 100%;
+            width: 100%;
+        }
+        .rank-container {
+          background-color: #1a2a44; /* Slightly lighter dark blue */
+          border: 3px solid #d4af37; /* Royal gold border */
+          border-radius: 12px;
+          padding: 2.5rem;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(0, 0, 0, 0.2);
+          max-width: 800px;
+          width: 100%;
+          margin-bottom: 2rem;
+          text-align: center;
+      }
+
+      /* Header Row */
+      .rank-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-weight: bold;
+          font-size: 1.2rem;
+          padding-bottom: 1rem;
+          margin-bottom: 1rem;
+          border-bottom: 2px solid #b38b4d; /* Gold line separator */
+          color: #d4af37; /* Gold text for header */
+          text-transform: uppercase;
+      }
+
+      .rank-header > div {
+          flex: 1;
+          text-align: center;
+      }
+      .rank-header > div:first-child { flex: 0.5; } /* Smaller for Rank */
+      .rank-header > div:nth-child(2) { flex: 1.5; text-align: left; } /* For Player Name and Title */
+      .rank-header > div:last-child { flex: 1; } /* For Money */
+
+
+      /* Individual Player Rank Row */
+      .player-rank-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1rem 0;
+          border-bottom: 1px dashed rgba(240, 230, 210, 0.2); /* Subtle separator */
+          font-size: 1.1rem;
+      }
+
+      .player-rank-row:last-of-type {
+          border-bottom: none; /* No border for the last item */
+      }
+
+      .player-rank-row > div {
+          flex: 1;
+          text-align: center;
+      }
+      .player-rank-row .rank-icon { flex: 0.5; font-size: 1.8rem; }
+      .player-rank-row .player-info { flex: 1.5; text-align: left; }
+      .player-rank-row .player-money { flex: 1; font-weight: bold; }
+
+      /* Specific Rank Styling */
+      .rank-1 .rank-icon { color: #d4af37; /* Gold */ }
+      .rank-1 .player-money { color: #d4af37; }
+      .rank-1 .player-info .player-title { color: #b38b4d; /* Lighter Gold */ }
+      .rank-1 .player-name { font-weight: bold; }
+
+      .rank-2 .rank-icon { color: #c0c0c0; /* Silver */ }
+      .rank-2 .player-money { color: #c0c0c0; }
+      .rank-2 .player-info .player-title { color: #a9a9a9; /* Darker Silver */ }
+
+      .rank-3 .rank-icon { color: #cd7f32; /* Bronze */ }
+      .rank-3 .player-money { color: #cd7f32; }
+      .rank-3 .player-info .player-title { color: #b87333; /* Darker Bronze */ }
+
+      .rank-4 .rank-icon { color: #555; /* Muted for last place */ }
+      .rank-4 .player-money { color: #cc3333; /* Red for negative money */ }
+      .rank-4 .player-info .player-title { color: #888; }
+
+      .player-info {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+      }
+      .player-name {
+          font-size: 1.2em;
+          margin-bottom: 0.2em;
+      }
+      .player-title {
+          font-size: 0.9em;
+          opacity: 0.8;
+          font-style: italic;
+      }
+      .player-description {
+          font-size: 0.8em;
+          color: rgba(240, 230, 210, 0.7);
+          margin-top: 0.5em;
+      }
+
+      /* Button Styling */
+      .home-button {
+          background-color: #d4af37; /* Gold */
+          color: #0d1a2f; /* Dark text */
+          border: none;
+          padding: 15px 30px;
+          font-size: 1.2rem;
+          font-weight: bold;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: background-color 0.3s ease, transform 0.2s ease;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+      }
+
+      .home-button:hover {
+          background-color: #b38b4d; /* Slightly darker gold on hover */
+          transform: translateY(-2px);
+      }
+
+      .home-button:active {
+          background-color: #926f34; /* Even darker on active */
+          transform: translateY(0);
+      }

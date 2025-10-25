@@ -134,3 +134,10 @@ export const ticketCheck = async (data) => {
   })
   return response.json();
 }
+export const result = async () => {
+  const response = await fetch('http://localhost:3000/api/results', {
+    method: 'GET',
+    credentials: 'include'
+  })
+  return response.json()
+}

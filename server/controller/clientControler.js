@@ -408,3 +408,12 @@ exports.postTicketCheck = async (req, res, next) => {
   // console.log(position, ticket)
   res.status(201).json({ message: "owned" })
 }
+exports.getResult = async (req, res, next) => {
+  // console.log("linkkkkkkkkkkk")
+  const lobby = await createdGames.findOne({ code: req.session.code });
+  const sort = Object.entries(lobby.positions).sort(
+    ([, a], [, b]) => b.money - a.money
+  );
+  console.log(sort)
+  res.status(201).json({ sort: sort, lobby: lobby });
+}

@@ -5,6 +5,7 @@ import LogIn from "../components/LogIn/LogIn";
 import Lobby from "../components/lobby/Lobby";
 import JoinGame from "../components/join Game/JoinGame";
 import Game from "../components/game/Game";
+import Result from "../components/game/LobbyAfterGame/Result";
 function App() {
   return (
     <>
@@ -16,6 +17,7 @@ function App() {
           <Route path="/lobby" element={<Lobby />} />
           <Route path="/joinGame" element={<JoinGame />} />
           <Route path="/game" element={<Game />} />
+          <Route path="/result" element={<Result />} />
         </Routes>
       </BrowserRouter>
     </>
