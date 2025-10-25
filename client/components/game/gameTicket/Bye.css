@@ -14,10 +14,48 @@
 }
 
 .card-header {
-  background-color: #40916c;
-  color: #ffffff;
+  /* background-color: #40916c; */
+  /* color: #ffffff; */
   text-align: center;
-  border-bottom: 2px solid #2d6a4f;
+  /* border-bottom: 2px solid #2d6a4f; */
+}
+.green-style {
+  background-color: #40916c; /* Medium Green */
+  color: #ffffff; /* White text */
+  text-align: center;
+  border-bottom: 2px solid #2d6a4f; /* Darker Green */
+}
+
+/* --- Gray --- */
+.gray-style {
+  background-color: #f0e6d2; /* Light Parchment */
+  color: #2b2b2b; /* Dark text for contrast */
+  text-align: center;
+  border-bottom: 2px solid #b38b4d; /* Gold */
+}
+
+/* --- Yellow --- */
+.yellow-style {
+  background-color: #ffbe0b; /* Bright Yellow */
+  color: #2a2a2a; /* Dark text for contrast */
+  text-align: center;
+  border-bottom: 2px solid #fb8500; /* Orange */
+}
+
+/* --- Red --- */
+.red-style {
+  background-color: #c1121f; /* Strong Red */
+  color: #ffffff; /* White text */
+  text-align: center;
+  border-bottom: 2px solid #780000; /* Darker Red */
+}
+
+/* --- Blue --- */
+.blue-style {
+  background-color: #00b4d8; /* Bright Blue */
+  color: #ffffff; /* White text */
+  text-align: center;
+  border-bottom: 2px solid #023e8a; /* Darker Blue */
 }
 
 .card-header h2 {

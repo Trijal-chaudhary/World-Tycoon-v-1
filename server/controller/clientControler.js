@@ -145,18 +145,46 @@ exports.postBuy = async (req, res, next) => {
   if (!ticket) {
     return res.status(404).json({ message: "Ticket not found" });
   }
-  ticket.owner = player;
-  // const price = ticket.price
-  const currentMoney = lobby.positions[player].money ?? 0;
-  const ticketMoney = Number(ticket.price) ?? 0;
-  const bankMoney = lobby.Bank ?? 0;
-  lobby.positions[player].money = currentMoney - ticketMoney;
-  lobby.Bank = bankMoney + ticketMoney;
-  lobby.markModified('positions');
-  lobby.markModified('theme')
-  await lobby.save()
-  console.log(ticket, lobby.positions[player])
+  if (ticket.owner === player) {
+    let ticketRent = ticket.rent
+    let house = "Site Only"
+    // console.log(true);
+    for (const [key, value] of Object.entries(ticket.house)) {
+      // console.log(ticket.rent, value)
+      if (ticket.rent < value) {
+        ticketRent = value;
+        house = key
+        break;
+      }
+    }
+    ticket.rent = ticketRent;
+    const currentMoney = lobby.positions[player].money ?? 0;
+    const ticketMoney = Number(ticket.price) ?? 0;
+    const bankMoney = lobby.Bank ?? 0;
+    lobby.positions[player].money = currentMoney - ticketMoney;
+    lobby.Bank = bankMoney + ticketMoney;
+    lobby.markModified('positions');
+    lobby.markModified('theme');
+    await lobby.save()
+    res.status(201).json({ message: "UPDATED", house: house });
+  }
+  else {
+    ticket.owner = player;
+    // const price = ticket.price
+    const currentMoney = lobby.positions[player].money ?? 0;
+    const ticketMoney = Number(ticket.price) ?? 0;
+    const bankMoney = lobby.Bank ?? 0;
+    lobby.positions[player].money = currentMoney - ticketMoney;
+    lobby.Bank = bankMoney + ticketMoney;
+    lobby.markModified('positions');
+    lobby.markModified('theme')
+    await lobby.save()
+    // console.log(ticket, lobby.positions[player])
+    res.status(201).json({ message: "BUYED" });
+
+  }
   res.status(201).json({ message: "BUYED" });
+
 }
 
 exports.postTicketCheck = async (req, res, next) => {

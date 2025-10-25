@@ -7,14 +7,14 @@ const Bye = ({ ticketInfo, Buy, Cut }) => {
         X
       </button>
 
-      <div className="card-header">
+      <div className={`card-header ${ticketInfo?.Color}-style`}>
         <h2>{ticketInfo?.Name}</h2>
         <h2>${ticketInfo?.price}</h2>
       </div>
 
       <div className="card-body">
         <p>
-          Site Only: <span>${ticketInfo?.rent}</span>
+          Rent: <span>${ticketInfo?.rent}</span>
         </p>
         {ticketInfo?.house?.["1House"] ? (
           <>

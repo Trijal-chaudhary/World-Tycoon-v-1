@@ -125,7 +125,7 @@ const Game = () => {
     const randomNumber = Math.floor(Math.random() * 12) + 1;
     let player = "";
     if (yourDetail.userDetail._id === currentPositions.player1.id) {
-      // setPlayer('player1')
+      // setPlayer('player1'
       player = "player1";
       // movePlayer(randomNumber, "player1");
     } else if (yourDetail.userDetail._id === currentPositions.player2.id) {
@@ -173,11 +173,17 @@ const Game = () => {
         localStorage.setItem("ticket", JSON.stringify(true));
         setTicketOwned(true);
       } else if (isOwned.message === "youOwner") {
-        socket.emit("WHO_NEXT", {
-          code: yourData.code,
-          player: currenPlayer,
-          // position: currentPositions,
-        });
+        // socket.emit("WHO_NEXT", {
+        //   code: yourData.code,
+        //   player: currenPlayer,
+        //   // position: currentPositions,
+        // });
+
+        setOwnedData(
+          `You are the proud owner here! Time to invest in a House or upgrade to a Hotel?`
+        );
+        localStorage.setItem("ticket", JSON.stringify(true));
+        setTicketOwned(true);
         socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
         // alert("You Are the owner");
       } else if (isOwned.message === "yesOwner") {
@@ -242,6 +248,8 @@ const Game = () => {
       setTicketOwned(false);
     });
     socket.on("BANKRUPT", (data) => {
+      localStorage.setItem("ticket", JSON.stringify(false));
+      setTicketOwned(false);
       const alMess = `${data.player} has gone BANKRUPT!!`;
       alert(alMess);
       navigate("/result");
@@ -401,7 +409,7 @@ const Game = () => {
       {ticketOwned &&
       currentPositions?.[currenPlayer]?.id === yourData?.userDetail?._id ? (
         <>
-          <div className="gameTicket">
+          <div className="gameTicket Z1000">
             <Bye ticketInfo={ticketData} Buy={Buy} Cut={Cut} />
           </div>
         </>

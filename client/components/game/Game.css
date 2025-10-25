@@ -477,13 +477,15 @@
   position: absolute;
   width: 10%;
   height: 50%;
-  border: 1px solid white;
+  /* border: 1px solid white; */
   right: 0%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
+.Z1000{
+  z-index: 1000;
+}
 .owned{
   position: absolute;
   width: 15%;

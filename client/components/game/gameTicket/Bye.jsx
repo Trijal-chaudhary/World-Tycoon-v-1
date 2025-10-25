@@ -7,7 +7,7 @@ const Bye = ({ ticketInfo, Buy, Cut }) => {
         X
       </button>
 
-      <div className="card-header">
+      <div className={`card-header ${ticketInfo?.Color}-style`}>
         <h2>{ticketInfo?.Name}</h2>
         <h2>${ticketInfo?.price}</h2>
       </div>
