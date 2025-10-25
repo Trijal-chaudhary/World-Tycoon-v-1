@@ -357,33 +357,25 @@ const Game = () => {
       <div className="All-players-info">
         <p
           className={
-            yourData?.userDetail?._id === currentPositions?.player1?.id
-              ? "gold"
-              : ""
-          }
-          id={
             currentPositions?.[currenPlayer]?.id === gameData?.host?._id
-              ? "curr"
+              ? "curr gold"
               : "comm"
           }
         >
-          {`${gameData?.host?.userName} ${currentPositions?.player1?.outCome} `}
-          :
+          {`${gameData?.host?.userName}: ${currentPositions?.player1?.money} `}
         </p>
         {gameData?.players?.map((ele, idx) => (
           <>
             <p
-              className={yourData?.userDetail?._id === ele._id ? "gold" : ""}
-              id={
+              className={
                 currentPositions?.[currenPlayer]?.id === ele?._id
-                  ? "curr"
+                  ? "curr gold"
                   : "comm"
               }
             >
-              {`${ele?.userName} ${
-                currentPositions?.[`player${idx + 2}`]?.outCome ?? ""
+              {`${ele?.userName}: ${
+                currentPositions?.[`player${idx + 2}`]?.money ?? ""
               }`}
-              :
             </p>
           </>
         ))}

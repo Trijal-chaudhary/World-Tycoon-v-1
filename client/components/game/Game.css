@@ -103,15 +103,15 @@
 
 
  */
-#comm{
-  font-size: 1.2rem;
+.comm{
+  font-size: 0.7rem;
 
 }
 .gold{
   color: gold;
 }
-#curr{
-  font-size: 1.5rem;
+.curr{
+  font-size: 1.3rem;
 }
 
 .Bank-Info p, .Players-Info p {
