@@ -142,10 +142,16 @@ exports.postBuy = async (req, res, next) => {
   const lobby = await createdGames.findOne({ code: req.session.code })
   const position = lobby.positions[player].position + 1;
   const ticket = lobby.theme.find(ele => ele.id === position)
+  if (!ticket) {
+    return res.status(404).json({ message: "Ticket not found" });
+  }
   ticket.owner = player;
   // const price = ticket.price
-  lobby.positions[player].money = lobby.positions[player].money - ticket.price
-  lobby.Bank = lobby.Bank + ticket.price
+  const currentMoney = lobby.positions[player].money ?? 0;
+  const ticketMoney = Number(ticket.price) ?? 0;
+  const bankMoney = lobby.Bank ?? 0;
+  lobby.positions[player].money = currentMoney - ticketMoney;
+  lobby.Bank = bankMoney + ticketMoney;
   lobby.markModified('positions');
   lobby.markModified('theme')
   await lobby.save()
@@ -163,88 +169,113 @@ exports.postTicketCheck = async (req, res, next) => {
     console.log(outcome)
     switch (outcome) {
       case 1:
-        lobby.positions[player].money -= 500;
-        lobby.Bank += 500;
+        const currentMoney = lobby.positions[player].money ?? 0;
+        const currentBank = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney - 500;
+        lobby.Bank = currentBank + 500;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: "Pay a $500 speeding ticket." })
       case 2:
-        lobby.positions[player].money += 2000;
-        lobby.Bank -= 2000;
+        const currentMoney2 = lobby.positions[player].money ?? 0;
+        const currentBank2 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney2 + 2000;
+        lobby.Bank = currentBank2 + 2000;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: "Bank error in your favor! Collect $2000." })
       case 3:
-        lobby.positions[player].money -= 3000;
-        lobby.Bank += 3000;
+        const currentMoney3 = lobby.positions[player].money ?? 0;
+        const currentBank3 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney3 - 3000;
+        lobby.Bank = currentBank3 + 3000;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: "You are caught in a tax audit. Pay the Bank $3000." })
       case 4:
-        lobby.positions[player].money += 2500;
-        lobby.Bank -= 2500;
+        const currentMoney4 = lobby.positions[player].money ?? 0;
+        const currentBank4 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney4 + 2500;
+        lobby.Bank = currentBank4 - 2500;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: "You are promoted! Collect a $2500 bonus from the Bank." })
       case 5:
-        lobby.positions[player].money -= 1500;
-        lobby.Bank += 1500;
+        const currentMoney5 = lobby.positions[player].money ?? 0;
+        const currentBank5 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney5 - 1500;
+        lobby.Bank = currentBank5 + 1500;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: "Pay school and medical fees of $1500." })
       case 6:
-        lobby.positions[player].money += 1000;
-        lobby.Bank -= 1000;
+        const currentMoney6 = lobby.positions[player].money ?? 0;
+        const currentBank6 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney6 + 1000;
+        lobby.Bank = currentBank6 - 1000;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: "You win a local lottery. Collect $1000." })
       case 7:
-        lobby.positions[player].money += 4000;
-        lobby.Bank -= 4000;
+        const currentMoney7 = lobby.positions[player].money ?? 0;
+        const currentBank7 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney7 + 4000;
+        lobby.Bank = currentBank7 - 4000;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: "From the sale of stocks, you get $4000." })
       case 8:
-        lobby.positions[player].money -= 1000;
-        lobby.Bank += 1000;
+        const currentMoney8 = lobby.positions[player].money ?? 0;
+        const currentBank8 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney8 - 1000;
+        lobby.Bank = currentBank8 + 1000;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: "Poor property maintenance! Pay $1000 to the Bank for immediate repairs." })
       case 9:
-        lobby.positions[player].money -= 1500;
-        lobby.Bank += 1500;
+        const currentMoney9 = lobby.positions[player].money ?? 0;
+        const currentBank9 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney9 - 1500;
+        lobby.Bank = currentBank9 + 1500;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: "Pay your insurance premium. Pay $1500." })
       case 10:
-        lobby.positions[player].money += 500 * (lobby.positions.length - 1);
+        const len = Object.keys(lobby.positions).length - 1;
+        const currentMoney10 = lobby.positions[player].money ?? 0;
+        lobby.positions[player].money = currentMoney10 + 500 * len;
         Object.keys(lobby.positions).forEach((playerKey) => {
           if (playerKey !== player) {
-            lobby.positions[playerKey].money -= 500;
+            const currPlayerMon = lobby.positions[playerKey].money ?? 0;
+            lobby.positions[playerKey].money = currPlayerMon - 500;
           }
         })
         lobby.markModified('positions');
         await lobby.save();
         return res.status(201).json({ message: " You host a state dinner. Collect $500 from each player." })
       case 11:
-        lobby.positions[player].money += 2000;
-        lobby.Bank -= 2000;
+        const currentMoney11 = lobby.positions[player].money ?? 0;
+        const currentBank11 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney11 + 2000;
+        lobby.Bank = currentBank11 - 2000;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: " Holiday bonus! Collect $2000 from the Bank." })
       case 12:
-        lobby.positions[player].money += 5000;
-        lobby.Bank -= 5000;
+        const currentMoney12 = lobby.positions[player].money ?? 0;
+        const currentBank12 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney12 + 5000;
+        lobby.Bank = currentBank12 - 5000;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
@@ -257,91 +288,117 @@ exports.postTicketCheck = async (req, res, next) => {
     console.log(outcome)
     switch (outcome) {
       case 1:
-        lobby.positions[player].money -= 2000;
-        lobby.Bank += 2000;
+        const currentMoney1 = lobby.positions[player].money ?? 0;
+        const currentBank1 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney1 - 2000;
+        lobby.Bank = currentBank1 + 2000;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: "Loss in the share market. Pay $2000 to the Bank." })
       case 2:
-        lobby.positions[player].money += 1000;
-        lobby.Bank -= 1000;
+        const currentMoney2 = lobby.positions[player].money ?? 0;
+        const currentBank2 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney2 + 1000;
+        lobby.Bank = currentBank2 - 1000;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: "You have won a crossword competition. Collect $1000 from the Bank." })
       case 3:
-        lobby.positions[player].money -= 1500;
-        lobby.Bank += 1500;
+        const currentMoney3 = lobby.positions[player].money ?? 0;
+        const currentBank3 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney3 - 1500;
+        lobby.Bank = currentBank3 + 1500;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: " Pay a $1500 fine for a traffic violation." })
       case 4:
-        lobby.positions[player].money += 5000;
-        lobby.Bank -= 5000;
+        const currentMoney4 = lobby.positions[player].money ?? 0;
+        const currentBank4 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney4 + 5000;
+        lobby.Bank = currentBank4 + 5000;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: " Your building loan is approved! Collect $5000 from the Bank." })
       case 5:
-        lobby.positions[player].money += 3000;
-        lobby.Bank -= 3000;
+        const currentMoney5 = lobby.positions[player].money ?? 0;
+        const currentBank5 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney5 - 3000;
+        lobby.Bank = currentBank5 + 3000;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: "Your businesses are booming! The Bank pays you a dividend of $3000." })
       case 6:
-        lobby.positions[player].money -= 2500;
-        lobby.Bank += 2500;
+        const currentMoney6 = lobby.positions[player].money ?? 0;
+        const currentBank6 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney6 - 2500;
+        lobby.Bank = currentBank6 + 2500;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: "Caught dumping industrial waste. Pay a $2500 environmental fine." })
       case 7:
-        lobby.positions[player].money += 1000 * (lobby.positions.length - 1);
+        const len7 = Object.keys(lobby.positions).length - 1;
+        const currentMoney7 = lobby.positions[player].money ?? 0;
+        lobby.positions[player].money = currentMoney7 + 1000 * len7;
         Object.keys(lobby.positions).forEach((playerKey) => {
           if (playerKey !== player) {
-            lobby.positions[playerKey].money -= 1000;
+            const currPlayerMon7 = lobby.positions[playerKey].money ?? 0;
+            lobby.positions[playerKey].money = currPlayerMon7 - 1000;
           }
         })
         lobby.markModified('positions');
         await lobby.save();
         return res.status(201).json({ message: "It's your birthday! Collect $1000 from each player." })
       case 8:
-        lobby.positions[player].money -= 500 * (lobby.positions.length - 1);
+        const len8 = Object.keys(lobby.positions).length - 1;
+        const currentMoney8 = lobby.positions[player].money ?? 0;
+        lobby.positions[player].money = currentMoney8 - 500 * len8;
         Object.keys(lobby.positions).forEach((playerKey) => {
           if (playerKey !== player) {
-            lobby.positions[playerKey].money += 500;
+            const currPlayerMon7 = lobby.positions[playerKey].money ?? 0;
+            lobby.positions[playerKey].money = currPlayerMon7 + 500;
           }
         })
         lobby.markModified('positions');
         await lobby.save();
         return res.status(201).json({ message: "You are elected Chairman of the Board. Pay each player $500." })
       case 9:
-        lobby.positions[player].money -= 2500;
-        lobby.Bank += 2500;
+        const currentMoney9 = lobby.positions[player].money ?? 0;
+        const currentBank9 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney9 - 2500;
+        lobby.Bank = currentBank9 + 2500;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: "Loss due to fire in your godown. Pay $2500." })
       case 10:
-        lobby.positions[player].money -= 500;
-        lobby.Bank += 500;
+        const currentMoney10 = lobby.positions[player].money ?? 0;
+        const currentBank10 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney10 - 500;
+        lobby.Bank = currentBank10 + 500;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: "Pay a $500 fine for a traffic violation." })
       case 11:
-        lobby.positions[player].money += 1500;
-        lobby.Bank -= 1500;
+        const currentMoney11 = lobby.positions[player].money ?? 0;
+        const currentBank11 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney11 + 1500;
+        lobby.Bank = currentBank11 - 1500;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
         return res.status(201).json({ message: "Collect your $1500 salary." })
       case 12:
-        lobby.positions[player].money -= 1000;
-        lobby.Bank += 1000;
+        const currentMoney12 = lobby.positions[player].money ?? 0;
+        const currentBank12 = lobby.Bank ?? 0;
+        lobby.positions[player].money = currentMoney12 - 1000;
+        lobby.Bank = currentBank12 + 1000;
         lobby.markModified('positions');
         lobby.markModified('Bank');
         await lobby.save();
@@ -350,40 +407,54 @@ exports.postTicketCheck = async (req, res, next) => {
         return res.status(201).json({ message: "Invalid outCome" })
     }
   } else if (ticket.Name === "Start") {
-    lobby.positions[player].money += 1500;
+    const currentMoney = lobby.positions[player].money ?? 0;
+    const currentBank = lobby.Bank ?? 0;
+    lobby.positions[player].money = currentMoney + 1500;
+    lobby.Bank = currentBank - 1500;
     lobby.markModified('positions');
+    lobby.markModified('Bank');
     await lobby.save();
     return res.status(201).json({ message: "You have hit START! $1500 just landed in your account!" })
   } else if (ticket.Name === "Party House") {
-    lobby.positions[player].money += 200 * (lobby.positions.length - 1);
+    const len8 = Object.keys(lobby.positions).length - 1;
+    const currentMoney8 = lobby.positions[player].money ?? 0;
+    lobby.positions[player].money = currentMoney8 + 200 * len8;
     Object.keys(lobby.positions).forEach((playerKey) => {
       if (playerKey !== player) {
-        lobby.positions[playerKey].money -= 200;
+        const currPlayerMon7 = lobby.positions[playerKey].money ?? 0;
+        lobby.positions[playerKey].money = currPlayerMon7 - 200;
       }
     })
     lobby.markModified('positions');
     await lobby.save();
     return res.status(201).json({ message: "Party time! $200 collected from each player and added to your stash!" })
   } else if (ticket.Name === "Duty" || ticket.Name === "Coustom") {
-    lobby.positions[player].money -= 200;
-    lobby.Bank += 200;
+    const currentMoney = lobby.positions[player].money ?? 0;
+    const currentBank = lobby.Bank ?? 0;
+    lobby.positions[player].money = currentMoney - 200;
+    lobby.Bank = currentBank + 200;
     lobby.markModified('positions');
     lobby.markModified('Bank');
     await lobby.save();
     return res.status(201).json({ message: "Customs Duty! $200 deducted from your wallet and added to the Bank!" })
   } else if (ticket.Name === "Resort") {
-    lobby.positions[player].money -= 50 * (lobby.positions.length - 1);
+    const len8 = Object.keys(lobby.positions).length - 1;
+    const currentMoney8 = lobby.positions[player].money ?? 0;
+    lobby.positions[player].money = currentMoney8 - 50 * len8;
     Object.keys(lobby.positions).forEach((playerKey) => {
       if (playerKey !== player) {
-        lobby.positions[playerKey].money += 50;
+        const currPlayerMon7 = lobby.positions[playerKey].money ?? 0;
+        lobby.positions[playerKey].money = currPlayerMon7 + 50;
       }
     })
     lobby.markModified('positions');
     await lobby.save();
     return res.status(201).json({ message: "Resort Fee! $50 distributed to all players!" })
   } else if (ticket.Name === "Jail") {
-    lobby.positions[player].money -= 500;
-    lobby.Bank += 500;
+    const currentMoney = lobby.positions[player].money ?? 0;
+    const currentBank = lobby.Bank ?? 0;
+    lobby.positions[player].money = currentMoney - 500;
+    lobby.Bank = currentBank + 500;
     lobby.markModified('positions');
     lobby.markModified('Bank');
     await lobby.save();
@@ -394,8 +465,11 @@ exports.postTicketCheck = async (req, res, next) => {
   } else if (ticket.owner === player) {
     return res.status(201).json({ message: "youOwner" })
   } else {
-    lobby.positions[player].money -= ticket.rent;
-    lobby.positions[ticket.owner].money += ticket.rent;
+    const currentMoney = lobby.positions[player].money ?? 0;
+    const ownerMoney = lobby.positions[ticket.owner].money ?? 0;
+    const ticketRent = ticket.rent
+    lobby.positions[player].money = currentMoney - ticketRent;
+    lobby.positions[ticket.owner].money = ownerMoney + ticketRent;
     lobby.markModified('positions');
     await lobby.save();
     // Emit to all players in the room

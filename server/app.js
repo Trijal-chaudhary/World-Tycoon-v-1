@@ -118,7 +118,7 @@ app.use(session({
     httpOnly: true,
     secure: false,          // false because you're using http://
     sameSite: "lax",        // ✅ works well on same-network, avoids "None" issue
-    maxAge: 1000 * 60 * 60
+    maxAge: 1000 * 60 * 60 * 5
   }
 }))
 
