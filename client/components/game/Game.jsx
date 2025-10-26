@@ -80,6 +80,120 @@ const Game = () => {
     { right: "30%", bottom: "14%" },
     { right: "22.5%", bottom: "14%" },
   ];
+  const boardPositionsPlayer2 = [
+    { right: "3.5%", bottom: "12.5%" },
+    { right: "3.5%", bottom: "21.5%" },
+    { right: "3.5%", bottom: "29%" },
+    { right: "3.5%", bottom: "36.5%" },
+    { right: "3.5%", bottom: "44%" },
+    { right: "3.5%", bottom: "51.5%" },
+    { right: "3.5%", bottom: "59%" },
+    { right: "3.5%", bottom: "66.5%" },
+    { right: "3.5%", bottom: "74%" },
+    { right: "3.5%", bottom: "92.5%" },
+    { right: "22.3%", bottom: "92.5%" },
+    { right: "30%", bottom: "92.5%" },
+    { right: "37.5%", bottom: "92.5%" },
+    { right: "45%", bottom: "92.5%" },
+    { right: "52.5%", bottom: "92.5%" },
+    { right: "60%", bottom: "92.5%" },
+    { right: "67.5%", bottom: "92.5%" },
+    { right: "75%", bottom: "92.5%" },
+    { right: "82.5%", bottom: "92.5%" },
+    { right: "82.5%", bottom: "75%" },
+    { right: "82.5%", bottom: "66.5%" },
+    { right: "82.5%", bottom: "59%" },
+    { right: "82.5%", bottom: "51.5%" },
+    { right: "82.5%", bottom: "44%" },
+    { right: "82.5%", bottom: "36.5%" },
+    { right: "82.5%", bottom: "29%" },
+    { right: "82.5%", bottom: "22%" },
+    { right: "82.5%", bottom: "12.5%" },
+    { right: "75%", bottom: "12.5%" },
+    { right: "67.5%", bottom: "12.5%" },
+    { right: "60%", bottom: "12.5%" },
+    { right: "52.5%", bottom: "12.5%" },
+    { right: "45%", bottom: "12.5%" },
+    { right: "37.5%", bottom: "12.5%" },
+    { right: "30%", bottom: "12.5%" },
+    { right: "22.5%", bottom: "12.5%" },
+  ];
+  const boardPositionsPlayer3 = [
+    { right: "5%", bottom: "11%" },
+    { right: "5%", bottom: "21.5%" },
+    { right: "5%", bottom: "29%" },
+    { right: "5%", bottom: "36.5%" },
+    { right: "5%", bottom: "44%" },
+    { right: "5%", bottom: "51.5%" },
+    { right: "5%", bottom: "59%" },
+    { right: "5%", bottom: "66.5%" },
+    { right: "5%", bottom: "74%" },
+    { right: "5%", bottom: "91%" },
+    { right: "22.3%", bottom: "91%" },
+    { right: "30%", bottom: "91%" },
+    { right: "37.5%", bottom: "91%" },
+    { right: "45%", bottom: "91%" },
+    { right: "52.5%", bottom: "91%" },
+    { right: "60%", bottom: "91%" },
+    { right: "67.5%", bottom: "91%" },
+    { right: "75%", bottom: "91%" },
+    { right: "84%", bottom: "91%" },
+    { right: "84%", bottom: "75%" },
+    { right: "84%", bottom: "66.5%" },
+    { right: "84%", bottom: "59%" },
+    { right: "84%", bottom: "51.5%" },
+    { right: "84%", bottom: "44%" },
+    { right: "84%", bottom: "36.5%" },
+    { right: "84%", bottom: "29%" },
+    { right: "84%", bottom: "22%" },
+    { right: "84%", bottom: "11%" },
+    { right: "75%", bottom: "11%" },
+    { right: "67.5%", bottom: "11%" },
+    { right: "60%", bottom: "11%" },
+    { right: "52.5%", bottom: "11%" },
+    { right: "45%", bottom: "11%" },
+    { right: "37.5%", bottom: "11%" },
+    { right: "30%", bottom: "11%" },
+    { right: "22.5%", bottom: "11%" },
+  ];
+  const boardPositionsPlayer4 = [
+    { right: "6.5%", bottom: "9.5%" },
+    { right: "6.5%", bottom: "21.5%" },
+    { right: "6.5%", bottom: "29%" },
+    { right: "6.5%", bottom: "36.5%" },
+    { right: "6.5%", bottom: "44%" },
+    { right: "6.5%", bottom: "51.5%" },
+    { right: "6.5%", bottom: "59%" },
+    { right: "6.5%", bottom: "66.5%" },
+    { right: "6.5%", bottom: "74%" },
+    { right: "6.5%", bottom: "89.5%" },
+    { right: "22.3%", bottom: "89.5%" },
+    { right: "30%", bottom: "89.5%" },
+    { right: "37.5%", bottom: "89.5%" },
+    { right: "45%", bottom: "89.5%" },
+    { right: "52.5%", bottom: "89.5%" },
+    { right: "60%", bottom: "89.5%" },
+    { right: "67.5%", bottom: "89.5%" },
+    { right: "75%", bottom: "89.5%" },
+    { right: "85.5%", bottom: "89.5%" },
+    { right: "85.5%", bottom: "75%" },
+    { right: "85.5%", bottom: "66.5%" },
+    { right: "85.5%", bottom: "59%" },
+    { right: "85.5%", bottom: "51.5%" },
+    { right: "85.5%", bottom: "44%" },
+    { right: "85.5%", bottom: "36.5%" },
+    { right: "85.5%", bottom: "29%" },
+    { right: "85.5%", bottom: "22%" },
+    { right: "85.5%", bottom: "9.5%" },
+    { right: "75%", bottom: "9.5%" },
+    { right: "67.5%", bottom: "9.5%" },
+    { right: "60%", bottom: "9.5%" },
+    { right: "52.5%", bottom: "9.5%" },
+    { right: "45%", bottom: "9.5%" },
+    { right: "37.5%", bottom: "9.5%" },
+    { right: "30%", bottom: "9.5%" },
+    { right: "22.5%", bottom: "9.5%" },
+  ];
   const delay = 400;
 
   const movePlayer = (steps, player) => {
@@ -109,23 +223,29 @@ const Game = () => {
   };
   const playerStyle2 = {
     bottom:
-      boardPositions[currentPositions?.player2?.position]?.bottom || "14%",
-    right: boardPositions[currentPositions?.player2?.position]?.right || "4%",
+      boardPositionsPlayer2[currentPositions?.player2?.position]?.bottom ||
+      "14%",
+    right:
+      boardPositionsPlayer2[currentPositions?.player2?.position]?.right || "4%",
   };
   const playerStyle3 = {
     bottom:
-      boardPositions[currentPositions?.player3?.position]?.bottom || "14%",
-    right: boardPositions[currentPositions?.player3?.position]?.right || "4%",
+      boardPositionsPlayer3[currentPositions?.player3?.position]?.bottom ||
+      "14%",
+    right:
+      boardPositionsPlayer3[currentPositions?.player3?.position]?.right || "4%",
   };
   const playerStyle4 = {
     bottom:
-      boardPositions[currentPositions?.player4?.position]?.bottom || "14%",
-    right: boardPositions[currentPositions?.player4?.position]?.right || "4%",
+      boardPositionsPlayer4[currentPositions?.player4?.position]?.bottom ||
+      "14%",
+    right:
+      boardPositionsPlayer4[currentPositions?.player4?.position]?.right || "4%",
   };
   const roleTheDice = async () => {
     const yourDetail = await YourDetail();
     // console.log(yourDetail);
-    const randomNumber = 3;
+    const randomNumber = 36;
     let player = "";
     if (yourDetail.userDetail._id === currentPositions.player1.id) {
       // setPlayer('player1'
@@ -394,19 +514,25 @@ const Game = () => {
         alt="World Tycoon Logo"
         className="game-logo"
       />
-
       <div className="All-players-info">
-        <p
-          className={
-            currentPositions?.[currenPlayer]?.id === gameData?.host?._id
-              ? "curr gold"
-              : "comm"
-          }
-        >
-          {`${gameData?.host?.userName}: ${currentPositions?.player1?.money} `}
-        </p>
+        <div className="p1">
+          <div className="p-red2"></div>
+
+          <p
+            className={
+              currentPositions?.[currenPlayer]?.id === gameData?.host?._id
+                ? "curr gold"
+                : "comm"
+            }
+          >
+            {`${gameData?.host?.userName}: ${currentPositions?.player1?.money} `}
+          </p>
+        </div>
+
         {gameData?.players?.map((ele, idx) => (
-          <>
+          <div className="p1">
+            <div className={`col${idx}`}></div>
+
             <p
               className={
                 currentPositions?.[currenPlayer]?.id === ele?._id
@@ -418,7 +544,7 @@ const Game = () => {
                 currentPositions?.[`player${idx + 2}`]?.money ?? ""
               }`}
             </p>
-          </>
+          </div>
         ))}
       </div>
 

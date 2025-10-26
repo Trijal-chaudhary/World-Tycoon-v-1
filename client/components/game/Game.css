@@ -39,8 +39,10 @@
   flex-direction: column;
   gap: 1.5rem;
   /* background-color: rgba(23, 43, 77, 0.5); */
-  padding: 1rem;
+  padding: 0rem;
+  width: 10.5%;
   border-radius: 8px;
+  /* background-color: #00b4d8; */
   /* border: 1px solid #d4af37; */
 }
 
@@ -104,14 +106,14 @@
 
  */
 .comm{
-  font-size: 0.7rem;
+  font-size: 0.5rem;
 
 }
 .gold{
   color: gold;
 }
 .curr{
-  font-size: 1.3rem;
+  font-size: 1.1rem;
 }
 
 .Bank-Info p, .Players-Info p {
@@ -507,4 +509,34 @@
   height: 100vh;
   width: 100vw;
   position: absolute;
+}
+.p-red2{
+  height: 12px;
+  width: 12px;
+  background-color: red;
+  border-radius: 50%;
+  
+}
+.p1{
+  display: flex;
+  gap: 6%;
+  align-items: center;
+}
+.col0{
+  height: 12px;
+  width: 12px;
+  background-color: green;
+  border-radius: 50%;
+}
+.col1{
+  height: 12px;
+  width: 12px;
+  background-color: blue;
+  border-radius: 50%;
+}
+.col2{
+  height: 12px;
+  width: 12px;
+  background-color: yellow;
+  border-radius: 50%;
 }
