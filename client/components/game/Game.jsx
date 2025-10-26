@@ -4,6 +4,7 @@ import {
   buyTicket,
   dieRolled,
   lobbyDetails,
+  sell,
   ticketCheck,
   YourDetail,
 } from "../../src/services/SignUp";
@@ -14,6 +15,7 @@ import TicketsOwned from "./ticketOwned/TicketsOwned";
 import TicketInfo from "./ticketInfo/TicketInfo";
 import ChanceAndUno from "./ChanceAndUno/ChanceAndUno";
 import Result from "./LobbyAfterGame/Result";
+import Sell from "./Sell/Sell";
 import { useNavigate } from "react-router-dom";
 const Game = () => {
   // let owned = true;
@@ -34,6 +36,7 @@ const Game = () => {
   const [clickTicket, setClickTicket] = useState(null);
   const [chanceAndUno, setChanceAndUno] = useState(null);
   const [sortedPosition, setsortedPosition] = useState(null);
+  const [sellTicket, setSellTicket] = useState(null);
   // const [yourDetail, setYourDetail] = useState();
   // const [player, setPlayer] = useState();
   //----------------------------------------------------------------
@@ -122,7 +125,7 @@ const Game = () => {
   const roleTheDice = async () => {
     const yourDetail = await YourDetail();
     // console.log(yourDetail);
-    const randomNumber = 12;
+    const randomNumber = 3;
     let player = "";
     if (yourDetail.userDetail._id === currentPositions.player1.id) {
       // setPlayer('player1'
@@ -322,6 +325,24 @@ const Game = () => {
 
     // console.log(tic);
   };
+  const ownedTicketClick = async (pos) => {
+    const lobby = await lobbyDetails();
+    const tic = lobby.theme.find((ele) => ele.id === pos);
+    setSellTicket(tic);
+  };
+  const crossSell = () => {
+    setSellTicket(null);
+  };
+  const SellTick = async (id) => {
+    await sell({ id: id });
+    const updatedLobby = await lobbyDetails();
+    socket.emit("FETCHING_YOUR_TICKETS", {
+      lobby: updatedLobby,
+      you: yourData,
+    });
+    setSellTicket(null);
+    socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
+  };
   const crossChance = () => {
     setChanceAndUno(null);
   };
@@ -404,7 +425,7 @@ const Game = () => {
       <div className="Bank-Info">
         <p>BANK</p>
         <h3>${bankMoney ?? ""}</h3>
-        <p>Tickets Left: 24</p>
+        {/* <p>Tickets Left: 24</p> */}
       </div>
 
       <div className="Players-Info">
@@ -437,7 +458,15 @@ const Game = () => {
       ) : (
         ""
       )}
-
+      {sellTicket ? (
+        <>
+          <div className="gameTicket">
+            <Sell ticketInfo={sellTicket} Cut={crossSell} SellTick={SellTick} />
+          </div>
+        </>
+      ) : (
+        ""
+      )}
       <div className="randomNumber">
         <h2>{random ? random : ""}</h2>
       </div>
@@ -463,7 +492,10 @@ const Game = () => {
 
       <div className="game-board">
         <div className="ticketBox">
-          <TicketsOwned tickets={yourTickets} />
+          <TicketsOwned
+            ownedTicketClick={ownedTicketClick}
+            tickets={yourTickets}
+          />
           {chanceAndUno ? <ChanceAndUno cut={crossChance} /> : ""}
         </div>
         <div className="player1 p-red" id="player1" style={playerStyle1}></div>

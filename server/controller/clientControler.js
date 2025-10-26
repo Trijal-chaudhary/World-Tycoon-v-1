@@ -11,6 +11,7 @@ function generateCode() {
 }
 
 
+const { json } = require('express');
 const PlayerDetails = require('../models/clientDetailsModel')
 const createdGames = require('../models/gameCreation')
 
@@ -149,10 +150,11 @@ exports.postBuy = async (req, res, next) => {
   if (ticket.owner === player) {
     let ticketRent = ticket.rent
     let house = "Site Only"
-    if (ticket.rent < ticket.house["1House"] && ticket.house.Site) {
+    // if (ticket.rent < ticket.house["1House"]) {
+    if (!ticket.house.Site) {
       ticket.house.Site = ticket.rent;
-
     }
+    // }
     // console.log(true);
     for (const [key, value] of Object.entries(ticket.house)) {
       // console.log(ticket.rent, value)
@@ -638,4 +640,61 @@ exports.getResult = async (req, res, next) => {
   );
   console.log(sort)
   res.status(201).json({ sort: sort, lobby: lobby });
+}
+
+exports.postSellTicket = async (req, res, next) => {
+  const { position } = req.body;
+  const lobby = await createdGames.findOne({ code: req.session.code })
+  // const position = lobby.positions[player].position + 1;
+  let player = ""; // Start with an empty string
+  const userId = req.session.userDetail._id.toString(); // Get user ID from session and convert to string
+
+  // Loop through player keys ("player1", "player2", etc.)
+  for (const playerKey in lobby.positions) {
+    // Safely access the position object and convert its ID to string
+    const positionId = lobby.positions[playerKey]?.id?.toString();
+
+    // Compare strings
+    if (positionId === userId) {
+      player = playerKey; // Assign the correct key ("player1", etc.)
+      break; // Exit the loop once the player is found
+    }
+  }
+  console.log(player);
+  const ticket = lobby.theme.find(ele => ele.id === position)
+  const ticketPrice = ticket.price ?? 0;
+  const sellingPrice = ticketPrice / 2;
+  const currentMoney = lobby.positions[player].money ?? 0;
+  const currentBank = lobby.Bank ?? 0;
+  lobby.positions[player].money = currentMoney + sellingPrice;
+  lobby.Bank = currentBank - sellingPrice;
+  delete ticket.owner;
+  if (ticket.house["Site"]) {
+    ticket.rent = ticket.house["Site"];
+    delete ticket.house["Site"];
+  }
+  lobby.markModified('positions');
+  lobby.markModified('Bank');
+  lobby.markModified('theme');
+  await lobby.save();
+  const ticketrem = lobby.theme.filter(ele => ele.Color === ticket.Color && ele.owner === player);
+  const len = ticketrem.length;
+  if (len < 3) {
+    ticketrem.forEach(ele => {
+      if (ele.house.Site) {
+        const currRent = ele.house.Site ?? 0;
+        if (ele.rent === ele.house.Site * 2) {
+          ele.rent = currRent;
+          delete ele.house.Site
+        }
+      }
+    })
+    lobby.markModified('positions');
+    lobby.markModified('theme');
+    await lobby.save()
+    return res.status(201).json({ message: "You have soled matching ticket now rent return to normal" })
+
+  }
+  res.status(201).json({ message: "soled" })
+
 }

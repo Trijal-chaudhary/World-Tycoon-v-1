@@ -141,3 +141,15 @@ export const result = async () => {
   })
   return response.json()
 }
+
+export const sell = async (data) => {
+  const response = await fetch("http://192.168.0.100:3000/api/sellTickets", {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: 'include',
+    body: JSON.stringify({ position: data.id })
+  })
+  return response.json();
+}
