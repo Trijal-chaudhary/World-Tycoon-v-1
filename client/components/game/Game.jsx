@@ -122,7 +122,7 @@ const Game = () => {
   const roleTheDice = async () => {
     const yourDetail = await YourDetail();
     // console.log(yourDetail);
-    const randomNumber = Math.floor(Math.random() * 12) + 1;
+    const randomNumber = 12;
     let player = "";
     if (yourDetail.userDetail._id === currentPositions.player1.id) {
       // setPlayer('player1'
@@ -178,7 +178,6 @@ const Game = () => {
         //   player: currenPlayer,
         //   // position: currentPositions,
         // });
-
         setOwnedData(
           `You are the proud owner here! Time to invest in a House or upgrade to a Hotel?`
         );
@@ -195,6 +194,12 @@ const Game = () => {
         setOwnedData(data);
         socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
         socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
+      } else if (isOwned.message === "cantUpgrade") {
+        socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
+        socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
+        setOwnedData(
+          "You already own this! There is nothing left to upgrade here, boss"
+        );
       } else {
         socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
         socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
@@ -330,7 +335,7 @@ const Game = () => {
       lobby.positions[currenPlayer].position
     ) {
       socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
-      await buyTicket({ player: currenPlayer });
+      const res = await buyTicket({ player: currenPlayer });
       const updatedLobby = await lobbyDetails();
       localStorage.setItem("ticket", JSON.stringify(false));
       setTicketOwned(false);
@@ -339,6 +344,13 @@ const Game = () => {
         lobby: updatedLobby,
         you: yourData,
       });
+      if (res.message === "Rent Duble") {
+        setOwnedData(
+          `Congrats! You now own 3+ properties of the same color — Double Rent Unlocked!`
+        );
+      } else if (res.message !== "BUYED") {
+        setOwnedData(res.message);
+      }
     } else {
       alert("Bhai Pehle Pahuch Toh Jane Do");
     }
@@ -503,7 +515,7 @@ const Game = () => {
                     src={`../../src/assets/flags/${ele.flag}`}
                     alt="Flag of Australia"
                   />
-                  <h4>${ele.price}</h4>
+                  {ele.price !== 0 ? <h4>${ele.price}</h4> : ""}
                 </div>
                 <div className="themeImage">
                   <img
@@ -539,7 +551,7 @@ const Game = () => {
                     src={`../../src/assets/flags/${ele.flag}`}
                     alt="Flag of Australia"
                   />
-                  <h4>${ele.price}</h4>
+                  {ele.price !== 0 ? <h4>${ele.price}</h4> : ""}
                 </div>
               </div>
             </>
@@ -563,7 +575,7 @@ const Game = () => {
                     src={`../../src/assets/flags/${ele.flag}`}
                     alt="Flag of Australia"
                   />
-                  <h4>${ele.price}</h4>
+                  {ele.price !== 0 ? <h4>${ele.price}</h4> : ""}
                 </div>
                 <div className="themeImage">
                   <img
@@ -599,7 +611,7 @@ const Game = () => {
                     src={`../../src/assets/flags/${ele.flag}`}
                     alt="Flag of Australia"
                   />
-                  <h4>${ele.price}</h4>
+                  {ele.price !== 0 ? <h4>${ele.price}</h4> : ""}
                 </div>
               </div>
             </>

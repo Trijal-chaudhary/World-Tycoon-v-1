@@ -137,7 +137,7 @@ exports.postDieRolled = async (req, res, next) => {
 }
 
 exports.postBuy = async (req, res, next) => {
-  console.log(req.body)
+  // console.log(req.body)
   const { player } = req.body;
   const lobby = await createdGames.findOne({ code: req.session.code })
   const position = lobby.positions[player].position + 1;
@@ -145,9 +145,14 @@ exports.postBuy = async (req, res, next) => {
   if (!ticket) {
     return res.status(404).json({ message: "Ticket not found" });
   }
+
   if (ticket.owner === player) {
     let ticketRent = ticket.rent
     let house = "Site Only"
+    if (ticket.rent < ticket.house["1House"] && ticket.house.Site) {
+      ticket.house.Site = ticket.rent;
+
+    }
     // console.log(true);
     for (const [key, value] of Object.entries(ticket.house)) {
       // console.log(ticket.rent, value)
@@ -171,6 +176,7 @@ exports.postBuy = async (req, res, next) => {
   else {
     ticket.owner = player;
     // const price = ticket.price
+    // const sameColor = lobby.theme.filter(ele => ele.Color === ticket.Color && ele.owner === ticket.owner);
     const currentMoney = lobby.positions[player].money ?? 0;
     const ticketMoney = Number(ticket.price) ?? 0;
     const bankMoney = lobby.Bank ?? 0;
@@ -179,11 +185,122 @@ exports.postBuy = async (req, res, next) => {
     lobby.markModified('positions');
     lobby.markModified('theme')
     await lobby.save()
+    if (ticket.Name === "Roadways") {
+      const sameLink = lobby.theme.filter(ele => ele.Name === "Waterways" && ele.owner === ticket.owner);
+      // const len = Object.keys(sameLink).length;
+      if (sameLink) {
+        const currRent = sameLink[0].rent ?? 0
+        const ticRent = ticket.rent ?? 0
+        sameLink[0].rent = currRent * 2
+        ticket.rent = ticRent * 2
+        // lobby.markModified('positions');
+        lobby.markModified('theme')
+        await lobby.save()
+        return res.status(201).json({ message: "Congrats! You now own Roadways + Waterways — your rent just doubled!" });
+      }
+
+      return res.status(201).json({ message: "BUYED" });
+
+    } else if (ticket.Name === "Waterways") {
+      const sameLink = lobby.theme.filter(ele => ele.Name === "Roadways" && ele.owner === ticket.owner);
+      // const len = Object.keys(sameLink).length;
+      if (sameLink) {
+        const currRent = sameLink[0].rent ?? 0
+        const ticRent = ticket.rent ?? 0
+        sameLink[0].rent = currRent * 2
+        ticket.rent = ticRent * 2
+        // lobby.markModified('positions');
+        lobby.markModified('theme')
+        await lobby.save()
+        return res.status(201).json({ message: "Congrats! You now own Roadways + Waterways — your rent just doubled!" });
+      }
+      return res.status(201).json({ message: "BUYED" });
+
+    } else if (ticket.Name === "Railways") {
+      const sameLink = lobby.theme.filter(ele => ele.Name === "Airways" && ele.owner === ticket.owner);
+      // const len = Object.keys(sameLink).length;
+      if (sameLink) {
+        const currRent = sameLink[0].rent ?? 0
+        const ticRent = ticket.rent ?? 0
+        sameLink[0].rent = currRent * 2
+        ticket.rent = ticRent * 2
+        // lobby.markModified('positions');
+        lobby.markModified('theme')
+        await lobby.save()
+        return res.status(201).json({ message: "Congrats! You now own Railways + Airways — your rent just doubled!" });
+      }
+      return res.status(201).json({ message: "BUYED" });
+
+    } else if (ticket.Name === "Airways") {
+      const sameLink = lobby.theme.filter(ele => ele.Name === "Railways" && ele.owner === ticket.owner);
+      // const len = Object.keys(sameLink).length;
+      if (sameLink) {
+        const currRent = sameLink[0].rent ?? 0
+        const ticRent = ticket.rent ?? 0
+        sameLink[0].rent = currRent * 2
+        ticket.rent = ticRent * 2
+        // lobby.markModified('positions');
+        lobby.markModified('theme')
+        await lobby.save()
+        return res.status(201).json({ message: "Congrats! You now own Railways + Airways — your rent just doubled!" });
+      }
+      return res.status(201).json({ message: "BUYED" });
+
+    } else if (ticket.Name === "Petroleum") {
+      const sameLink = lobby.theme.filter(ele => ele.Name === "Satellite" && ele.owner === ticket.owner);
+      // const len = Object.keys(sameLink).length;
+      if (sameLink) {
+        const currRent = sameLink[0].rent ?? 0
+        const ticRent = ticket.rent ?? 0
+        sameLink[0].rent = currRent * 2
+        ticket.rent = ticRent * 2
+        // lobby.markModified('positions');
+        lobby.markModified('theme')
+        await lobby.save()
+        return res.status(201).json({ message: "Congrats! You now own Petroleum + Satellite — your rent just doubled!" });
+      }
+      return res.status(201).json({ message: "BUYED" });
+
+    } else if (ticket.Name === "Satellite") {
+      const sameLink = lobby.theme.filter(ele => ele.Name === "Petroleum" && ele.owner === ticket.owner);
+      // const len = Object.keys(sameLink).length;
+      if (sameLink) {
+        const currRent = sameLink[0].rent ?? 0
+        const ticRent = ticket.rent ?? 0
+        sameLink[0].rent = currRent * 2
+        ticket.rent = ticRent * 2
+        // lobby.markModified('positions');
+        lobby.markModified('theme')
+        await lobby.save()
+        return res.status(201).json({ message: "Congrats! You now own Petroleum + Satellite — your rent just doubled!" });
+      }
+      return res.status(201).json({ message: "BUYED" });
+
+    } else {
+      const sameColor = lobby.theme.filter(ele => ele.Color === ticket.Color && ele.owner === ticket.owner);
+      const len = Object.keys(sameColor).length;
+      if (len >= 3) {
+        sameColor.forEach(ele => {
+          if (!ele.house.Site) {
+            const currRent = ele.rent ?? 0;
+            ele.house.Site = currRent;
+            ele.rent = currRent * 2;
+          }
+        })
+        lobby.markModified('positions');
+        lobby.markModified('theme');
+        await lobby.save()
+        res.status(201).json({ message: "Rent Duble" });
+
+      } else {
+        res.status(201).json({ message: "BUYED" });
+
+      }
+    }
+    console.log(len, sameColor);
     // console.log(ticket, lobby.positions[player])
-    res.status(201).json({ message: "BUYED" });
 
   }
-  res.status(201).json({ message: "BUYED" });
 
 }
 
@@ -490,6 +607,9 @@ exports.postTicketCheck = async (req, res, next) => {
   }
   else if (!ticket.owner) {
     return res.status(201).json({ message: "noOwner" })
+  }
+  else if (ticket.owner === player && (ticket.Color === "gray")) {
+    return res.status(201).json({ message: "cantUpgrade" })
   } else if (ticket.owner === player) {
     return res.status(201).json({ message: "youOwner" })
   } else {

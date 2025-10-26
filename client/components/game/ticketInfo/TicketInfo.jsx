@@ -18,6 +18,13 @@ const Bye = ({ ticketInfo, Buy, Cut }) => {
         </p>
         {ticketInfo?.house?.["1House"] ? (
           <>
+            {ticketInfo?.house?.["Site"] ? (
+              <p>
+                Site Only: <span>${ticketInfo?.house["Site"]}</span>
+              </p>
+            ) : (
+              ""
+            )}
             <p>
               1 House: <span>${ticketInfo?.house["1House"]}</span>
             </p>

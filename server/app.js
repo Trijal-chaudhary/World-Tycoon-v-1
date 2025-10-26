@@ -20,7 +20,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173", "http://192.168.0.103:5173"],
+    origin: ["http://localhost:5173", "http://192.168.0.100:5173"],
     methods: ["GET", "POST"],
   }
 })
@@ -105,7 +105,7 @@ const store = new MongoDBStore({
   collection: 'session'
 })
 app.use(cors({
-  origin: ["http://localhost:5173", "http://192.168.0.103:5173"], // 👈 your React frontend URL
+  origin: ["http://localhost:5173", "http://192.168.0.100:5173"], // 👈 your React frontend URL
   credentials: true // 👈 allow sending cookies across origins
 }))
 
@@ -151,7 +151,7 @@ mongoose.connect(DB_URL)
   .then(() => {
     console.log('moongose Connected')
     server.listen(PORT, "0.0.0.0", () => {
-      console.log(`http://192.168.0.103:${PORT}`)
+      console.log(`http://192.168.0.100:${PORT}`)
     })
   })
 
