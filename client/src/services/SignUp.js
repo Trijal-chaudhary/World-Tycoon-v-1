@@ -1,10 +1,10 @@
-export const addUserDetail = async (name, userName, password) => {
+export const addUserDetail = async (name, userName, password, avtar) => {
   const response = await fetch('http://192.168.0.100:3000/api/signup', {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name, userName, password }),
+    body: JSON.stringify({ name, userName, password, avtar }),
     credentials: "include"
   })
   return response.json();

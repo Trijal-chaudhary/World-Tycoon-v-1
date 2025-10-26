@@ -19,8 +19,8 @@ const createdGames = require('../models/gameCreation')
 exports.postUserDetails = async (req, res, next) => {
   // console.log(req.body)
 
-  const { name, userName, password } = req.body;
-  const userDetails = new PlayerDetails({ name, userName, password })
+  const { name, userName, password, avtar } = req.body;
+  const userDetails = new PlayerDetails({ name, userName, password, avtar })
   await userDetails.save()
 
   res.status(201).json("lallantap")

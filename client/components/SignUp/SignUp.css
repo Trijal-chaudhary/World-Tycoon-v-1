@@ -71,3 +71,46 @@
   border-color: #ffffff;
 }
 
+.avtarbox{
+  width: 100%;
+  height: 27vh;
+  /* border: 2px solid black; */
+  display: flex;
+  /* flex-wrap: wrap; */
+  justify-content: space-around;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  align-items: center;
+  scrollbar-color: #888 #f1f1f1;
+  gap: 10px;
+}
+
+.avtarCard{
+  width: 20vh;
+  height: 20vh;
+  border: 1px solid black;
+  border-radius: 50%;
+  padding: 0.5%;
+  align-items:center;
+  flex: 0 0 auto;
+
+}
+.avtarCard img{
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 50%;
+}
+/* .avtarbox :hover{
+  width: 21vh;
+  height: 21vh;
+  border: 1px solid black;
+
+} */
+.active{
+  border: 3.5px solid #fb8500;
+  width: 24vh;
+  height: 24vh;
+}

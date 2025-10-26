@@ -64,8 +64,8 @@
 } */
 
 .player-grid > div img {
-  width: 100px;
-  height: 100px;
+  width: 22vh;
+  height: 22vh;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid #d4af37;

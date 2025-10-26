@@ -48,7 +48,11 @@ function Home() {
           </>
         ) : (
           <>
-            <img src="" alt="avatar" className="profile-avatar" />
+            <img
+              src={`../../src/assets/avtars/${userCredentials.user.avtar}.jpg`}
+              alt="avatar"
+              className="profile-avatar"
+            />
             <p className="profile-name">{userCredentials.user.name}</p>
           </>
         )}

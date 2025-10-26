@@ -85,7 +85,10 @@ const Lobby = () => {
 
         <main className="player-grid">
           <div>
-            <img src="/assets/default-avatar.png" alt="Avatar" />
+            <img
+              src={`../../src/assets/avtars/${hostDetails.avtar}.jpg`}
+              alt="Avatar"
+            />
             <p>
               {hostDetails._id === yourDetail._id ? "YOU" : hostDetails.name}{" "}
               (Host)
@@ -96,7 +99,10 @@ const Lobby = () => {
 
           {playerDetails.map((player) => (
             <div>
-              <img src="/assets/default-avatar.png" alt="Avatar" />
+              <img
+                src={`../../src/assets/avtars/${player.avtar}.jpg`}
+                alt="Avatar"
+              />
               <p>{player._id === yourDetail._id ? "YOU" : player.name}</p>
             </div>
           ))}

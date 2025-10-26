@@ -12,6 +12,10 @@ const playerDetailsSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  avtar: {
+    type: Number,
+    required: true
   }
 })
 
