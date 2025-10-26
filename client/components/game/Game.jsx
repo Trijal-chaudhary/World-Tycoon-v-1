@@ -245,7 +245,7 @@ const Game = () => {
   const roleTheDice = async () => {
     const yourDetail = await YourDetail();
     // console.log(yourDetail);
-    const randomNumber = 36;
+    const randomNumber = Math.floor(Math.random() * 12) + 1;
     let player = "";
     if (yourDetail.userDetail._id === currentPositions.player1.id) {
       // setPlayer('player1'
@@ -398,6 +398,12 @@ const Game = () => {
       });
       setBankMoney(data.bankMoney);
     });
+    socket.on("SOMEONE_BUYED", (data) => {
+      setOwnedData(data.message);
+    });
+    socket.on("SOLED", (data) => {
+      setOwnedData(data.message);
+    });
     socket.on("TICKET_INFO", (data) => {
       // console.log(data.ticketInfo);
       setTicketData(data.ticketInfo);
@@ -454,11 +460,17 @@ const Game = () => {
     setSellTicket(null);
   };
   const SellTick = async (id) => {
-    await sell({ id: id });
+    const res = await sell({ id: id });
     const updatedLobby = await lobbyDetails();
     socket.emit("FETCHING_YOUR_TICKETS", {
       lobby: updatedLobby,
       you: yourData,
+    });
+    // setOwnedData(res.message);
+    socket.emit("SELL", {
+      message: res.message,
+      broadcast: res.broadcast,
+      code: yourData.code,
     });
     setSellTicket(null);
     socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
@@ -486,11 +498,25 @@ const Game = () => {
         you: yourData,
       });
       if (res.message === "Rent Duble") {
+        socket.emit("SOME_BUY", {
+          lobby: updatedLobby,
+          position: lobby.positions[currenPlayer].position,
+          player: currenPlayer,
+          code: yourData.code,
+          dubble: "dubble",
+        });
         setOwnedData(
           `Congrats! You now own 3+ properties of the same color — Double Rent Unlocked!`
         );
       } else if (res.message !== "BUYED") {
         setOwnedData(res.message);
+      } else {
+        socket.emit("SOME_BUY", {
+          lobby: updatedLobby,
+          position: lobby.positions[currenPlayer].position,
+          player: currenPlayer,
+          code: yourData.code,
+        });
       }
     } else {
       alert("Bhai Pehle Pahuch Toh Jane Do");

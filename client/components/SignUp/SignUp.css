@@ -114,3 +114,16 @@
   width: 24vh;
   height: 24vh;
 }
+.svg{
+  height: 32px;
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  fill: #e5e5e5;
+
+}
+.svg:hover{
+  cursor: pointer;
+  fill: #eb5e28;
+  height: 35px;
+}

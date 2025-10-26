@@ -693,9 +693,9 @@ exports.postSellTicket = async (req, res, next) => {
     lobby.markModified('positions');
     lobby.markModified('theme');
     await lobby.save()
-    return res.status(201).json({ message: "You have soled matching ticket now rent return to normal" })
+    return res.status(201).json({ message: `You have soled ${ticket.Name}`, broadcast: `${ticket.Name} returns to the Bank! ${player} makes a bold move — strategy over sentiment.` })
 
   }
-  res.status(201).json({ message: "soled" })
+  res.status(201).json({ message: `You have soled ${ticket.Name}`, broadcast: `${ticket.Name} returns to the Bank! ${player} makes a bold move — strategy over sentiment.` })
 
 }

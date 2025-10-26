@@ -55,7 +55,7 @@ io.on('connection', (socket) => {
   socket.on("NAVIGATE_GAME", (data) => {
     socket.join(data.code);
     let message = ""
-    if (data.where = "home") {
+    if (data.where === "home") {
       message = "home"
     } else {
       message = "game"
@@ -103,6 +103,24 @@ io.on('connection', (socket) => {
       }
     })
     // console.log(data);
+  })
+  socket.on("SOME_BUY", async (data) => {
+    const pos = data.position + 1;
+    const ticket = data.lobby.theme.find(ele => ele.id === pos);
+    let message = ''
+    if (data.dubble && data.dubble === "dubble") {
+      message = `${ticket.Name} joins ${data.player}'s ${ticket.Color} empire — rent power x2 activated!`
+
+    } else if (data.dubble && data.dubble === "Sell") {
+      message = `${ticket.Name} returns to the Bank! ${data.player} makes a bold move — strategy over sentiment.`
+    } else {
+      message = `${ticket.Name} is now under ${data.player}'s command.`
+    }
+    socket.to(data.code).emit("SOMEONE_BUYED", { message: message })
+  })
+  socket.on("SELL", (data) => {
+    socket.emit("SOLED", { message: data.message });
+    socket.to(data.code).emit("SOLED", { message: data.broadcast });
   })
 })
 
