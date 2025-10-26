@@ -98,6 +98,7 @@ exports.postLeaveLobby = async (req, res, next) => {
   console.log(req.body)
   const game = await createdGames.findOne({ code: req.session.code })
   if (game.host._id.toString() === req.body.id) {
+    await game.deleteOne();
     return res.status(201).json({ host: true });
   } else {
     game.players = game.players.filter(player => player._id.toString() !== req.body.id)

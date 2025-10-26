@@ -18,7 +18,7 @@ const Lobby = () => {
   const leavingLobby = async () => {
     const areYouHost = await leaveLobby(yourDetail._id);
     if (areYouHost.host) {
-      alert("You are the host how can you leave the middle of game");
+      socket.emit("NAVIGATE_GAME", { code: gameCode, where: "home" });
     } else {
       socket.emit("SOMEONE_JOINS", { code: gameCode });
       navigate("/");
@@ -44,7 +44,11 @@ const Lobby = () => {
     socket.on("NEW_PLAYER_JOINED", handleLobbyUpdate);
     socket.on("YOUR_DETAILS", handelYourDetails);
     socket.on("NAVIGATING", (data) => {
-      navigate("/game");
+      if (data.message === "game") {
+        navigate("/game");
+      } else {
+        navigate("/");
+      }
     });
     lobbyDetails().then((Detail) => {
       YourDetail().then((you) => {
@@ -66,8 +70,19 @@ const Lobby = () => {
     };
   }, []);
   const startTheGame = async () => {
-    await gameStarted();
-    socket.emit("NAVIGATE_GAME", { code: gameCode });
+    const lobby = await lobbyDetails();
+    console.log(lobby);
+    if (lobby.players.length === 0) {
+      alert("Atleast Two Players Required");
+      return;
+    } else if (lobby.players.length > 3) {
+      alert("Only Four Players are Allowed In one game");
+      return;
+    } else {
+      await gameStarted();
+      socket.emit("NAVIGATE_GAME", { code: gameCode, where: "game" });
+    }
+
     // console.log(gameCode);
     // navigate("/game");
   };
@@ -108,9 +123,15 @@ const Lobby = () => {
           ))}
         </main>
         <h2>Game Code: {gameCode}</h2>
-        <button className="leave-lobby-button" onClick={leavingLobby}>
-          Leave Lobby
-        </button>
+        {yourDetail._id === hostDetails._id ? (
+          <button className="leave-lobby-button" onClick={leavingLobby}>
+            Delete Lobby
+          </button>
+        ) : (
+          <button className="leave-lobby-button" onClick={leavingLobby}>
+            Leave Lobby
+          </button>
+        )}
         {hostDetails._id !== yourDetail._id ? (
           ""
         ) : (
