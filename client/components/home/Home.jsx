@@ -26,7 +26,7 @@ function Home() {
   };
   const createTheGame = async () => {
     await createGame();
-    navigate("/lobby");
+    navigate("/theme");
   };
   return (
     <div className="lobby-container">

@@ -1,0 +1,80 @@
+.theme-select-container{
+  background-color: #0B122B;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+.theme-heading{
+ position: absolute;
+  color: gold;
+  margin-top: 15px;
+  top: 30px;
+}
+.Theme{
+  height: 40vh;
+  width: 30vw;
+  border: 3px solid red;
+  flex: 0 0 auto;
+}
+.themecont{
+  height: 55%;
+  width: 90%;
+  /* border: 3px solid red; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+  white-space: nowrap;
+  gap: 30px;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  justify-content: space-around;
+  scrollbar-width: thin;             /* For Firefox */
+  scrollbar-color: gold #0B122B;
+
+}
+.active{
+  border: 3px solid gold;
+  height: 41vh;
+  width: 31vw;
+
+}
+.Theme:hover{
+  height: 41vh;
+  width: 31vw;
+  cursor: pointer;
+}
+.Start {
+  background: linear-gradient(135deg, #2b1055, #7597de);
+  color: #f8e7a2;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 12px 32px;
+  border: 2px solid #f1c40f;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(241, 196, 15, 0.4);
+  transition: all 0.3s ease-in-out;
+  font-family: 'Cinzel', serif; /* Royal serif font */
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  position: absolute;
+  bottom: 4%;
+  right: 4%;
+}
+
+.Start:hover {
+  background: linear-gradient(135deg, #3b0b68, #8fa9f0);
+  color: #fff7d6;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+  transform: scale(1.05);
+}
+
+.Start:active {
+  transform: scale(0.97);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}

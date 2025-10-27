@@ -14,7 +14,7 @@ function generateCode() {
 const { json } = require('express');
 const PlayerDetails = require('../models/clientDetailsModel')
 const createdGames = require('../models/gameCreation')
-
+const Themes = require('../models/theme')
 
 exports.postUserDetails = async (req, res, next) => {
   // console.log(req.body)
@@ -613,6 +613,8 @@ exports.postTicketCheck = async (req, res, next) => {
   }
   else if (ticket.owner === player && (ticket.Color === "gray")) {
     return res.status(201).json({ message: "cantUpgrade" })
+  } else if (ticket.owner === player && (ticket.rent === ticket.house["Hotel"])) {
+    return res.status(201).json({ message: "Hotel" })
   } else if (ticket.owner === player) {
     return res.status(201).json({ message: "youOwner" })
   } else {
@@ -698,4 +700,22 @@ exports.postSellTicket = async (req, res, next) => {
   }
   res.status(201).json({ message: `You have soled ${ticket.Name}`, broadcast: `${ticket.Name} returns to the Bank! ${player} makes a bold move — strategy over sentiment.` })
 
+}
+exports.getTheme = async (req, res, next) => {
+  const themes = await Themes.find();
+  console.log("true hello")
+  // console.log(themes);
+  res.status(201).json({ themes: themes });
+}
+
+exports.postTheme = async (req, res, next) => {
+  const { themeName } = req.body;
+  const theme = await Themes.findOne({ [themeName]: { $exists: true } });
+  // console.log(theme.get(themeName))
+  const themeDetails = theme.get(themeName)
+  const lobby = await createdGames.findOne({ code: req.session.code })
+  lobby.theme = themeDetails;
+  lobby.markModified('theme');
+  lobby.save();
+  res.status(201).json({ message: "themesaved" });
 }

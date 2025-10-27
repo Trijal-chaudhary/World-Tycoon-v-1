@@ -1,5 +1,5 @@
 const express = require('express');
-const { postUserDetails, postLogIn, getIsUserLogged, getUserLogOut, postCreateGame, getLobby, postEnterLobby, getYourDetails, postLeaveLobby, postGameStart, postDieRolled, postBuy, postTicketCheck, getResult, postSellTicket } = require('../controller/clientControler');
+const { postUserDetails, postLogIn, getIsUserLogged, getUserLogOut, postCreateGame, getLobby, postEnterLobby, getYourDetails, postLeaveLobby, postGameStart, postDieRolled, postBuy, postTicketCheck, getResult, postSellTicket, getTheme, postTheme } = require('../controller/clientControler');
 
 const userDetailsRouter = express.Router();
 const logInRouter = express.Router();
@@ -15,6 +15,8 @@ const buyRouter = express.Router();
 const checkTicketRouter = express.Router();
 const resultRouter = express.Router();
 const sellTicketRouter = express.Router();
+const themeRouter = express.Router();
+const themeNextRouter = express.Router();
 
 userDetailsRouter.post('/', postUserDetails);
 logInRouter.post('/', postLogIn)
@@ -31,6 +33,8 @@ buyRouter.post('/', postBuy)
 checkTicketRouter.post('/', postTicketCheck);
 resultRouter.get("/", getResult)
 sellTicketRouter.post('/', postSellTicket)
+themeRouter.get('/', getTheme)
+themeNextRouter.post('/', postTheme)
 
 exports.userDetailsRouter = userDetailsRouter;
 exports.logInRouter = logInRouter;
@@ -46,3 +50,5 @@ exports.buyRouter = buyRouter;
 exports.checkTicketRouter = checkTicketRouter;
 exports.resultRouter = resultRouter
 exports.sellTicketRouter = sellTicketRouter;
+exports.themeRouter = themeRouter;
+exports.themeNextRouter = themeNextRouter;

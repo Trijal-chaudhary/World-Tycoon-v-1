@@ -323,6 +323,12 @@ const Game = () => {
         setOwnedData(
           "You already own this! There is nothing left to upgrade here, boss"
         );
+      } else if (isOwned.message === "Hotel") {
+        socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
+        socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
+        setOwnedData(
+          "This territory is already maxed out — no further upgrades allowed, commander!"
+        );
       } else {
         socket.emit("WHO_NEXT", { code: yourData.code, player: currenPlayer });
         socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });

@@ -153,3 +153,21 @@ export const sell = async (data) => {
   })
   return response.json();
 }
+export const theme = async () => {
+  const response = await fetch('http://192.168.0.103:3000/api/theme', {
+    method: 'GET',
+    credentials: 'include'
+  })
+  return response.json()
+}
+export const themeNext = async (theme) => {
+  const response = await fetch("http://192.168.0.103:3000/api/next", {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: 'include',
+    body: JSON.stringify({ themeName: theme })
+  })
+  return response.json();
+}

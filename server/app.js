@@ -3,7 +3,7 @@ const cors = require('cors');
 const createdGames = require('./models/gameCreation')
 const http = require('http');
 const { Server } = require('socket.io');
-const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, createGameRouter, joinGameRouter, yourDetailRouter, leaveLobbyRouter, startedGameRouter, dieRolledRouter, buyRouter, checkTicketRouter, resultRouter, sellTicketRouter } = require('./router/clientRouter');
+const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, createGameRouter, joinGameRouter, yourDetailRouter, leaveLobbyRouter, startedGameRouter, dieRolledRouter, buyRouter, checkTicketRouter, resultRouter, sellTicketRouter, themeRouter, themeNextRouter } = require('./router/clientRouter');
 const { default: mongoose } = require('mongoose');
 
 
@@ -171,6 +171,8 @@ app.use('/api/buy', buyRouter)
 app.use('/api/ticketCheck', checkTicketRouter);
 app.use('/api/results', resultRouter)
 app.use('/api/sellTickets', sellTicketRouter);
+app.use('/api/theme', themeRouter)
+app.use('/api/next', themeNextRouter)
 const PORT = 3000;
 mongoose.connect(DB_URL)
   .then(() => {

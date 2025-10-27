@@ -6,6 +6,7 @@ import Lobby from "../components/lobby/Lobby";
 import JoinGame from "../components/join Game/JoinGame";
 import Game from "../components/game/Game";
 import Result from "../components/game/LobbyAfterGame/Result";
+import Theme from "../components/Theme/Theme";
 function App() {
   return (
     <>
@@ -18,6 +19,7 @@ function App() {
           <Route path="/joinGame" element={<JoinGame />} />
           <Route path="/game" element={<Game />} />
           <Route path="/result" element={<Result />} />
+          <Route path="/theme" element={<Theme />} />
         </Routes>
       </BrowserRouter>
     </>
