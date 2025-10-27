@@ -245,7 +245,7 @@ const Game = () => {
   const roleTheDice = async () => {
     const yourDetail = await YourDetail();
     // console.log(yourDetail);
-    const randomNumber = Math.floor(Math.random() * 12) + 1;
+    const randomNumber = 7;
     let player = "";
     if (yourDetail.userDetail._id === currentPositions.player1.id) {
       // setPlayer('player1'

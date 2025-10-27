@@ -191,7 +191,7 @@ exports.postBuy = async (req, res, next) => {
     if (ticket.Name === "Roadways") {
       const sameLink = lobby.theme.filter(ele => ele.Name === "Waterways" && ele.owner === ticket.owner);
       // const len = Object.keys(sameLink).length;
-      if (sameLink) {
+      if (sameLink.length > 0) {
         const currRent = sameLink[0].rent ?? 0
         const ticRent = ticket.rent ?? 0
         sameLink[0].rent = currRent * 2
@@ -207,7 +207,7 @@ exports.postBuy = async (req, res, next) => {
     } else if (ticket.Name === "Waterways") {
       const sameLink = lobby.theme.filter(ele => ele.Name === "Roadways" && ele.owner === ticket.owner);
       // const len = Object.keys(sameLink).length;
-      if (sameLink) {
+      if (sameLink.length > 0) {
         const currRent = sameLink[0].rent ?? 0
         const ticRent = ticket.rent ?? 0
         sameLink[0].rent = currRent * 2
@@ -222,7 +222,7 @@ exports.postBuy = async (req, res, next) => {
     } else if (ticket.Name === "Railways") {
       const sameLink = lobby.theme.filter(ele => ele.Name === "Airways" && ele.owner === ticket.owner);
       // const len = Object.keys(sameLink).length;
-      if (sameLink) {
+      if (sameLink.length > 0) {
         const currRent = sameLink[0].rent ?? 0
         const ticRent = ticket.rent ?? 0
         sameLink[0].rent = currRent * 2
@@ -237,7 +237,7 @@ exports.postBuy = async (req, res, next) => {
     } else if (ticket.Name === "Airways") {
       const sameLink = lobby.theme.filter(ele => ele.Name === "Railways" && ele.owner === ticket.owner);
       // const len = Object.keys(sameLink).length;
-      if (sameLink) {
+      if (sameLink.length > 0) {
         const currRent = sameLink[0].rent ?? 0
         const ticRent = ticket.rent ?? 0
         sameLink[0].rent = currRent * 2
@@ -252,7 +252,7 @@ exports.postBuy = async (req, res, next) => {
     } else if (ticket.Name === "Petroleum") {
       const sameLink = lobby.theme.filter(ele => ele.Name === "Satellite" && ele.owner === ticket.owner);
       // const len = Object.keys(sameLink).length;
-      if (sameLink) {
+      if (sameLink.length > 0) {
         const currRent = sameLink[0].rent ?? 0
         const ticRent = ticket.rent ?? 0
         sameLink[0].rent = currRent * 2
@@ -267,7 +267,7 @@ exports.postBuy = async (req, res, next) => {
     } else if (ticket.Name === "Satellite") {
       const sameLink = lobby.theme.filter(ele => ele.Name === "Petroleum" && ele.owner === ticket.owner);
       // const len = Object.keys(sameLink).length;
-      if (sameLink) {
+      if (sameLink.length > 0) {
         const currRent = sameLink[0].rent ?? 0
         const ticRent = ticket.rent ?? 0
         sameLink[0].rent = currRent * 2
