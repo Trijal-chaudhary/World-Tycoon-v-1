@@ -38,6 +38,7 @@ const Game = () => {
   const [chanceAndUno, setChanceAndUno] = useState(null);
   const [sortedPosition, setsortedPosition] = useState(null);
   const [sellTicket, setSellTicket] = useState(null);
+  const [oCome, setOCome] = useState();
   // const [yourDetail, setYourDetail] = useState();
   // const [player, setPlayer] = useState();
   //----------------------------------------------------------------
@@ -288,6 +289,7 @@ const Game = () => {
       player: player,
       code: yourDetail.code,
     });
+    socket.emit("OUTCOME", { outcome: randomNumber, code: yourDetail.code });
     // socket.emit("WHO_NEXT", { code: yourDetail.code, player: player });
     const afterDuration = randomNumber * delay;
     setTimeout(async () => {
@@ -400,6 +402,9 @@ const Game = () => {
       // console.log(data.player + 1);
       setTicketOwned(false);
       setInProgress(false);
+    });
+    socket.on("OUTCOME_IS", (data) => {
+      setOCome(data.oCome);
     });
     socket.on("BANKRUPT", (data) => {
       localStorage.setItem("ticket", JSON.stringify(false));
@@ -658,7 +663,7 @@ const Game = () => {
         ""
       )}
       <div className="randomNumber">
-        <h2>{random ? random : ""}</h2>
+        <h2>{oCome ? oCome : ""}</h2>
       </div>
       {!ticketOwned &&
       !inProgress &&

@@ -7,6 +7,10 @@ import JoinGame from "../components/join Game/JoinGame";
 import Game from "../components/game/Game";
 import Result from "../components/game/LobbyAfterGame/Result";
 import Theme from "../components/Theme/Theme";
+import About from "../components/About/About";
+import Credits from "../components/Credits/Credits";
+import Help from "../components/Help/Help";
+import Contacts from "../components/Contacts/Contacts";
 function App() {
   return (
     <>
@@ -20,6 +24,10 @@ function App() {
           <Route path="/game" element={<Game />} />
           <Route path="/result" element={<Result />} />
           <Route path="/theme" element={<Theme />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/credits" element={<Credits />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/contact" element={<Contacts />} />
         </Routes>
       </BrowserRouter>
     </>

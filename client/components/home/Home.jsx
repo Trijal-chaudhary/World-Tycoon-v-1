@@ -11,6 +11,7 @@ function Home() {
   const [userCredentials, setUserCredentisals] = useState({
     isLoggedIn: false,
   });
+  // const navigate = useNavigate();
   // let usercredentials;
   useEffect(() => {
     isuserLogged().then((res) => {
@@ -35,7 +36,12 @@ function Home() {
         alt="World Tycoon Logo"
         className="lobby-logo"
       />
-
+      <div className="navCont">
+        <button onClick={() => navigate("/about")}>About</button>
+        <button onClick={() => navigate("/contact")}>Contact</button>
+        <button onClick={() => navigate("/credits")}>Credit</button>
+        <button onClick={() => navigate("/help")}>Help</button>
+      </div>
       <div className="user-auth-container">
         {!userCredentials.isLoggedIn ? (
           <>
@@ -65,7 +71,7 @@ function Home() {
       />
 
       <div className="text-container">
-        <p className="welcome-text">
+        <p className="welcome-texth">
           {userCredentials.isLoggedIn ? (
             <>
               Welcome, <strong>{userCredentials.user.name}</strong> — step into

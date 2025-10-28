@@ -1,0 +1,93 @@
+.about-container {
+  width: 100%;
+  max-width: 900px;
+  /* The parchment color from our previous styles */
+  background-color: #F0E6D2;
+  /* The rich gold border */
+  border: 4px solid #B38B4D;
+  border-radius: 12px;
+  padding: 2.5rem 3rem;
+  /* A subtle inner shadow to give depth */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 
+              inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.OuterConte{
+  font-family: 'Inter', sans-serif;
+  /* A deep, royal blue background for the page */
+  background-color: #0a192f;
+  color: #1E293B; /* Dark slate text for readability */
+  line-height: 1.6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+/* --- Typography --- */
+.about-container h1 h2 {
+  font-weight: 700;
+  margin-bottom: 1rem;
+  /* A dark, rich blue for headings, looks more official than black */
+  color: #073763;
+  letter-spacing: 0.5px;
+  /* A subtle gold text-shadow to make it "pop" */
+  text-shadow: 1px 1px 1px rgba(212, 175, 55, 0.2);
+}
+
+.about-container h1 {
+  font-size: 2.5rem;
+  text-align: center;
+  border-bottom: 2px solid #D4AF37; /* Gold underline */
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+.about-container h2 {
+  font-size: 1.75rem;
+  margin-top: 2rem;
+  /* Gold color for H2 to make it feel like a chapter title */
+  color: #B38B4D;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.about-container p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.about-container p.call-to-action {
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  color: #073763;
+  margin-top: 2rem;
+}
+
+/* --- Mechanics Grid (Replaces the Table) --- */
+.mechanics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.mechanic-card {
+  background-color: #ffffff; /* Clean white card */
+  border: 2px solid #D4AF37; /* Gold border */
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.mechanic-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #073763;
+  margin-bottom: 0.75rem;
+}
+
+.mechanic-card p {
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+

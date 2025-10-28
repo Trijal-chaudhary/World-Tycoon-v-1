@@ -1,0 +1,105 @@
+.Outer5{
+  font-family: 'Inter', sans-serif;
+  background-color: #0a192f;
+  /* Light Parchment */
+  color: #1A233A; /* Deep Blue */
+  margin: 0;
+  padding: 2rem;
+  line-height: 1.7;
+}
+.help-container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #FFFEFB; /* Clean White Paper */
+  border: 4px solid #B38B4D; /* Muted Gold Border */
+  border-radius: 12px;
+  padding: 2rem 3rem 3rem 3rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Title styling */
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 900;
+  color: #1A233A; /* Deep Blue */
+  text-align: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 3px solid #D4AF37; /* Bright Gold */
+  padding-bottom: 1rem;
+}
+
+/* Subheadings */
+.help-container h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1A233A;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #D4AF37;
+  padding-bottom: 0.5rem;
+}
+
+/* Main text */
+.help-container p, li {
+  font-size: 1.05rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.List25 {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.List25 li {
+  position: relative;
+  padding-left: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Custom list bullet (a royal icon) */
+.List25 li::before {
+  content: '♚'; /* Royal crown symbol */
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.5rem;
+  color: #B38B4D; /* Muted Gold */
+  line-height: 1.7;
+}
+
+strong {
+  color: #1A233A; /* Deep Blue */
+  font-weight: 700;
+}
+
+/* Back Button */
+.back-button-container {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.back-button {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #FFFEFB; /* White Paper */
+  background: #1A233A; /* Deep Blue */
+  border: 2px solid #1A233A;
+  border-radius: 8px;
+  padding: 0.8rem 2rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background: #D4AF37; /* Bright Gold */
+  color: #1A233A;
+  border-color: #B38B4D;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}

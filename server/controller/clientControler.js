@@ -121,9 +121,9 @@ exports.postDeleteGame = async (req, res, next) => {
 exports.postGameStart = async (req, res, next) => {
   const startedGame = await createdGames.findOne({ code: req.session.code })
   const position = {};
-  position['player1'] = { id: startedGame.host._id, position: 0, outCome: 0, money: 20000 }
+  position['player1'] = { id: startedGame.host._id, position: 0, outCome: 0, money: 30000 }
   startedGame.players.forEach((play, idx) => {
-    position[`player${idx + 2}`] = { id: play._id, position: 0, outCome: 0, money: 20000 }
+    position[`player${idx + 2}`] = { id: play._id, position: 0, outCome: 0, money: 30000 }
   })
   startedGame.positions = position;
   await startedGame.save()
