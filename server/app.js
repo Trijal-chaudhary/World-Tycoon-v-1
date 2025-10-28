@@ -3,7 +3,7 @@ const cors = require('cors');
 const createdGames = require('./models/gameCreation')
 const http = require('http');
 const { Server } = require('socket.io');
-const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, createGameRouter, joinGameRouter, yourDetailRouter, leaveLobbyRouter, startedGameRouter, dieRolledRouter, buyRouter, checkTicketRouter, resultRouter, sellTicketRouter, themeRouter, themeNextRouter } = require('./router/clientRouter');
+const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, createGameRouter, joinGameRouter, yourDetailRouter, leaveLobbyRouter, startedGameRouter, dieRolledRouter, buyRouter, checkTicketRouter, resultRouter, sellTicketRouter, themeRouter, themeNextRouter, deleteRouter } = require('./router/clientRouter');
 const { default: mongoose } = require('mongoose');
 
 
@@ -108,7 +108,9 @@ io.on('connection', (socket) => {
     const pos = data.position + 1;
     const ticket = data.lobby.theme.find(ele => ele.id === pos);
     let message = ''
-    if (data.dubble && data.dubble === "dubble") {
+    if (data.upgrade) {
+      message = `Big move! ${data.player} upgraded ${ticket.Name} — rent skyrockets to $${ticket.rent}!`
+    } else if (data.dubble && data.dubble === "dubble") {
       message = `${ticket.Name} joins ${data.player}'s ${ticket.Color} empire — rent power x2 activated!`
 
     } else if (data.dubble && data.dubble === "Sell") {
@@ -173,6 +175,7 @@ app.use('/api/results', resultRouter)
 app.use('/api/sellTickets', sellTicketRouter);
 app.use('/api/theme', themeRouter)
 app.use('/api/next', themeNextRouter)
+app.use('/api/delete', deleteRouter)
 const PORT = 3000;
 mongoose.connect(DB_URL)
   .then(() => {

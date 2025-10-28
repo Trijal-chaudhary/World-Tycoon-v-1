@@ -15,13 +15,23 @@
   top: 30px;
 }
 .Theme{
-  height: 40vh;
-  width: 30vw;
-  border: 3px solid red;
+  height: 48vh;
+  width: 25vw;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  border: 3px solid white;
   flex: 0 0 auto;
 }
+.Theme img{
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+
+}
 .themecont{
-  height: 55%;
+  height: 80%;
   width: 90%;
   /* border: 3px solid red; */
   display: flex;
@@ -37,16 +47,19 @@
   scrollbar-color: gold #0B122B;
 
 }
-.active{
-  border: 3px solid gold;
-  height: 41vh;
-  width: 31vw;
+.active1{
+  border: 4px solid gold;
+  height: 50vh;
+  width: 26vw;
 
 }
 .Theme:hover{
-  height: 41vh;
-  width: 31vw;
+  height: 50vh;
+  width: 26vw;
   cursor: pointer;
+}
+.Theme h2{
+  color: gold;
 }
 .Start {
   background: linear-gradient(135deg, #2b1055, #7597de);

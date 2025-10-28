@@ -86,6 +86,17 @@ export const leaveLobby = async (id) => {
   })
   return response.json();
 }
+export const DeleteLobby = async () => {
+  const response = await fetch("http://192.168.0.103:3000/api/delete", {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: 'include',
+    body: JSON.stringify()
+  })
+  return response.json();
+}
 
 export const gameStarted = async () => {
   const response = await fetch("http://192.168.0.103:3000/api/startGame", {

@@ -29,10 +29,10 @@ const Theme = () => {
               <>
                 {ele !== "_id" ? (
                   <div
-                    className={`Theme ${selectTheme === ele ? "active" : ""}`}
+                    className={`Theme ${selectTheme === ele ? "active1" : ""}`}
                     onClick={() => selection(ele)}
                   >
-                    <img src="" alt="" />
+                    <img src={`../../src/assets/${ele}.jpg`} alt="" />
                     <h2>{ele}</h2>
                   </div>
                 ) : (

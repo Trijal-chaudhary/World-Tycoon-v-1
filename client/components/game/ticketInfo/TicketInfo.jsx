@@ -41,6 +41,18 @@ const Bye = ({ ticketInfo, Buy, Cut }) => {
         ) : (
           ""
         )}
+        {ticketInfo?.Color == "gray" ? (
+          <>
+            <p>
+              Matching: <span>{ticketInfo?.matching}</span>
+            </p>
+            <p>
+              Match : <span>x2 rent!</span>
+            </p>
+          </>
+        ) : (
+          ""
+        )}
         <p>
           Owner: <span>{ticketInfo?.owner}</span>
         </p>

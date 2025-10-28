@@ -95,7 +95,7 @@ exports.getYourDetails = (req, res, next) => {
 }
 
 exports.postLeaveLobby = async (req, res, next) => {
-  console.log(req.body)
+  // console.log(req.body)
   const game = await createdGames.findOne({ code: req.session.code })
   if (game.host._id.toString() === req.body.id) {
     await game.deleteOne();
@@ -107,6 +107,15 @@ exports.postLeaveLobby = async (req, res, next) => {
   }
   res.status(201).json({ host: false })
 
+}
+exports.postDeleteGame = async (req, res, next) => {
+  const game = await createdGames.findOne({ code: req.session.code })
+  if (!game) {
+    return res.status(201).json({ message: "Game Allready Deleted" })
+
+  }
+  await game.deleteOne();
+  res.status(201).json({ message: "Game Deleted" })
 }
 
 exports.postGameStart = async (req, res, next) => {

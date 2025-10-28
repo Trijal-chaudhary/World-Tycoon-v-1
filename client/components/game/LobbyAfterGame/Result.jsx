@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./lobbyAfterGame.css";
-import { result } from "../../../src/services/SignUp";
+import { DeleteLobby, result } from "../../../src/services/SignUp";
 import { useNavigate } from "react-router-dom";
 const Result = () => {
   const [res, setRes] = useState();
@@ -12,6 +12,10 @@ const Result = () => {
       setLobby(data.lobby);
     });
   }, []);
+  const deleteGame = async () => {
+    await DeleteLobby();
+    navigate("/");
+  };
   const navigate = useNavigate();
   return (
     <div className="mainco">
@@ -88,7 +92,7 @@ const Result = () => {
                     Tried the market… but ended up bankrupt.
                   </span>
                 </div>
-                <div class="player-money">-${res?.[1][1]?.money}</div>
+                <div class="player-money">${res?.[1][1]?.money}</div>
               </div>
             )}
           </>
@@ -139,7 +143,7 @@ const Result = () => {
                     Tried the market… but ended up bankrupt.
                   </span>
                 </div>
-                <div class="player-money">-${res?.[2][1]?.money}</div>
+                <div class="player-money">${res?.[2][1]?.money}</div>
               </div>
             )}
           </>
@@ -166,14 +170,14 @@ const Result = () => {
                 Tried the market… but ended up bankrupt.
               </span>
             </div>
-            <div class="player-money">-${res?.[4][1]?.money}</div>
+            <div class="player-money">${res?.[3][1]?.money}</div>
           </div>
         ) : (
           ""
         )}
       </div>
 
-      <button class="home-button" onClick={() => navigate("/")}>
+      <button class="home-button" onClick={deleteGame}>
         Return To Home
       </button>
     </div>

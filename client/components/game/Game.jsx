@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 const Game = () => {
   // let owned = true;
   const navigate = useNavigate();
+  const [inProgress, setInProgress] = useState(false);
   const [right, setRight] = useState([]);
   const [left, setLeft] = useState([]);
   const [top, setTop] = useState([]);
@@ -244,8 +245,18 @@ const Game = () => {
   };
   const roleTheDice = async () => {
     const yourDetail = await YourDetail();
+    const lobby = await lobbyDetails();
+    if (
+      currentPositions[currenPlayer].position !==
+      lobby.positions[currenPlayer].position
+    ) {
+      setOwnedData(`Chance played. Relax, legend — even luck needs a break`);
+      return;
+    }
+    setInProgress(true);
+
     // console.log(yourDetail);
-    const randomNumber = 7;
+    const randomNumber = Math.floor(Math.random() * 12) + 1;
     let player = "";
     if (yourDetail.userDetail._id === currentPositions.player1.id) {
       // setPlayer('player1'
@@ -353,6 +364,14 @@ const Game = () => {
       setBankMoney(data.Bank);
       //----Current Position-----
       // console.log(data.positions);
+      // console.log(
+      //   currentPositions[currenPlayer]?.position ===
+      //     data?.positions[currenPlayer]?.position
+      // );
+      setInProgress(
+        currentPositions[currenPlayer]?.position !==
+          data?.positions[currenPlayer]?.position
+      );
       setGameData(data);
       setCurrentPositions(data.positions);
       setCurrentPlayer(`player${data.current + 1}`);
@@ -380,12 +399,14 @@ const Game = () => {
       // console.log(data.position);
       // console.log(data.player + 1);
       setTicketOwned(false);
+      setInProgress(false);
     });
     socket.on("BANKRUPT", (data) => {
       localStorage.setItem("ticket", JSON.stringify(false));
       setTicketOwned(false);
       const alMess = `${data.player} has gone BANKRUPT!!`;
-      alert(alMess);
+      setOwnedData(alMess);
+      // alert(alMess);
       navigate("/result");
     });
     socket.on("YOUR_MONEY", (data) => {
@@ -503,6 +524,9 @@ const Game = () => {
         lobby: updatedLobby,
         you: yourData,
       });
+      socket.emit("TRACK_MONEY", {
+        code: yourData.code,
+      });
       if (res.message === "Rent Duble") {
         socket.emit("SOME_BUY", {
           lobby: updatedLobby,
@@ -514,6 +538,14 @@ const Game = () => {
         setOwnedData(
           `Congrats! You now own 3+ properties of the same color — Double Rent Unlocked!`
         );
+      } else if (res.message === "UPDATED") {
+        socket.emit("SOME_BUY", {
+          lobby: updatedLobby,
+          position: lobby.positions[currenPlayer].position,
+          player: currenPlayer,
+          code: yourData.code,
+          upgrade: true,
+        });
       } else if (res.message !== "BUYED") {
         setOwnedData(res.message);
       } else {
@@ -629,6 +661,7 @@ const Game = () => {
         <h2>{random ? random : ""}</h2>
       </div>
       {!ticketOwned &&
+      !inProgress &&
       currentPositions?.[currenPlayer]?.id === yourData?.userDetail?._id ? (
         <>
           <button className="die" onClick={roleTheDice}>
