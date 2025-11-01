@@ -78,7 +78,7 @@ function Home() {
             </>
           ) : (
             <>
-              to the world? <strong>Sign up</strong> to forge your empire.
+               the world? <strong>Sign up</strong> to forge your empire.
               Veterans, log in and continue your conquest.
             </>
           )}
