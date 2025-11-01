@@ -1,5 +1,5 @@
 export const addUserDetail = async (name, userName, password, avtar) => {
-  const response = await fetch('http://localhost:3000/api/signup', {
+  const response = await fetch('https://world-tycoon-backend.onrender.com/api/signup', {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -11,7 +11,7 @@ export const addUserDetail = async (name, userName, password, avtar) => {
 }
 
 export const checkTheUser = async (userName, password) => {
-  const response = await fetch('http://localhost:3000/api/login', {
+  const response = await fetch('https://world-tycoon-backend.onrender.com/api/login', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -23,7 +23,7 @@ export const checkTheUser = async (userName, password) => {
 }
 
 export const isuserLogged = async () => {
-  const response = await fetch('http://localhost:3000/api/isLogged', {
+  const response = await fetch('https://world-tycoon-backend.onrender.com/api/isLogged', {
     method: 'GET',
     credentials: "include"
   })
@@ -31,7 +31,7 @@ export const isuserLogged = async () => {
 }
 
 export const logOutUser = async () => {
-  const response = await fetch('http://localhost:3000/api/logout', {
+  const response = await fetch('https://world-tycoon-backend.onrender.com/api/logout', {
     method: 'GET',
     credentials: "include"
   })
@@ -39,7 +39,7 @@ export const logOutUser = async () => {
 }
 
 export const createGame = async () => {
-  const response = await fetch('http://localhost:3000/api/createGame', {
+  const response = await fetch('https://world-tycoon-backend.onrender.com/api/createGame', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export const createGame = async () => {
 }
 
 export const lobbyDetails = async () => {
-  const response = await fetch('http://localhost:3000/api/createGame', {
+  const response = await fetch('https://world-tycoon-backend.onrender.com/api/createGame', {
     method: 'GET',
     credentials: 'include'
   })
@@ -58,7 +58,7 @@ export const lobbyDetails = async () => {
 }
 
 export const joinInGame = async (code) => {
-  const response = await fetch('http://localhost:3000/api/joinGame', {
+  const response = await fetch('https://world-tycoon-backend.onrender.com/api/joinGame', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -69,14 +69,14 @@ export const joinInGame = async (code) => {
   return response.json()
 }
 export const YourDetail = async () => {
-  const response = await fetch('http://localhost:3000/api/yourDetail', {
+  const response = await fetch('https://world-tycoon-backend.onrender.com/api/yourDetail', {
     method: 'GET',
     credentials: 'include'
   })
   return response.json()
 }
 export const leaveLobby = async (id) => {
-  const response = await fetch("http://localhost:3000/api/leaveLobby", {
+  const response = await fetch("https://world-tycoon-backend.onrender.com/api/leaveLobby", {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -87,7 +87,7 @@ export const leaveLobby = async (id) => {
   return response.json();
 }
 export const DeleteLobby = async () => {
-  const response = await fetch("http://localhost:3000/api/delete", {
+  const response = await fetch("https://world-tycoon-backend.onrender.com/api/delete", {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -99,7 +99,7 @@ export const DeleteLobby = async () => {
 }
 
 export const gameStarted = async () => {
-  const response = await fetch("http://localhost:3000/api/startGame", {
+  const response = await fetch("https://world-tycoon-backend.onrender.com/api/startGame", {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -110,7 +110,7 @@ export const gameStarted = async () => {
 }
 
 export const dieRolled = async (outcome) => {
-  const response = await fetch("http://localhost:3000/api/dieRolled", {
+  const response = await fetch("https://world-tycoon-backend.onrender.com/api/dieRolled", {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -122,7 +122,7 @@ export const dieRolled = async (outcome) => {
 }
 
 export const buyTicket = async (data) => {
-  const response = await fetch("http://localhost:3000/api/buy", {
+  const response = await fetch("https://world-tycoon-backend.onrender.com/api/buy", {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -135,7 +135,7 @@ export const buyTicket = async (data) => {
 }
 
 export const ticketCheck = async (data) => {
-  const response = await fetch("http://localhost:3000/api/ticketCheck", {
+  const response = await fetch("https://world-tycoon-backend.onrender.com/api/ticketCheck", {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -146,7 +146,7 @@ export const ticketCheck = async (data) => {
   return response.json();
 }
 export const result = async () => {
-  const response = await fetch('http://localhost:3000/api/results', {
+  const response = await fetch('https://world-tycoon-backend.onrender.com/api/results', {
     method: 'GET',
     credentials: 'include'
   })
@@ -154,7 +154,7 @@ export const result = async () => {
 }
 
 export const sell = async (data) => {
-  const response = await fetch("http://localhost:3000/api/sellTickets", {
+  const response = await fetch("https://world-tycoon-backend.onrender.com/api/sellTickets", {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -165,14 +165,14 @@ export const sell = async (data) => {
   return response.json();
 }
 export const theme = async () => {
-  const response = await fetch('http://localhost:3000/api/theme', {
+  const response = await fetch('https://world-tycoon-backend.onrender.com/api/theme', {
     method: 'GET',
     credentials: 'include'
   })
   return response.json()
 }
 export const themeNext = async (theme) => {
-  const response = await fetch("http://localhost:3000/api/next", {
+  const response = await fetch("https://world-tycoon-backend.onrender.com/api/next", {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
