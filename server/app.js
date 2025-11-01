@@ -130,10 +130,23 @@ const store = new MongoDBStore({
   uri: DB_URL,
   collection: 'session'
 })
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://world-tycoon.vercel.app"
+];
+
 app.use(cors({
-  origin: ["http://localhost:5173", "https://world-tycoon.vercel.app"], // 👈 your React frontend URL
-  credentials: true // 👈 allow sending cookies across origins
-}))
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+}));
+
 
 app.use(session({
   secret: "HVC",
@@ -142,8 +155,8 @@ app.use(session({
   store: store,
   cookie: {
     httpOnly: true,
-    secure: false,          // false because you're using http://
-    sameSite: "lax",        // ✅ works well on same-network, avoids "None" issue
+    secure: process.env.NODE_ENV === "production", // ✅ true on Vercel
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // ✅ "none" required for cross-site cookies
     maxAge: 1000 * 60 * 60 * 5
   }
 }))
