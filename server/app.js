@@ -128,10 +128,10 @@ io.on('connection', (socket) => {
   }))
 })
 
-const store = new MongoDBStore({
-  uri: DB_URL,
-  collection: 'session'
-})
+// const store = new MongoDBStore({
+//   uri: DB_URL,
+//   collection: 'session'
+// })
 
 // ... your other requires
 
@@ -163,7 +163,7 @@ const sessionMiddleware = session({
   secret: "HVC",
   resave: false,
   saveUninitialized: true,
-  store: store,
+  // store: store,
   cookie: {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", 
