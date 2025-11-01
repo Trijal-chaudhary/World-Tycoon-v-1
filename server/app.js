@@ -25,7 +25,8 @@ const io = new Server(server, {
     origin: ["http://localhost:5173", "https://world-tycoon.vercel.app"],
     methods: ["GET", "POST"],
     credentials: true
-  }
+  },
+  allowEIO3: true
 })
 
 io.on('connection', (socket) => {
