@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./lobbyAfterGame.css";
+import "./LobbyAfterGame.css";
 import { DeleteLobby, result } from "../../../src/services/SignUp";
 import { useNavigate } from "react-router-dom";
 const Result = () => {
