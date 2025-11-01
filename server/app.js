@@ -208,3 +208,4 @@ mongoose.connect(DB_URL)
     })
   })
 
+module.exports = app;
