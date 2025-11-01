@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const express = require('express');
-const cors = require('cors');
+// const cors = require('cors');
 const createdGames = require('./models/gameCreation')
 const http = require('http');
 const { Server } = require('socket.io');
@@ -21,11 +21,11 @@ const app = express()
 const server = http.createServer(app);
 
 const io = new Server(server, {
-  cors: {
-    origin: ["http://localhost:5173", "https://world-tycoon.vercel.app"],
-    methods: ["GET", "POST"],
-    credentials: true
-  },
+  // cors: {
+  //   origin: ["http://localhost:5173", "https://world-tycoon.vercel.app"],
+  //   methods: ["GET", "POST"],
+  //   credentials: true
+  // },
   allowEIO3: true
 })
 
@@ -135,42 +135,47 @@ const store = new MongoDBStore({
 
 // ... your other requires
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://world-tycoon.vercel.app"
-];
+// const allowedOrigins = [
+//   "http://localhost:5173",
+//   "https://world-tycoon.vercel.app"
+// ];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl, or same-origin requests)
-    if (!origin) return callback(null, true);
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     // Allow requests with no origin (like mobile apps, curl, or same-origin requests)
+//     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.indexOf(origin) === -1) {
-      var msg = 'The CORS policy for this site does not ' +
-                'allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  },
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true, // This is essential
-}));
+//     if (allowedOrigins.indexOf(origin) === -1) {
+//       var msg = 'The CORS policy for this site does not ' +
+//                 'allow access from the specified Origin.';
+//       return callback(new Error(msg), false);
+//     }
+//     return callback(null, true);
+//   },
+//   methods: ["GET", "POST", "PUT", "DELETE"],
+//   credentials: true, // This is essential
+// }));
 
 // ... rest of your code (app.use(session(...)), etc.)
 
 
-app.use(session({
-  secret: "HVC",
-  resave: false,
-  saveUninitialized: true,
-  store: store,
-  cookie: {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // ✅ true on Vercel
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // ✅ "none" required for cross-site cookies
-    maxAge: 1000 * 60 * 60 * 5
-  }
-}))
+const sessionMiddleware = session({
+  secret: "HVC",
+  resave: false,
+  saveUninitialized: true,
+  store: store,
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", 
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", 
+    maxAge: 1000 * 60 * 60 * 5
+  }
+});
+// 2. Use the session in Express
+app.use(sessionMiddleware);
+
+// 3. Share the session with Socket.io (This is the fix)
+io.engine.use(sessionMiddleware);
 
 app.use((req, res, next) => {
   console.log("cookie check middleware", req.get("Cookie"))
