@@ -1,8 +1,14 @@
 {
   "version": 2,
+  "builds": [
+    {
+      "src": "app.js",
+      "use": "@vercel/node"
+    }
+  ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/api/(.*)",
       "headers": {
         "Access-Control-Allow-Origin": "https://world-tycoon.vercel.app",
         "Access-Control-Allow-Credentials": "true",
