@@ -538,7 +538,7 @@ const Game = () => {
         <Result game={gameData} />
       </div> */}
       <img
-        src="../../src/assets/logo.png"
+        src="/assets/logo.png"
         alt="World Tycoon Logo"
         className="game-logo"
       />
@@ -699,14 +699,14 @@ const Game = () => {
 
                 <div className="flag-Container">
                   <img
-                    src={`../../src/assets/flags/${ele.flag}`}
+                    src={`/assets/flags/${ele.flag}`}
                     alt="Flag of Australia"
                   />
                   {ele.price !== 0 ? <h4>${ele.price}</h4> : ""}
                 </div>
                 <div className="themeImage">
                   <img
-                    src={`../../src/assets/landmark/${ele.landMark}`}
+                    src={`/assets/landmark/${ele.landMark}`}
                     alt="Sydney Opera House"
                   />
                 </div>
@@ -715,7 +715,7 @@ const Game = () => {
           ))}
           <div className="resort">
             <h4>RESORT</h4>
-            <img src="../../src/assets/landmark/resort.jpg" alt="resort" />
+            <img src="/assets/landmark/resort.jpg" alt="resort" />
           </div>
         </div>
         <div className="topSide">
@@ -728,14 +728,14 @@ const Game = () => {
                 <h4 className="CountryName-top">{ele.Name}</h4>
                 <div className="themeImage-top">
                   <img
-                    src={`../../src/assets/landmark/${ele.landMark}`}
+                    src={`/assets/landmark/${ele.landMark}`}
                     alt="Sydney Opera House"
                   />
                 </div>
 
                 <div className="flag-Container-top">
                   <img
-                    src={`../../src/assets/flags/${ele.flag}`}
+                    src={`/assets/flags/${ele.flag}`}
                     alt="Flag of Australia"
                   />
                   {ele.price !== 0 ? <h4>${ele.price}</h4> : ""}
@@ -747,7 +747,7 @@ const Game = () => {
         <div className="leftSide">
           <div className="partyHouse">
             <h4>PARTY HOUSE</h4>
-            <img src="../../src/assets/landmark/party.jpg" alt="resort" />
+            <img src="/assets/landmark/party.jpg" alt="resort" />
           </div>
           {left.map((ele) => (
             <>
@@ -759,14 +759,14 @@ const Game = () => {
 
                 <div className="flag-Container">
                   <img
-                    src={`../../src/assets/flags/${ele.flag}`}
+                    src={`/assets/flags/${ele.flag}`}
                     alt="Flag of Australia"
                   />
                   {ele.price !== 0 ? <h4>${ele.price}</h4> : ""}
                 </div>
                 <div className="themeImage">
                   <img
-                    src={`../../src/assets/landmark/${ele.landMark}`}
+                    src={`/assets/landmark/${ele.landMark}`}
                     alt="Sydney Opera House"
                   />
                 </div>
@@ -775,7 +775,7 @@ const Game = () => {
           ))}
           <div className="partyHouse jail">
             <h4>JAIL</h4>
-            <img src="../../src/assets/landmark/jail.jpg" alt="resort" />
+            <img src="/assets/landmark/jail.jpg" alt="resort" />
           </div>
         </div>
         <div className="bottomSide">
@@ -787,7 +787,7 @@ const Game = () => {
               >
                 <div className="themeImage-top">
                   <img
-                    src={`../../src/assets/landmark/${ele.landMark}`}
+                    src={`/assets/landmark/${ele.landMark}`}
                     alt="Sydney Opera House"
                   />
                 </div>
@@ -795,7 +795,7 @@ const Game = () => {
 
                 <div className="flag-Container-top">
                   <img
-                    src={`../../src/assets/flags/${ele.flag}`}
+                    src={`/assets/flags/${ele.flag}`}
                     alt="Flag of Australia"
                   />
                   {ele.price !== 0 ? <h4>${ele.price}</h4> : ""}

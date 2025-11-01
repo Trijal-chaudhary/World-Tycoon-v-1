@@ -31,7 +31,7 @@ function Home() {
   return (
     <div className="lobby-container">
       <img
-        src="../../src/assets/logo.png"
+        src="/assets/logo.png"
         alt="World Tycoon Logo"
         className="lobby-logo"
       />
@@ -54,7 +54,7 @@ function Home() {
         ) : (
           <>
             <img
-              src={`../../src/assets/avtars/${userCredentials.user.avtar}.jpg`}
+              src={`/assets/avtars/${userCredentials.user.avtar}.jpg`}
               alt="avatar"
               className="profile-avatar"
             />
@@ -64,7 +64,7 @@ function Home() {
       </div>
 
       <img
-        src="../../src/assets/heroImage.png"
+        src="/assets/heroImage.png"
         alt="Planet Earth"
         className="hero-background-image"
       />

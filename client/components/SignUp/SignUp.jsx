@@ -45,7 +45,7 @@ function SignUp() {
                 onClick={() => clickAvt(ele)}
               >
                 <img
-                  src={`../../src/assets/avtars/${ele}.jpg`}
+                  src={`/assets/avtars/${ele}.jpg`}
                   alt={`avtar${ele}`}
                 />
               </div>

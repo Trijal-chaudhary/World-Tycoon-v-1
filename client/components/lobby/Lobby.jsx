@@ -87,7 +87,7 @@ const Lobby = () => {
         <h3 className="your-name-display">{yourDetail.name}</h3>
         <header className="lobby-header">
           <img
-            src="../../src/assets/logo.png"
+            src="/assets/logo.png"
             alt="World Tycoon Logo"
             className="game-logo-lobby"
           />
@@ -96,7 +96,7 @@ const Lobby = () => {
         <main className="player-grid">
           <div>
             <img
-              src={`../../src/assets/avtars/${hostDetails.avtar}.jpg`}
+              src={`/assets/avtars/${hostDetails.avtar}.jpg`}
               alt="Avatar"
             />
             <p>
@@ -110,7 +110,7 @@ const Lobby = () => {
           {playerDetails.map((player) => (
             <div>
               <img
-                src={`../../src/assets/avtars/${player.avtar}.jpg`}
+                src={`/assets/avtars/${player.avtar}.jpg`}
                 alt="Avatar"
               />
               <p>{player._id === yourDetail._id ? "YOU" : player.name}</p>

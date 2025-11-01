@@ -31,7 +31,7 @@ const Theme = () => {
                     className={`Theme ${selectTheme === ele ? "active1" : ""}`}
                     onClick={() => selection(ele)}
                   >
-                    <img src={`../../src/assets/${ele}.jpg`} alt="" />
+                    <img src={`/assets/${ele}.jpg`} alt="" />
                     <h2>{ele}</h2>
                   </div>
                 ) : (
