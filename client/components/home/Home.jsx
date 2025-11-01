@@ -73,12 +73,12 @@ function Home() {
         <p className="welcome-texth">
           {userCredentials.isLoggedIn ? (
             <>
-              , <strong>{userCredentials.user.name}</strong> — step into
+              Welcome, <strong>{userCredentials.user.name}</strong> — step into
               the future of power, strategy, and global domination.
             </>
           ) : (
             <>
-              New to the world? <strong>Sign up</strong> to forge your empire.
+              to the world? <strong>Sign up</strong> to forge your empire.
               Veterans, log in and continue your conquest.
             </>
           )}
