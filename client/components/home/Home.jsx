@@ -73,7 +73,7 @@ function Home() {
         <p className="welcome-texth">
           {userCredentials.isLoggedIn ? (
             <>
-              Welcome, <strong>{userCredentials.user.name}</strong> — step into
+              , <strong>{userCredentials.user.name}</strong> — step into
               the future of power, strategy, and global domination.
             </>
           ) : (
