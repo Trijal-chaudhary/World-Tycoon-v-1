@@ -9,7 +9,7 @@ const { userDetailsRouter, logInRouter, isUserLoggedIn, logOutUsserRouter, creat
 const { default: mongoose } = require('mongoose');
 
 
-const DB_URL = "mongodb+srv://root:root@harsh.tcproj.mongodb.net/World_Tycoon?retryWrites=true&w=majority&appName=harsh"
+const DB_URL = process.env.DB_URL
 
 const session = require('express-session');
 
