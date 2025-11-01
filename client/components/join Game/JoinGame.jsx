@@ -8,9 +8,7 @@ const JoinGame = () => {
   const codeRef = useRef();
   const codeSubmit = async (e) => {
     e.preventDefault();
-    console.log(codeRef.current.value);
     const exist = await joinInGame(codeRef.current.value);
-    console.log(exist.added);
     if (!exist.added) {
       alert("Invalid Game Code");
     } else {

@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const createdGames = require('./models/gameCreation')
@@ -20,7 +22,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173", "http://192.168.0.102:5173"],
+    origin: ["http://localhost:5173", "http://192.168.0.105:5173"],
     methods: ["GET", "POST"],
   }
 })
@@ -28,7 +30,6 @@ const io = new Server(server, {
 io.on('connection', (socket) => {
   console.log("socket:", socket.id)
   socket.on("SOMEONE_JOINS", (data) => {
-    // console.log(data)
     socket.join(data.code);
     createdGames.findOne({ code: data.code }).then((lobby => {
       io.to(data.code).emit("NEW_PLAYER_JOINED", { lobbyDetail: lobby });
@@ -66,8 +67,6 @@ io.on('connection', (socket) => {
     const lobby = await createdGames.findOne({ code: data.code })
     const currPos = lobby.positions[data.player].position;
     const ticketInfo = lobby.theme.find(item => item.id === currPos + 1)
-    // console.log(ticketInfo);
-    // console.log(currPos)
     socket.emit("TICKET_INFO", { ticketInfo: ticketInfo })
   })
   socket.on("MY_MONEY", async (data) => {
@@ -86,7 +85,6 @@ io.on('connection', (socket) => {
         yellow = data.lobby.theme.filter((ele) => ele.Color === "yellow" && ele.owner === playerKey);
         green = data.lobby.theme.filter((ele) => ele.Color === "green" && ele.owner === playerKey);
         gray = data.lobby.theme.filter((ele) => ele.Color === "gray" && ele.owner === playerKey);
-        console.log(red, playerKey);
       }
 
     });
@@ -96,7 +94,6 @@ io.on('connection', (socket) => {
     // socket.join(data.code);
     const lobby = await createdGames.findOne({ code: data.code })
     Object.keys(lobby.positions).forEach((player) => {
-      console.log(lobby.positions[player].money, player)
       if (lobby.positions[player].money <= -5000) {
         // console.log("BankCrupt")
         io.to(data.code).emit("BANKRUPT", { player: player })
@@ -134,7 +131,7 @@ const store = new MongoDBStore({
   collection: 'session'
 })
 app.use(cors({
-  origin: ["http://localhost:5173", "http://192.168.0.102:5173"], // 👈 your React frontend URL
+  origin: ["http://localhost:5173", "http://192.168.0.105:5173"], // 👈 your React frontend URL
   credentials: true // 👈 allow sending cookies across origins
 }))
 
@@ -179,12 +176,12 @@ app.use('/api/sellTickets', sellTicketRouter);
 app.use('/api/theme', themeRouter)
 app.use('/api/next', themeNextRouter)
 app.use('/api/delete', deleteRouter)
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 mongoose.connect(DB_URL)
   .then(() => {
     console.log('moongose Connected')
     server.listen(PORT, "0.0.0.0", () => {
-      console.log(`http://192.168.0.102:${PORT}`)
+      console.log(`http://localhost:${PORT}`)
     })
   })
 

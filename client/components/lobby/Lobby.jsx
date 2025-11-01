@@ -23,7 +23,6 @@ const Lobby = () => {
       socket.emit("SOMEONE_JOINS", { code: gameCode });
       navigate("/");
     }
-    console.log(areYouHost);
   };
   //-------------------------------------
   useEffect(() => {
@@ -33,7 +32,6 @@ const Lobby = () => {
         setHostDetails(lobby.host);
         setPlayerDetails(lobby.players || []);
         setGameCode(lobby.code);
-        // console.log(data);
       }
     };
     const handelYourDetails = (data) => {
@@ -71,7 +69,6 @@ const Lobby = () => {
   }, []);
   const startTheGame = async () => {
     const lobby = await lobbyDetails();
-    console.log(lobby);
     if (lobby.players.length === 0) {
       alert("Atleast Two Players Required");
       return;
@@ -83,8 +80,6 @@ const Lobby = () => {
       socket.emit("NAVIGATE_GAME", { code: gameCode, where: "game" });
     }
 
-    // console.log(gameCode);
-    // navigate("/game");
   };
   return (
     <div className="game-lobby-background">

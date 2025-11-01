@@ -15,7 +15,6 @@ function Home() {
   // let usercredentials;
   useEffect(() => {
     isuserLogged().then((res) => {
-      // console.log(res);
       setUserCredentisals(res);
     });
   }, []);

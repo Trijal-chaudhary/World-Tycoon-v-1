@@ -8,7 +8,6 @@ const Theme = () => {
   const [selectTheme, setSelectTheme] = useState();
   useEffect(() => {
     theme().then((theme2) => {
-      console.log(theme2.themes[0]);
       setTheme(theme2.themes[0]);
     });
   }, []);

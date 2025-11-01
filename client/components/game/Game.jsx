@@ -255,8 +255,6 @@ const Game = () => {
       return;
     }
     setInProgress(true);
-
-    // console.log(yourDetail);
     const randomNumber = Math.floor(Math.random() * 12) + 1;
     let player = "";
     if (yourDetail.userDetail._id === currentPositions.player1.id) {
@@ -281,8 +279,6 @@ const Game = () => {
 
     await dieRolled(randomNumber);
     setRandom(randomNumber);
-    // currentPositions[player].outCome = randomNumber;
-    // console.log(currentPositions[player].position);
 
     socket.emit("PLAYER_MOVED", {
       outcome: randomNumber,
@@ -302,25 +298,16 @@ const Game = () => {
         player: player,
         outCome: randomNumber,
       });
-
-      // setTicketOwned(isOwned.message === "noOwner");
-      // console.log(isOwned.message === "noOwner");
       if (isOwned.message === "noOwner") {
         localStorage.setItem("ticket", JSON.stringify(true));
         setTicketOwned(true);
       } else if (isOwned.message === "youOwner") {
-        // socket.emit("WHO_NEXT", {
-        //   code: yourData.code,
-        //   player: currenPlayer,
-        //   // position: currentPositions,
-        // });
         setOwnedData(
           `You are the proud owner here! Time to invest in a House or upgrade to a Hotel?`
         );
         localStorage.setItem("ticket", JSON.stringify(true));
         setTicketOwned(true);
         socket.emit("MY_MONEY", { player: currenPlayer, code: yourData.code });
-        // alert("You Are the owner");
       } else if (isOwned.message === "yesOwner") {
         localStorage.setItem("ticket", JSON.stringify(false));
         setTicketOwned(false);
@@ -364,12 +351,6 @@ const Game = () => {
       setBottom(data.theme.slice(28, 36));
       // const youAre =
       setBankMoney(data.Bank);
-      //----Current Position-----
-      // console.log(data.positions);
-      // console.log(
-      //   currentPositions[currenPlayer]?.position ===
-      //     data?.positions[currenPlayer]?.position
-      // );
       setInProgress(
         currentPositions[currenPlayer]?.position !==
           data?.positions[currenPlayer]?.position
@@ -379,14 +360,7 @@ const Game = () => {
       setCurrentPlayer(`player${data.current + 1}`);
       const currPos = data.positions[currenPlayer]?.position;
       const tick = data.theme.find((item) => item.id === currPos + 1);
-      // setTicketData(tick);
-      // console.log(JSON.parse(localStorage.getItem("ticketData")));
-      // Object.keys(data.positions).forEach((playerKey) => {
-      //   if (data.positions[playerKey].id === yourData.userDetail._id) {
-      //     const red = data.theme.filter((ele) => ele.Color === "red");
-      //     console.log(red, playerKey);
-      //   }
-      // });
+      
     });
   }, []);
   useEffect(() => {
@@ -398,8 +372,6 @@ const Game = () => {
     });
     socket.on("NEXT_IS", (data) => {
       setCurrentPlayer(`player${data.player + 1}`);
-      // console.log(data.position);
-      // console.log(data.player + 1);
       setTicketOwned(false);
       setInProgress(false);
     });
@@ -437,26 +409,14 @@ const Game = () => {
       setOwnedData(data.message);
     });
     socket.on("TICKET_INFO", (data) => {
-      // console.log(data.ticketInfo);
       setTicketData(data.ticketInfo);
       localStorage.setItem("ticketData", JSON.stringify(data.ticketInfo));
     });
     socket.on("I_MOVED", (data) => {
-      // console.log("I_MOVED received:", data);
       movePlayer(data.outcome, data.player);
-      // setRandom(data.outcome);
-      // currentPositions[data.player].outCome = data.outcome;
-      // setCurrentPositions((prev) => ({
-      //   ...prev,
-      //   [data.player]: {
-      //     ...prev[data.player],
-      //     outCome: data.outcome,
-      //   },
-      // }));
     });
     socket.on("YOUR_TICKETS", (data) => {
       setYourTickets(data);
-      console.log(data);
     });
 
     return () => socket.off("I_MOVED");
@@ -481,7 +441,6 @@ const Game = () => {
       setClickTicket(tic);
     }
 
-    // console.log(tic);
   };
   const ownedTicketClick = async (pos) => {
     const lobby = await lobbyDetails();

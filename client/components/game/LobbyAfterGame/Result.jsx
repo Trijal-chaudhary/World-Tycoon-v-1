@@ -7,7 +7,6 @@ const Result = () => {
   const [lobby, setLobby] = useState();
   useEffect(() => {
     result().then((data) => {
-      console.log(data.sort);
       setRes(data.sort);
       setLobby(data.lobby);
     });

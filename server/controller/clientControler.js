@@ -17,7 +17,6 @@ const createdGames = require('../models/gameCreation')
 const Themes = require('../models/theme')
 
 exports.postUserDetails = async (req, res, next) => {
-  // console.log(req.body)
 
   const { name, userName, password, avtar } = req.body;
   const userDetails = new PlayerDetails({ name, userName, password, avtar })
@@ -127,7 +126,6 @@ exports.postGameStart = async (req, res, next) => {
   })
   startedGame.positions = position;
   await startedGame.save()
-  console.log(startedGame.positions)
 
   res.status(201).message({ message: "game Started" });
 }
@@ -309,7 +307,6 @@ exports.postBuy = async (req, res, next) => {
 
       }
     }
-    console.log(len, sameColor);
     // console.log(ticket, lobby.positions[player])
 
   }
@@ -442,7 +439,6 @@ exports.postTicketCheck = async (req, res, next) => {
     }
   } else if (ticket.Name === "Chance") {
     // const outCome = lobby.positions[player].outCome;
-    console.log(outcome)
     switch (outcome) {
       case 1:
         const currentMoney1 = lobby.positions[player].money ?? 0;
@@ -650,7 +646,6 @@ exports.getResult = async (req, res, next) => {
   const sort = Object.entries(lobby.positions).sort(
     ([, a], [, b]) => b.money - a.money
   );
-  console.log(sort)
   res.status(201).json({ sort: sort, lobby: lobby });
 }
 
@@ -672,7 +667,6 @@ exports.postSellTicket = async (req, res, next) => {
       break; // Exit the loop once the player is found
     }
   }
-  console.log(player);
   const ticket = lobby.theme.find(ele => ele.id === position)
   const ticketPrice = ticket.price ?? 0;
   const sellingPrice = ticketPrice / 2;
@@ -712,7 +706,6 @@ exports.postSellTicket = async (req, res, next) => {
 }
 exports.getTheme = async (req, res, next) => {
   const themes = await Themes.find();
-  console.log("true hello")
   // console.log(themes);
   res.status(201).json({ themes: themes });
 }
